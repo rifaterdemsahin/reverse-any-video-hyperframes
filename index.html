@@ -3,61 +3,158 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reverse Any Video - HyperFrames Promo</title>
-    <!-- Local fallback & CDN support for GSAP -->
+    <title>HyperFrames Studio — Reverse Any Video Player & Timeline</title>
+    <!-- GSAP for Kinetic Animations -->
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
-      @font-face {
-        font-family: 'Inter';
-        src: url('assets/fonts/Inter-700.woff2') format('woff2');
-        font-weight: 700;
-        font-style: normal;
-      }
-      @font-face {
-        font-family: 'Inter';
-        src: url('assets/fonts/Inter-400.woff2') format('woff2');
-        font-weight: 400;
-        font-style: normal;
-      }
-      @font-face {
-        font-family: 'JetBrains Mono';
-        src: url('assets/fonts/JetBrainsMono-700.woff2') format('woff2');
-        font-weight: 700;
-        font-style: normal;
+      :root {
+        --bg: #070A10;
+        --surface: #0E1420;
+        --surface-hover: #162032;
+        --border: rgba(255, 255, 255, 0.08);
+        --cyan: #06B6D4;
+        --cyan-glow: rgba(6, 182, 212, 0.25);
+        --emerald: #10B981;
+        --emerald-glow: rgba(16, 185, 129, 0.25);
+        --amber: #F59E0B;
+        --purple: #A855F7;
+        --red: #EF4444;
+        --text-primary: #F8FAFC;
+        --text-secondary: #94A3B8;
+        --text-dim: #64748B;
       }
 
       * {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
       html, body {
-        margin: 0;
-        padding: 0;
         width: 100%;
         height: 100%;
         overflow: hidden;
-        background: #05070B;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text-primary);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
       }
 
-      /* Viewport Container for 16:9 Presentation */
+      /* Top Navigation Bar */
+      #top-bar {
+        height: 48px;
+        background: rgba(11, 15, 23, 0.95);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(14px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 18px;
+        z-index: 1000;
+        flex-shrink: 0;
+      }
+
+      .top-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .logo-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 800;
+        color: var(--cyan);
+        font-size: 15px;
+        letter-spacing: -0.02em;
+      }
+
+      .project-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        border-radius: 9999px;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .top-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .top-btn {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 12.5px;
+        font-weight: 600;
+        text-decoration: none;
+        color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+        transition: all 0.15s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+
+      .top-btn:hover {
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .top-btn.cyan {
+        background: rgba(6, 182, 212, 0.15);
+        border-color: rgba(6, 182, 212, 0.4);
+        color: var(--cyan);
+      }
+
+      .top-btn.cyan:hover {
+        background: rgba(6, 182, 212, 0.25);
+      }
+
+      /* Workspace Layout */
+      #workspace {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Top Stage Container */
+      #stage-container {
+        flex: 1.2;
+        min-height: 360px;
+        background: radial-gradient(circle at center, #0F172A 0%, #05070B 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        padding: 16px;
+      }
+
       #preview-viewport {
         position: relative;
         width: 1920px;
         height: 1080px;
-        max-width: 100vw;
-        max-height: calc(100vh - 60px);
+        max-width: calc(100vw - 32px);
+        max-height: 100%;
         aspect-ratio: 16 / 9;
         background: #0B0F17;
         box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(6, 182, 212, 0.15);
+        border-radius: 12px;
         overflow: hidden;
       }
 
-      /* HyperFrames Master Stage */
       #stage {
         position: absolute;
         inset: 0;
@@ -80,258 +177,566 @@
         display: block;
       }
 
-      /* Control Bar for Standalone Inspection */
-      #player-controls {
-        position: fixed;
-        bottom: 0;
+      /* Subtitle Overlay Pill on Stage */
+      #subtitles-track {
+        position: absolute;
+        bottom: 60px;
         left: 0;
         right: 0;
-        height: 56px;
-        background: rgba(11, 15, 23, 0.95);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(16px);
         display: flex;
-        align-items: center;
-        padding: 0 24px;
-        gap: 20px;
-        z-index: 1000;
-        color: #F8FAFC;
-        font-size: 14px;
+        justify-content: center;
+        z-index: 100;
+        pointer-events: none;
       }
 
-      .ctrl-btn {
-        background: #06B6D4;
-        color: #0B0F17;
-        border: none;
-        padding: 8px 18px;
-        border-radius: 8px;
+      #kinetic-subtitle-pill {
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 0.16s ease, transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);
+        background: rgba(6, 9, 16, 0.94);
+        border: 1.5px solid rgba(6, 182, 212, 0.45);
+        border-radius: 14px;
+        padding: 12px 28px;
+        font-family: 'Inter', -apple-system, sans-serif;
+        font-size: 26px;
         font-weight: 800;
-        cursor: pointer;
-        font-size: 14px;
-        transition: transform 0.15s, background 0.15s;
-      }
-      .ctrl-btn:hover {
-        background: #22D3EE;
-        transform: scale(1.04);
-      }
-
-      .scrubber-wrap {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-
-      #timeline-scrubber {
-        flex: 1;
-        accent-color: #06B6D4;
-        cursor: pointer;
-      }
-
-      .timecode {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 13px;
-        color: #94A3B8;
-        min-width: 110px;
-      }
-
-      .scene-badge-indicator {
-        padding: 6px 14px;
-        background: rgba(6, 182, 212, 0.15);
-        border: 1px solid rgba(6, 182, 212, 0.4);
-        border-radius: 9999px;
-        color: #06B6D4;
-        font-weight: 700;
-        font-size: 12px;
+        color: #FFFFFF;
         text-transform: uppercase;
+        box-shadow: 0 16px 40px rgba(0,0,0,0.8), 0 0 30px rgba(6, 182, 212, 0.25);
+        letter-spacing: -0.01em;
       }
 
-      /* Top Navigation Bar */
-      #top-bar {
-        position: fixed;
+      /* Inspector Drawer (Toggleable) */
+      #inspector-drawer {
+        position: absolute;
         top: 0;
-        left: 0;
         right: 0;
+        bottom: 0;
+        width: 480px;
+        background: rgba(11, 15, 23, 0.96);
+        border-left: 1px solid var(--border);
+        backdrop-filter: blur(20px);
+        z-index: 500;
+        display: flex;
+        flex-direction: column;
+        transform: translateX(100%);
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
+      }
+
+      #inspector-drawer.open {
+        transform: translateX(0);
+      }
+
+      .drawer-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .drawer-tabs {
+        display: flex;
+        gap: 6px;
+        padding: 10px 20px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.2);
+        overflow-x: auto;
+      }
+
+      .d-tab {
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        background: transparent;
+        border: 1px solid transparent;
+        white-space: nowrap;
+      }
+
+      .d-tab.active {
+        background: rgba(6, 182, 212, 0.15);
+        color: var(--cyan);
+        border-color: rgba(6, 182, 212, 0.3);
+      }
+
+      .drawer-content {
+        flex: 1;
+        padding: 16px 20px;
+        overflow-y: auto;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12.5px;
+        color: #E2E8F0;
+        white-space: pre-wrap;
+        line-height: 1.5;
+        background: #04060A;
+      }
+
+      /* Bottom Timeline Dock */
+      #timeline-dock {
+        height: 280px;
+        background: #090D15;
+        border-top: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        z-index: 200;
+      }
+
+      /* Timeline Transport Bar */
+      .transport-bar {
         height: 48px;
-        background: rgba(11, 15, 23, 0.95);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(12px);
+        background: #0E1420;
+        border-bottom: 1px solid var(--border);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 24px;
-        z-index: 1000;
+        padding: 0 16px;
+        gap: 16px;
       }
-      .top-nav-btn {
-        padding: 6px 14px;
+
+      .transport-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .t-btn {
+        width: 32px;
+        height: 32px;
         border-radius: 8px;
-        font-size: 13px;
-        font-weight: 600;
-        text-decoration: none;
-        color: #94A3B8;
         background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--border);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
         transition: all 0.15s ease;
       }
-      .top-nav-btn:hover {
-        color: #F8FAFC;
+
+      .t-btn:hover {
         background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
       }
-      .top-nav-btn.highlight {
-        background: #06B6D4;
-        color: #0B0F17;
-        font-weight: 700;
-        border-color: #06B6D4;
+
+      .t-btn.play {
+        background: var(--cyan);
+        color: #070A10;
+        font-weight: 800;
+        width: 80px;
+        gap: 6px;
       }
-      .top-nav-btn.highlight:hover {
+
+      .t-btn.play:hover {
         background: #22D3EE;
+        transform: scale(1.02);
       }
+
+      .timecode-box {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--cyan);
+        background: rgba(6, 182, 212, 0.08);
+        border: 1px solid rgba(6, 182, 212, 0.3);
+        padding: 5px 12px;
+        border-radius: 6px;
+        letter-spacing: 0.05em;
+      }
+
+      .active-badge-tag {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--emerald);
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        padding: 4px 10px;
+        border-radius: 9999px;
+      }
+
+      /* Multi-Track Canvas & Scroller */
+      .tracks-scroller {
+        flex: 1;
+        overflow-x: auto;
+        overflow-y: auto;
+        position: relative;
+        background: #070A10;
+      }
+
+      .tracks-container {
+        width: 100%;
+        min-width: 1200px;
+        position: relative;
+      }
+
+      /* Ruler */
+      .timeline-ruler {
+        height: 28px;
+        background: #0A0E18;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        display: flex;
+      }
+
+      .ruler-mark {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.15);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        color: var(--text-dim);
+        padding-left: 4px;
+        padding-top: 4px;
+        pointer-events: none;
+      }
+
+      /* Moving Playhead Needle */
+      #playhead-needle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #EF4444;
+        box-shadow: 0 0 10px #EF4444;
+        z-index: 100;
+        pointer-events: none;
+        left: 0%;
+      }
+
+      #playhead-head {
+        position: absolute;
+        top: 0;
+        left: -6px;
+        width: 14px;
+        height: 12px;
+        background: #EF4444;
+        clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%);
+      }
+
+      /* Track Rows */
+      .track-row {
+        height: 38px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        position: relative;
+      }
+
+      .track-label {
+        width: 130px;
+        height: 100%;
+        background: #0B101C;
+        border-right: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        flex-shrink: 0;
+        z-index: 10;
+      }
+
+      .track-lane {
+        flex: 1;
+        height: 100%;
+        position: relative;
+        cursor: pointer;
+      }
+
+      /* Timeline Clip Blocks */
+      .clip-block {
+        position: absolute;
+        top: 4px;
+        bottom: 4px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
+        font-size: 11px;
+        font-weight: 700;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        transition: transform 0.1s, filter 0.1s;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      }
+
+      .clip-block:hover {
+        filter: brightness(1.2);
+        transform: translateY(-1px);
+      }
+
+      .clip-v1 { background: linear-gradient(90deg, #0284C7, #0369A1); border: 1px solid #38BDF8; color: #FFFFFF; }
+      .clip-v2 { background: linear-gradient(90deg, #7C3AED, #6D28D9); border: 1px solid #A78BFA; color: #EDE9FE; }
+      .clip-v3 { background: linear-gradient(90deg, #0D9488, #0F766E); border: 1px solid #2DD4BF; color: #CCFBF1; }
+      .clip-a1 { background: linear-gradient(90deg, #059669, #047857); border: 1px solid #34D399; color: #D1FAE5; }
+      .clip-a2 { background: linear-gradient(90deg, #D97706, #B45309); border: 1px solid #FBBF24; color: #FEF3C7; }
+      .clip-a3 { background: linear-gradient(90deg, #DC2626, #B91C1C); border: 1px solid #F87171; color: #FEE2E2; }
     </style>
   </head>
   <body>
-    <div id="top-bar">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <span style="font-weight: 800; color: #06B6D4; font-size: 15px;">⚡ HyperFrames Studio</span>
-        <span style="color: #475569; font-size: 13px;">|</span>
-        <span style="color: #94A3B8; font-size: 13px;">Reverse Any Video (60s Promo)</span>
+    <!-- Top Bar -->
+    <header id="top-bar">
+      <div class="top-left">
+        <div class="logo-badge">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>HyperFrames Studio</span>
+        </div>
+        <div class="project-pill">
+          <span>Reverse Any Video • 60s Tech Promo (1080p 60fps)</span>
+        </div>
       </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <a href="/nav" class="top-nav-btn highlight">🧭 Master Hub</a>
-        <a href="/watch" class="top-nav-btn">🎬 Watch Video</a>
-        <a href="/seed/storyboard.md" class="top-nav-btn">📋 Storyboard</a>
-        <a href="/output/reverse_any_video_promo.mp4" download class="top-nav-btn">⬇ Download MP4</a>
-        <a href="https://github.com/rifaterdemsahin/reverse-any-video-hyperframes" target="_blank" class="top-nav-btn">GitHub</a>
+
+      <div class="top-right">
+        <button id="btn-toggle-inspector" class="top-btn" title="Inspect plan.json and scene files">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <span>File Inspector</span>
+        </button>
+        <a href="/nav" class="top-btn cyan">🧭 Master Hub</a>
+        <a href="https://reverse-any-video-hyperframes.fly.dev/nav" target="_blank" class="top-btn">☁️ Cloud & Fly.io</a>
+        <a href="/output/reverse_any_video_promo.mp4" download class="top-btn">⬇ Download MP4</a>
       </div>
-    </div>
+    </header>
 
-    <div id="preview-viewport" style="margin-top: 48px; max-height: calc(100vh - 104px);">
-      <!-- HyperFrames Stage Definition -->
-      <div
-        id="stage"
-        data-composition-id="reverse-any-video"
-        data-start="0"
-        data-width="1920"
-        data-height="1080"
-        data-duration="60"
-        data-fps="60"
-      >
-        <!-- Scene 1: Hook & The Promise (0:00 - 0:08) -->
-        <div
-          id="scene-1"
-          class="clip scene-host active"
-          data-composition-id="scene-1"
-          data-composition-src="compositions/scene-1.html"
-          data-start="0"
-          data-duration="8"
-          data-track-index="0"
-        ></div>
+    <!-- Studio Workspace -->
+    <main id="workspace">
+      <!-- Stage Section -->
+      <section id="stage-container">
+        <div id="preview-viewport">
+          <div
+            id="stage"
+            data-composition-id="reverse-any-video"
+            data-start="0"
+            data-width="1920"
+            data-height="1080"
+            data-duration="60"
+            data-fps="60"
+          >
+            <!-- Scene 1: Hook & The Promise (0:00 - 0:08) -->
+            <div id="scene-1" class="clip scene-host active" data-start="0" data-duration="8" data-src="compositions/scene-1.html"></div>
+            <!-- Scene 2: The Old Way vs The New Way (0:08 - 0:18) -->
+            <div id="scene-2" class="clip scene-host" data-start="8" data-duration="10" data-src="compositions/scene-2.html"></div>
+            <!-- Scene 3: Verified Output (0:18 - 0:28) -->
+            <div id="scene-3" class="clip scene-host" data-start="18" data-duration="10" data-src="compositions/scene-3.html"></div>
+            <!-- Scene 4: The Hyperframes Magic (0:28 - 0:40) -->
+            <div id="scene-4" class="clip scene-host" data-start="28" data-duration="12" data-src="compositions/scene-4.html"></div>
+            <!-- Scene 5: Simple Credit Pricing (0:40 - 0:52) -->
+            <div id="scene-5" class="clip scene-host" data-start="40" data-duration="12" data-src="compositions/scene-5.html"></div>
+            <!-- Scene 6: Call To Action & Skool Community (0:52 - 1:00) -->
+            <div id="scene-6" class="clip scene-host" data-start="52" data-duration="8" data-src="compositions/scene-6.html"></div>
 
-        <!-- Scene 2: The Old Way vs The New Way (0:08 - 0:18) -->
-        <div
-          id="scene-2"
-          class="clip scene-host"
-          data-composition-id="scene-2"
-          data-composition-src="compositions/scene-2.html"
-          data-start="8"
-          data-duration="10"
-          data-track-index="0"
-        ></div>
+            <!-- Kinetic Subtitle Track Overlay -->
+            <div id="subtitles-track">
+              <div id="kinetic-subtitle-pill"></div>
+            </div>
 
-        <!-- Scene 3: Verified Output (0:18 - 0:28) -->
-        <div
-          id="scene-3"
-          class="clip scene-host"
-          data-composition-id="scene-3"
-          data-composition-src="compositions/scene-3.html"
-          data-start="18"
-          data-duration="10"
-          data-track-index="0"
-        ></div>
-
-        <!-- Scene 4: The Hyperframes Magic (0:28 - 0:40) -->
-        <div
-          id="scene-4"
-          class="clip scene-host"
-          data-composition-id="scene-4"
-          data-composition-src="compositions/scene-4.html"
-          data-start="28"
-          data-duration="12"
-          data-track-index="0"
-        ></div>
-
-        <!-- Scene 5: Simple Credit Pricing (0:40 - 0:52) -->
-        <div
-          id="scene-5"
-          class="clip scene-host"
-          data-composition-id="scene-5"
-          data-composition-src="compositions/scene-5.html"
-          data-start="40"
-          data-duration="12"
-          data-track-index="0"
-        ></div>
-
-        <!-- Scene 6: Call To Action & Skool Community (0:52 - 1:00) -->
-        <div
-          id="scene-6"
-          class="clip scene-host"
-          data-composition-id="scene-6"
-          data-composition-src="compositions/scene-6.html"
-          data-start="52"
-          data-duration="8"
-          data-track-index="0"
-        ></div>
-
-        <!-- Animated Kinetic Subtitle Overlay Track -->
-        <div id="subtitles-track" style="position: absolute; bottom: 65px; left: 0; right: 0; display: flex; justify-content: center; z-index: 100; pointer-events: none;">
-          <div id="kinetic-subtitle-pill" style="opacity: 0; transform: scale(0.9); transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1); background: rgba(6, 9, 16, 0.94); border: 1.5px solid rgba(6, 182, 212, 0.45); border-radius: 14px; padding: 12px 28px; font-family: 'Inter', -apple-system, sans-serif; font-size: 26px; font-weight: 800; color: #FFFFFF; text-transform: uppercase; box-shadow: 0 16px 40px rgba(0,0,0,0.8), 0 0 30px rgba(6, 182, 212, 0.25); letter-spacing: -0.01em;"></div>
+            <!-- Audio Layers -->
+            <audio id="audio-voiceover" src="assets/audio/voiceover.mp3" preload="auto"></audio>
+            <audio id="audio-bg-music" src="assets/audio/bg_music.mp3" preload="auto"></audio>
+            <audio id="sfx-whoosh" src="assets/audio/sfx/whoosh.mp3" preload="auto"></audio>
+            <audio id="sfx-error" src="assets/audio/sfx/error.mp3" preload="auto"></audio>
+            <audio id="sfx-chime" src="assets/audio/sfx/chime.mp3" preload="auto"></audio>
+            <audio id="sfx-notification" src="assets/audio/sfx/notification.mp3" preload="auto"></audio>
+            <audio id="sfx-impact" src="assets/audio/sfx/impact-bass-1.mp3" preload="auto"></audio>
+            <audio id="sfx-coin" src="assets/audio/sfx/ping.mp3" preload="auto"></audio>
+            <audio id="sfx-click" src="assets/audio/sfx/click.mp3" preload="auto"></audio>
+          </div>
         </div>
 
-        <!-- Audio Layers -->
-        <!-- Voiceover Track -->
-        <audio
-          id="audio-voiceover"
-          data-start="0"
-          data-duration="60"
-          data-track-index="1"
-          data-volume="1.0"
-          src="assets/audio/voiceover.mp3"
-          preload="auto"
-        ></audio>
+        <!-- File Inspector Drawer -->
+        <aside id="inspector-drawer">
+          <div class="drawer-header">
+            <h3 style="font-size: 15px; font-weight: 700;">📁 HyperFrames Composition Files</h3>
+            <button id="btn-close-inspector" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:18px;">✕</button>
+          </div>
+          <div class="drawer-tabs">
+            <button class="d-tab active" data-file="plan.json">plan.json</button>
+            <button class="d-tab" data-file="compositions/scene-1.html">scene-1.html</button>
+            <button class="d-tab" data-file="compositions/scene-2.html">scene-2.html</button>
+            <button class="d-tab" data-file="compositions/scene-3.html">scene-3.html</button>
+            <button class="d-tab" data-file="compositions/scene-4.html">scene-4.html</button>
+            <button class="d-tab" data-file="compositions/scene-5.html">scene-5.html</button>
+            <button class="d-tab" data-file="compositions/scene-6.html">scene-6.html</button>
+            <button class="d-tab" data-file="seed/metrics.json">metrics.json</button>
+          </div>
+          <div id="inspector-code" class="drawer-content">Loading file...</div>
+        </aside>
+      </section>
 
-        <!-- Upbeat Modern Electronic Background Beat (Ducked under speech) -->
-        <audio
-          id="audio-bg-music"
-          data-start="0"
-          data-duration="60"
-          data-track-index="2"
-          data-volume="0.18"
-          src="assets/audio/bg_music.mp3"
-          preload="auto"
-        ></audio>
+      <!-- Bottom Timeline Dock -->
+      <section id="timeline-dock">
+        <!-- Transport Bar -->
+        <div class="transport-bar">
+          <div class="transport-controls">
+            <button id="btn-jump-start" class="t-btn" title="Jump to start (0s)">⏮</button>
+            <button id="btn-step-back" class="t-btn" title="Step back 1s">◀</button>
+            <button id="btn-play-pause" class="t-btn play">▶ Play</button>
+            <button id="btn-step-forward" class="t-btn" title="Step forward 1s">▶</button>
+            <button id="btn-jump-end" class="t-btn" title="Jump to end (60s)">⏭</button>
+          </div>
 
-        <!-- Sound Effects Tracks -->
-        <audio id="sfx-whoosh" src="assets/audio/sfx/whoosh.mp3" data-start="2.0" data-track-index="3" preload="auto"></audio>
-        <audio id="sfx-error" src="assets/audio/sfx/error.mp3" data-start="8.0" data-track-index="3" preload="auto"></audio>
-        <audio id="sfx-chime" src="assets/audio/sfx/chime.mp3" data-start="13.0" data-track-index="3" preload="auto"></audio>
-        <audio id="sfx-notification" src="assets/audio/sfx/notification.mp3" data-start="24.0" data-track-index="3" preload="auto"></audio>
-        <audio id="sfx-impact" src="assets/audio/sfx/impact-bass-1.mp3" data-start="28.0" data-track-index="3" preload="auto"></audio>
-        <audio id="sfx-coin" src="assets/audio/sfx/ping.mp3" data-start="43.0" data-track-index="3" preload="auto"></audio>
-        <audio id="sfx-click" src="assets/audio/sfx/click.mp3" data-start="53.0" data-track-index="3" preload="auto"></audio>
-      </div>
-    </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div id="timecode-display" class="timecode-box">00:00.00 / 01:00.00</div>
+            <div id="active-scene-badge" class="active-badge-tag">Scene 1: Hook</div>
+          </div>
 
-    <!-- Standalone Inspection & Player Controls -->
-    <div id="player-controls">
-      <button id="btn-play-pause" class="ctrl-btn">▶ Play</button>
-      <div class="scrubber-wrap">
-        <input type="range" id="timeline-scrubber" min="0" max="60" step="0.05" value="0" />
-        <span id="timecode-display" class="timecode">00:00 / 01:00</span>
-      </div>
-      <div id="scene-badge" class="scene-badge-indicator">Scene 1: Hook</div>
-      <span style="font-size: 12px; color: #64748B;">1080p • 60fps</span>
-    </div>
+          <div style="display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-dim);">
+            <span>HyperFrames Timeline • 6 Tracks</span>
+          </div>
+        </div>
 
-    <!-- Master Player Runtime for Browser & Deterministic Seeking -->
+        <!-- Multi-Track Canvas & Scroller -->
+        <div class="tracks-scroller">
+          <div class="tracks-container" id="tracksContainer">
+            <!-- Ruler -->
+            <div class="timeline-ruler" id="timelineRuler">
+              <!-- Ruler marks generated via JS -->
+            </div>
+
+            <!-- Moving Playhead Needle -->
+            <div id="playhead-needle">
+              <div id="playhead-head"></div>
+            </div>
+
+            <!-- Track 1: V1 Video / Base Compositions -->
+            <div class="track-row">
+              <div class="track-label">V1: Scenes</div>
+              <div class="track-lane" data-track="v1">
+                <div class="clip-block clip-v1" style="left: 0%; width: 13.33%;" data-start="0" title="Scene 1: Hook & Promise (0s - 8s)">
+                  🎬 S1: Hook (0-8s)
+                </div>
+                <div class="clip-block clip-v1" style="left: 13.33%; width: 16.67%;" data-start="8" title="Scene 2: Old vs New Way (8s - 18s)">
+                  🎬 S2: Old vs New (8-18s)
+                </div>
+                <div class="clip-block clip-v1" style="left: 30.00%; width: 16.67%;" data-start="18" title="Scene 3: Verified Output (18s - 28s)">
+                  🎬 S3: Verified Output (18-28s)
+                </div>
+                <div class="clip-block clip-v1" style="left: 46.67%; width: 20.00%;" data-start="28" title="Scene 4: Hyperframes Magic (28s - 40s)">
+                  🎬 S4: Hyperframes Magic (28-40s)
+                </div>
+                <div class="clip-block clip-v1" style="left: 66.67%; width: 20.00%;" data-start="40" title="Scene 5: Credit Pricing (40s - 52s)">
+                  🎬 S5: Simple Pricing (40-52s)
+                </div>
+                <div class="clip-block clip-v1" style="left: 86.67%; width: 13.33%;" data-start="52" title="Scene 6: CTA & Skool (52s - 60s)">
+                  🎬 S6: CTA & Community (52-60s)
+                </div>
+              </div>
+            </div>
+
+            <!-- Track 2: V2 Motion Graphics & Overlays -->
+            <div class="track-row">
+              <div class="track-label">V2: Overlays</div>
+              <div class="track-lane" data-track="v2">
+                <div class="clip-block clip-v2" style="left: 0.8%; width: 12.0%;" data-start="0.5" title="Title Card & Blueprint Pill">
+                  ⚡ Title & Blueprint
+                </div>
+                <div class="clip-block clip-v2" style="left: 3.3%; width: 9.5%;" data-start="2.0" title="Comparison Split Card">
+                  📊 Comparison Card
+                </div>
+                <div class="clip-block clip-v2" style="left: 13.3%; width: 8.3%;" data-start="8.0" title="Old Way Logs">
+                  ⚠️ Chaotic Logs
+                </div>
+                <div class="clip-block clip-v2" style="left: 21.6%; width: 8.3%;" data-start="13.0" title="New AI Blueprint">
+                  ✨ AI Blueprint
+                </div>
+                <div class="clip-block clip-v2" style="left: 31.3%; width: 7.0%;" data-start="18.8" title="Extraction Status Pills">
+                  🔍 Extraction Pills
+                </div>
+                <div class="clip-block clip-v2" style="left: 40.0%; width: 6.6%;" data-start="24.0" title="Verified Badge Stamp">
+                  ✓ Verified Badge
+                </div>
+                <div class="clip-block clip-v2" style="left: 46.7%; width: 19.8%;" data-start="28.0" title="Timeline Assembly & Particles">
+                  ✨ Particles & Snapping
+                </div>
+                <div class="clip-block clip-v2" style="left: 71.6%; width: 14.8%;" data-start="43.0" title="3D Coin Drop Pricing Card">
+                  🪙 $1=10 Coins Card
+                </div>
+                <div class="clip-block clip-v2" style="left: 88.3%; width: 11.5%;" data-start="53.0" title="Interactive CTA Buttons">
+                  🔘 CTA Buttons
+                </div>
+              </div>
+            </div>
+
+            <!-- Track 3: V3 Kinetic Subtitles -->
+            <div class="track-row">
+              <div class="track-label">V3: Subtitles</div>
+              <div class="track-lane" data-track="v3">
+                <div class="clip-block clip-v3" style="left: 0.5%; width: 4.2%;" data-start="0.3">WHAT IF...</div>
+                <div class="clip-block clip-v3" style="left: 4.7%; width: 4.3%;" data-start="2.8">CUT &amp; COLOR</div>
+                <div class="clip-block clip-v3" style="left: 9.0%; width: 4.0%;" data-start="5.4">BLUEPRINT</div>
+                <div class="clip-block clip-v3" style="left: 13.6%; width: 8.0%;" data-start="8.2">OLD CHAOTIC WAY</div>
+                <div class="clip-block clip-v3" style="left: 21.6%; width: 8.0%;" data-start="13.0">NEW AI-READY</div>
+                <div class="clip-block clip-v3" style="left: 30.3%; width: 4.3%;" data-start="18.2">DRAG &amp; DROP</div>
+                <div class="clip-block clip-v3" style="left: 34.6%; width: 4.3%;" data-start="20.8">EXTRACTS CUTS</div>
+                <div class="clip-block clip-v3" style="left: 39.0%; width: 7.3%;" data-start="23.4">VERIFIED IN PROD</div>
+                <div class="clip-block clip-v3" style="left: 47.0%; width: 9.6%;" data-start="28.2">DROP IN HYPERFRAMES</div>
+                <div class="clip-block clip-v3" style="left: 56.7%; width: 9.6%;" data-start="34.0">10X FASTER!</div>
+                <div class="clip-block clip-v3" style="left: 67.0%; width: 9.3%;" data-start="40.2">NO SUBSCRIPTIONS</div>
+                <div class="clip-block clip-v3" style="left: 76.3%; width: 10.0%;" data-start="45.8">$1 = 10 CREDITS</div>
+                <div class="clip-block clip-v3" style="left: 87.0%; width: 6.0%;" data-start="52.2">GET CREDITS</div>
+                <div class="clip-block clip-v3" style="left: 93.0%; width: 6.7%;" data-start="55.8">JOIN SKOOL!</div>
+              </div>
+            </div>
+
+            <!-- Track 4: A1 Voiceover (DeepInfra Kokoro-82M) -->
+            <div class="track-row">
+              <div class="track-label">A1: Voiceover</div>
+              <div class="track-lane" data-track="a1">
+                <div class="clip-block clip-a1" style="left: 0.3%; width: 12.0%;" data-start="0.2">🎙️ VO: Hook &amp; Promise</div>
+                <div class="clip-block clip-a1" style="left: 13.6%; width: 15.0%;" data-start="8.2">🎙️ VO: Old vs New</div>
+                <div class="clip-block clip-a1" style="left: 30.3%; width: 15.0%;" data-start="18.2">🎙️ VO: Verified Output</div>
+                <div class="clip-block clip-a1" style="left: 47.0%; width: 18.0%;" data-start="28.2">🎙️ VO: Hyperframes Magic</div>
+                <div class="clip-block clip-a1" style="left: 67.0%; width: 18.0%;" data-start="40.2">🎙️ VO: Simple Pricing</div>
+                <div class="clip-block clip-a1" style="left: 87.0%; width: 11.5%;" data-start="52.2">🎙️ VO: CTA &amp; Skool</div>
+              </div>
+            </div>
+
+            <!-- Track 5: A2 Music Bed (Ducked) -->
+            <div class="track-row">
+              <div class="track-label">A2: Music Bed</div>
+              <div class="track-lane" data-track="a2">
+                <div class="clip-block clip-a2" style="left: 0%; width: 95.0%;" data-start="0" title="Electronic Beat (Ducked -14dB under voiceover)">
+                  🎵 Upbeat Electronic Beat (128 BPM • Ducked -14dB)
+                </div>
+                <div class="clip-block clip-a2" style="left: 95.0%; width: 5.0%; background: #F59E0B;" data-start="57.0" title="Outro Music Swell (0:57 - 1:00)">
+                  🔊 Swell
+                </div>
+              </div>
+            </div>
+
+            <!-- Track 6: A3 SFX Triggers -->
+            <div class="track-row">
+              <div class="track-label">A3: SFX</div>
+              <div class="track-lane" data-track="a3">
+                <div class="clip-block clip-a3" style="left: 3.3%; width: 3.5%;" data-start="2.0">💨 Whoosh</div>
+                <div class="clip-block clip-a3" style="left: 13.3%; width: 3.0%;" data-start="8.0">⚠️ Error</div>
+                <div class="clip-block clip-a3" style="left: 21.6%; width: 3.0%;" data-start="13.0">🔔 Chime</div>
+                <div class="clip-block clip-a3" style="left: 40.0%; width: 3.0%;" data-start="24.0">🔒 Stamp</div>
+                <div class="clip-block clip-a3" style="left: 46.7%; width: 4.0%;" data-start="28.0">💥 Sub-Bass</div>
+                <div class="clip-block clip-a3" style="left: 71.6%; width: 3.0%;" data-start="43.0">🪙 Ping</div>
+                <div class="clip-block clip-a3" style="left: 88.3%; width: 3.0%;" data-start="53.0">🖱️ Click</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Runtime Script -->
     <script>
       (function() {
         const scenes = [
@@ -342,18 +747,6 @@
           { id: 'scene-5', name: 'Scene 5: Credit Pricing', start: 40, duration: 12, end: 52, src: 'compositions/scene-5.html' },
           { id: 'scene-6', name: 'Scene 6: CTA & Skool', start: 52, duration: 8, end: 60, src: 'compositions/scene-6.html' }
         ];
-
-        let currentTime = 0;
-        let isPlaying = false;
-        let lastTimestamp = null;
-        const totalDuration = 60.0;
-
-        const stage = document.getElementById('stage');
-        const viewport = document.getElementById('preview-viewport');
-        const playBtn = document.getElementById('btn-play-pause');
-        const scrubber = document.getElementById('timeline-scrubber');
-        const timeDisplay = document.getElementById('timecode-display');
-        const sceneBadge = document.getElementById('scene-badge');
 
         const subtitleCues = [
           { start: 0.3, end: 2.8, html: `WHAT IF YOU COULD TAKE <span style="color:#06B6D4">ANY VIRAL VIDEO?</span>` },
@@ -372,11 +765,26 @@
           { start: 55.8, end: 59.8, html: `OR JOIN OUR <span style="color:#10B981">SKOOL COMMUNITY</span> TO LEARN MORE!` }
         ];
 
-        const subPill = document.getElementById('kinetic-subtitle-pill');
-        const bgAudio = document.getElementById('audio-bg-music');
-        if (bgAudio) bgAudio.volume = 0.18; // Ducked under speech
+        let currentTime = 0;
+        let isPlaying = false;
+        let lastTimestamp = null;
+        const totalDuration = 60.0;
 
-        // Responsive scaling to fit viewport while maintaining 1920x1080 canvas
+        const stage = document.getElementById('stage');
+        const viewport = document.getElementById('preview-viewport');
+        const playBtn = document.getElementById('btn-play-pause');
+        const timeDisplay = document.getElementById('timecode-display');
+        const sceneBadge = document.getElementById('active-scene-badge');
+        const subPill = document.getElementById('kinetic-subtitle-pill');
+        const playhead = document.getElementById('playhead-needle');
+        const tracksContainer = document.getElementById('tracksContainer');
+        const timelineRuler = document.getElementById('timelineRuler');
+
+        const voAudio = document.getElementById('audio-voiceover');
+        const bgAudio = document.getElementById('audio-bg-music');
+        if (bgAudio) bgAudio.volume = 0.18;
+
+        // Auto-scale 1920x1080 stage to fit container
         function updateScaling() {
           const rect = viewport.getBoundingClientRect();
           const scale = rect.width / 1920;
@@ -385,7 +793,18 @@
         window.addEventListener('resize', updateScaling);
         updateScaling();
 
-        // Load all sub-compositions
+        // Build Ruler ticks (0s to 60s in 5s increments)
+        for (let s = 0; s <= 60; s += 5) {
+          const mark = document.createElement('div');
+          mark.className = 'ruler-mark';
+          mark.style.left = `${(s / 60) * 100}%`;
+          const mins = Math.floor(s / 60).toString().padStart(2, '0');
+          const secs = (s % 60).toString().padStart(2, '0');
+          mark.textContent = `${mins}:${secs}`;
+          timelineRuler.appendChild(mark);
+        }
+
+        // Load scene sub-compositions
         async function loadScenes() {
           for (const s of scenes) {
             const host = document.getElementById(s.id);
@@ -397,7 +816,6 @@
               const template = doc.querySelector('template');
               if (template) {
                 host.appendChild(document.importNode(template.content, true));
-                // Execute inline scripts inside the imported template
                 const scripts = host.querySelectorAll('script');
                 scripts.forEach(oldScript => {
                   const newScript = document.createElement('script');
@@ -415,14 +833,18 @@
         // Seek frame-by-frame deterministically
         window.seekTo = function(seconds) {
           currentTime = Math.max(0, Math.min(seconds, totalDuration));
-          scrubber.value = currentTime;
 
-          // Format timecode MM:SS.ff
+          // Timecode display MM:SS.ff
           const mins = Math.floor(currentTime / 60).toString().padStart(2, '0');
           const secs = Math.floor(currentTime % 60).toString().padStart(2, '0');
-          timeDisplay.textContent = `${mins}:${secs} / 01:00`;
+          const frames = Math.floor((currentTime % 1) * 60).toString().padStart(2, '0');
+          timeDisplay.textContent = `${mins}:${secs}.${frames} / 01:00.00`;
 
-          // Active scene routing
+          // Update playhead needle position
+          const progressPercent = (currentTime / totalDuration) * 100;
+          playhead.style.left = `${progressPercent}%`;
+
+          // Active scene switching
           for (const s of scenes) {
             const host = document.getElementById(s.id);
             if (currentTime >= s.start && currentTime < s.end) {
@@ -431,7 +853,6 @@
                 host.classList.add('active');
                 sceneBadge.textContent = s.name;
               }
-              // Seek the GSAP timeline of the active scene
               if (window.__timelines && window.__timelines[s.id]) {
                 const localTime = currentTime - s.start;
                 window.__timelines[s.id].time(localTime);
@@ -449,13 +870,13 @@
             if (Math.abs(bgAudio.currentTime - currentTime) > 0.3) {
               bgAudio.currentTime = currentTime;
             }
-            // Outro music swell at 57s - 60s
             if (currentTime >= 57.0) {
               bgAudio.volume = Math.min(0.65, 0.18 + (currentTime - 57.0) * 0.15);
             } else {
               bgAudio.volume = 0.18;
             }
           }
+
           // Sync active kinetic subtitle pill
           if (subPill) {
             const activeCue = subtitleCues.find(c => currentTime >= c.start && currentTime <= c.end);
@@ -472,7 +893,7 @@
           }
         };
 
-        // Play/Pause Loop
+        // Playback tick
         function tick(timestamp) {
           if (!isPlaying) return;
           if (lastTimestamp === null) lastTimestamp = timestamp;
@@ -483,7 +904,7 @@
           if (currentTime >= totalDuration) {
             currentTime = 0;
             isPlaying = false;
-            playBtn.textContent = '▶ Play';
+            playBtn.innerHTML = '▶ Play';
             if (voAudio) voAudio.pause();
             if (bgAudio) bgAudio.pause();
           }
@@ -495,20 +916,80 @@
         playBtn.addEventListener('click', () => {
           isPlaying = !isPlaying;
           if (isPlaying) {
-            playBtn.textContent = '⏸ Pause';
+            playBtn.innerHTML = '⏸ Pause';
             lastTimestamp = null;
             if (voAudio) voAudio.play().catch(() => {});
             if (bgAudio) bgAudio.play().catch(() => {});
             requestAnimationFrame(tick);
           } else {
-            playBtn.textContent = '▶ Play';
+            playBtn.innerHTML = '▶ Play';
             if (voAudio) voAudio.pause();
             if (bgAudio) bgAudio.pause();
           }
         });
 
-        scrubber.addEventListener('input', (e) => {
-          window.seekTo(parseFloat(e.target.value));
+        // Transport buttons
+        document.getElementById('btn-jump-start').addEventListener('click', () => window.seekTo(0));
+        document.getElementById('btn-step-back').addEventListener('click', () => window.seekTo(currentTime - 1.0));
+        document.getElementById('btn-step-forward').addEventListener('click', () => window.seekTo(currentTime + 1.0));
+        document.getElementById('btn-jump-end').addEventListener('click', () => window.seekTo(totalDuration));
+
+        // Click on timeline tracks or clips to seek
+        document.querySelectorAll('.clip-block').forEach(clip => {
+          clip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const start = parseFloat(clip.dataset.start);
+            if (!isNaN(start)) window.seekTo(start);
+          });
+        });
+
+        document.querySelectorAll('.track-lane').forEach(lane => {
+          lane.addEventListener('click', (e) => {
+            const rect = lane.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percent = clickX / rect.width;
+            window.seekTo(percent * totalDuration);
+          });
+        });
+
+        timelineRuler.addEventListener('click', (e) => {
+          const rect = timelineRuler.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const percent = clickX / rect.width;
+          window.seekTo(percent * totalDuration);
+        });
+
+        // File Inspector Drawer Logic
+        const drawer = document.getElementById('inspector-drawer');
+        const toggleBtn = document.getElementById('btn-toggle-inspector');
+        const closeBtn = document.getElementById('btn-close-inspector');
+        const codeView = document.getElementById('inspector-code');
+        const tabs = document.querySelectorAll('.d-tab');
+
+        toggleBtn.addEventListener('click', () => {
+          drawer.classList.toggle('open');
+          if (drawer.classList.contains('open')) loadFile('plan.json');
+        });
+
+        closeBtn.addEventListener('click', () => drawer.classList.remove('open'));
+
+        async function loadFile(path) {
+          codeView.textContent = `Loading ${path}...`;
+          try {
+            const res = await fetch(path);
+            const text = await res.text();
+            codeView.textContent = text;
+          } catch (err) {
+            codeView.textContent = `Error loading ${path}: ${err.message}`;
+          }
+        }
+
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            loadFile(tab.dataset.file);
+          });
         });
 
         // Initialize at 0s
