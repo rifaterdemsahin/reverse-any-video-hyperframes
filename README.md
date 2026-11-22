@@ -11,8 +11,10 @@ A high-retention, 60-second 16:9 tech promo video built natively with **HeyGen H
 
 ## 🚀 Live Deployment & Watch Links
 
-- 🌐 **Watch Rendered Video:** [https://reverse-any-video-hyperframes.fly.dev/watch](https://reverse-any-video-hyperframes.fly.dev/watch)
+- 🌐 **Watch Rendered Video & Storyboard Gallery:** [https://reverse-any-video-hyperframes.fly.dev/watch](https://reverse-any-video-hyperframes.fly.dev/watch)
 - ⚡ **Interactive HyperFrames Stage:** [https://reverse-any-video-hyperframes.fly.dev/](https://reverse-any-video-hyperframes.fly.dev/)
+- 📋 **Master Storyboard Markdown:** [https://reverse-any-video-hyperframes.fly.dev/seed/storyboard.md](https://reverse-any-video-hyperframes.fly.dev/seed/storyboard.md)
+- 🖼️ **Storyboard Master Grid Image:** [https://reverse-any-video-hyperframes.fly.dev/seed/images/storyboard_grid.jpg](https://reverse-any-video-hyperframes.fly.dev/seed/images/storyboard_grid.jpg)
 - ⬇️ **Direct MP4 Download:** [https://reverse-any-video-hyperframes.fly.dev/output/reverse_any_video_promo.mp4](https://reverse-any-video-hyperframes.fly.dev/output/reverse_any_video_promo.mp4)
 - 📐 **Production Plan JSON:** [https://reverse-any-video-hyperframes.fly.dev/plan.json](https://reverse-any-video-hyperframes.fly.dev/plan.json)
 - 🩺 **Health Check:** [https://reverse-any-video-hyperframes.fly.dev/health](https://reverse-any-video-hyperframes.fly.dev/health)
@@ -23,8 +25,17 @@ A high-retention, 60-second 16:9 tech promo video built natively with **HeyGen H
 
 ```
 reverse-any-video-hyperframes/
-├── seed/                        # 🌱 Seed analysis & initial creative prompts
+├── seed/                        # 🌱 Seed analysis, prompts & storyboard
 │   ├── initial_prompt.md        # Original 60s tech promo prompt & scene-by-scene script
+│   ├── storyboard.md            # 6-panel pre-production storyboard breakdown
+│   ├── images/                  # DeepInfra FLUX-1-schnell generated storyboard & scene images
+│   │   ├── storyboard_grid.jpg  # 6-panel composite storyboard grid (1920x1080)
+│   │   ├── scene_1_hook.jpg     # Scene 1 visual plate
+│   │   ├── scene_2_old_vs_new.jpg # Scene 2 visual plate
+│   │   ├── scene_3_verified.jpg # Scene 3 visual plate
+│   │   ├── scene_4_hyperframes.jpg # Scene 4 visual plate
+│   │   ├── scene_5_pricing.jpg  # Scene 5 visual plate
+│   │   └── scene_6_cta.jpg      # Scene 6 visual plate
 │   ├── metrics.json             # Reference video measured metrics (Job 639a35317eea)
 │   ├── hyperframes_prompt.md    # Generative prompt for 8-scene 306s explainer format
 │   ├── hyperframes_template.json# Template JSON with timeline markers & placeholders
@@ -44,19 +55,23 @@ reverse-any-video-hyperframes/
 │   │   └── sfx/                 # Bundled crisp sound effects (whoosh, error, chime, stamp, impact, ping, click)
 │   ├── fonts/                   # Inter & JetBrains Mono WOFF2 fonts
 │   ├── vendor/                  # GSAP 3.12.5 local runtime
+│   ├── images/                  # AI background plates generated via DeepInfra FLUX-1-schnell
 │   ├── overlays/                # High-res Pango markup cards for each scene
+│   │   └── subtitles/           # Animated kinetic subtitle badges for scenes 1–6
 │   └── videos/                  # 1080p 60fps background video tracks for each scene
 ├── scripts/
+│   ├── generate_deepinfra_images.mjs   # DeepInfra FLUX-1-schnell scene & storyboard generator
 │   ├── generate_deepinfra_voiceover.mjs # Studio AI speech synthesis via DeepInfra Kokoro-82M
-│   ├── generate_audio.mjs       # Speech & electronic beat generator fallback
-│   ├── generate_videos.mjs      # Generates 1080p 60fps procedural video tracks
-│   ├── generate_overlays.mjs    # Generates high-resolution typography cards via Pango
-│   └── render_video.mjs         # Master compiler assembling scenes, overlays, and audio to MP4
+│   ├── generate_subtitles.mjs          # High-retention kinetic subtitle generator
+│   ├── generate_audio.mjs              # Speech & electronic beat generator fallback
+│   ├── generate_videos.mjs             # Generates 1080p 60fps procedural video tracks
+│   ├── generate_overlays.mjs           # Generates high-resolution typography cards via Pango
+│   └── render_video.mjs                # Master compiler assembling plates, subtitles, audio & SFX
 ├── output/
-│   └── reverse_any_video_promo.mp4 # Final compiled 1080p 60fps promo video
-├── index.html                   # Master HyperFrames composition with interactive scrubber
+│   └── reverse_any_video_promo.mp4     # Final compiled 1080p 60fps promo video
+├── index.html                   # Master HyperFrames composition with interactive scrubber & nav
 ├── plan.json                    # Structured production plan, beats, timing, and color tokens
-├── server.mjs                   # Production HTTP streaming server
+├── server.mjs                   # Production HTTP streaming server & storyboard gallery
 ├── Dockerfile                   # Fly.io deployment container definition
 └── fly.toml                     # Fly.io application deployment configuration
 ```

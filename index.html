@@ -145,10 +145,65 @@
         font-size: 12px;
         text-transform: uppercase;
       }
+
+      /* Top Navigation Bar */
+      #top-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 48px;
+        background: rgba(11, 15, 23, 0.95);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        z-index: 1000;
+      }
+      .top-nav-btn {
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        color: #94A3B8;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.15s ease;
+      }
+      .top-nav-btn:hover {
+        color: #F8FAFC;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .top-nav-btn.highlight {
+        background: #06B6D4;
+        color: #0B0F17;
+        font-weight: 700;
+        border-color: #06B6D4;
+      }
+      .top-nav-btn.highlight:hover {
+        background: #22D3EE;
+      }
     </style>
   </head>
   <body>
-    <div id="preview-viewport">
+    <div id="top-bar">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-weight: 800; color: #06B6D4; font-size: 15px;">⚡ HyperFrames Studio</span>
+        <span style="color: #475569; font-size: 13px;">|</span>
+        <span style="color: #94A3B8; font-size: 13px;">Reverse Any Video (60s Promo)</span>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <a href="/watch" class="top-nav-btn highlight">🎬 Watch Rendered Video</a>
+        <a href="/seed/storyboard.md" class="top-nav-btn">📋 Storyboard</a>
+        <a href="/output/reverse_any_video_promo.mp4" download class="top-nav-btn">⬇ Download MP4</a>
+        <a href="https://github.com/rifaterdemsahin/reverse-any-video-hyperframes" target="_blank" class="top-nav-btn">GitHub</a>
+      </div>
+    </div>
+
+    <div id="preview-viewport" style="margin-top: 48px; max-height: calc(100vh - 104px);">
       <!-- HyperFrames Stage Definition -->
       <div
         id="stage"

@@ -4,40 +4,80 @@ import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 mkdirSync('output', { recursive: true });
 mkdirSync('/tmp/hf_scenes', { recursive: true });
 
-console.log("=== HyperFrames Video Compiler: 60s 1080p 60fps ===");
+console.log("=== HyperFrames Video Compiler v2: 60s 1080p 60fps (AI Plates + Animated Subtitles) ===");
 
 // 1. Scene 1 (0:00 - 0:08, 8s)
 console.log("Compiling Scene 1: Hook & The Promise...");
-execSync(`ffmpeg -y -i assets/videos/aroll_hook.mp4 -i assets/overlays/s1_title.png -i assets/overlays/s1_comparison.png \
+execSync(`ffmpeg -y \
+  -loop 1 -t 8 -i assets/images/scene_1_hook.jpg \
+  -i assets/videos/aroll_hook.mp4 \
+  -i assets/overlays/s1_title.png \
+  -i assets/overlays/s1_comparison.png \
+  -i assets/overlays/subtitles/sub_1a.png \
+  -i assets/overlays/subtitles/sub_1b.png \
+  -i assets/overlays/subtitles/sub_1c.png \
   -filter_complex "
-    [0:v]scale=1920:1080,fps=60,zoompan=z='min(zoom+0.00016,1.08)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=480:s=1920x1080:fps=60[v0];
-    [1:v]format=rgba,fade=t=in:st=0.3:d=0.5:alpha=1,fade=t=out:st=7.6:d=0.3:alpha=1[title];
-    [2:v]format=rgba,fade=t=in:st=2.0:d=0.6:alpha=1,fade=t=out:st=7.6:d=0.3:alpha=1[comp];
-    [v0][title]overlay=120:240:enable='between(t,0.3,7.9)'[v1];
-    [v1][comp]overlay=1040:240:enable='between(t,2.0,7.9)'[outv]
+    [0:v]scale=1920:1080,fps=60,zoompan=z='min(zoom+0.00015,1.08)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=480:s=1920x1080:fps=60,setsar=1[img_bg];
+    [1:v]scale=1920:1080,fps=60,format=rgba,colorchannelmixer=aa=0.3[vid_overlay];
+    [img_bg][vid_overlay]overlay=0:0[base];
+    [2:v]format=rgba,fade=t=in:st=0.3:d=0.5:alpha=1,fade=t=out:st=7.6:d=0.3:alpha=1[title];
+    [3:v]format=rgba,fade=t=in:st=2.0:d=0.6:alpha=1,fade=t=out:st=7.6:d=0.3:alpha=1[comp];
+    [4:v]format=rgba,fade=t=in:st=0.3:d=0.3:alpha=1,fade=t=out:st=2.7:d=0.2:alpha=1[sub1];
+    [5:v]format=rgba,fade=t=in:st=2.8:d=0.3:alpha=1,fade=t=out:st=5.3:d=0.2:alpha=1[sub2];
+    [6:v]format=rgba,fade=t=in:st=5.4:d=0.3:alpha=1,fade=t=out:st=7.7:d=0.2:alpha=1[sub3];
+    [base][title]overlay=100:200:enable='between(t,0.3,7.9)'[v1];
+    [v1][comp]overlay=1060:200:enable='between(t,2.0,7.9)'[v2];
+    [v2][sub1]overlay=(W-w)/2:940:enable='between(t,0.3,2.8)'[v3];
+    [v3][sub2]overlay=(W-w)/2:940:enable='between(t,2.8,5.4)'[v4];
+    [v4][sub3]overlay=(W-w)/2:940:enable='between(t,5.4,7.8)'[outv]
   " -map "[outv]" -t 8 -c:v libx264 -pix_fmt yuv420p -r 60 /tmp/hf_scenes/scene_1.mp4 2>/dev/null`);
 
 // 2. Scene 2 (0:08 - 0:18, 10s)
 console.log("Compiling Scene 2: The Old Way vs The New Way...");
-execSync(`ffmpeg -y -i assets/videos/raw_logs_scroll.mp4 -i assets/overlays/s2_left.png -i assets/overlays/s2_right.png \
+execSync(`ffmpeg -y \
+  -loop 1 -t 10 -i assets/images/scene_2_old_vs_new.jpg \
+  -i assets/videos/raw_logs_scroll.mp4 \
+  -i assets/overlays/s2_left.png \
+  -i assets/overlays/s2_right.png \
+  -i assets/overlays/subtitles/sub_2a.png \
+  -i assets/overlays/subtitles/sub_2b.png \
   -filter_complex "
-    [0:v]scale=1920:1080,fps=60[bg];
-    [1:v]format=rgba,fade=t=in:st=0:d=0.4:alpha=1[left];
-    [2:v]format=rgba,fade=t=in:st=5.0:d=0.5:alpha=1[right];
-    [bg][left]overlay=100:260[v1];
-    [v1][right]overlay=1040:260:enable='gte(t,5.0)'[outv]
+    [0:v]scale=1920:1080,fps=60,setsar=1[img_bg];
+    [1:v]scale=1920:1080,fps=60,format=rgba,colorchannelmixer=aa=0.25[vid_overlay];
+    [img_bg][vid_overlay]overlay=0:0[base];
+    [2:v]format=rgba,fade=t=in:st=0:d=0.4:alpha=1[left];
+    [3:v]format=rgba,fade=t=in:st=5.0:d=0.5:alpha=1[right];
+    [4:v]format=rgba,fade=t=in:st=0.2:d=0.3:alpha=1,fade=t=out:st=4.8:d=0.2:alpha=1[sub1];
+    [5:v]format=rgba,fade=t=in:st=4.9:d=0.3:alpha=1,fade=t=out:st=9.7:d=0.2:alpha=1[sub2];
+    [base][left]overlay=100:260[v1];
+    [v1][right]overlay=1040:260:enable='gte(t,5.0)'[v2];
+    [v2][sub1]overlay=(W-w)/2:940:enable='between(t,0.2,4.8)'[v3];
+    [v3][sub2]overlay=(W-w)/2:940:enable='between(t,4.9,9.8)'[outv]
   " -map "[outv]" -t 10 -c:v libx264 -pix_fmt yuv420p -r 60 /tmp/hf_scenes/scene_2.mp4 2>/dev/null`);
 
 // 3. Scene 3 (0:18 - 0:28, 10s: 5s demo + 5s review)
 console.log("Compiling Scene 3: Verified Output...");
-execSync(`ffmpeg -y -i assets/videos/app_upload_demo.mp4 -i assets/videos/aroll_review.mp4 -i assets/overlays/s3_pills.png -i assets/overlays/s3_badge.png \
+execSync(`ffmpeg -y \
+  -i assets/videos/app_upload_demo.mp4 \
+  -loop 1 -t 5 -i assets/images/scene_3_verified.jpg \
+  -i assets/overlays/s3_pills.png \
+  -i assets/overlays/s3_badge.png \
+  -i assets/overlays/subtitles/sub_3a.png \
+  -i assets/overlays/subtitles/sub_3b.png \
+  -i assets/overlays/subtitles/sub_3c.png \
   -filter_complex "
-    [0:v]scale=1920:1080,fps=60[demo];
-    [1:v]scale=1920:1080,fps=60[review];
+    [0:v]scale=1920:1080,fps=60,setsar=1[demo];
+    [1:v]scale=1920:1080,fps=60,zoompan=z='min(zoom+0.0002,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=300:s=1920x1080:fps=60,setsar=1[review];
     [2:v]format=rgba,fade=t=in:st=0.8:d=0.4:alpha=1[pills];
     [3:v]format=rgba,fade=t=in:st=1.0:d=0.3:alpha=1[badge];
-    [demo][pills]overlay=360:860[partA];
-    [review][badge]overlay=120:700:enable='gte(t,1.0)'[partB];
+    [4:v]format=rgba,fade=t=in:st=0.2:d=0.3:alpha=1,fade=t=out:st=2.6:d=0.2:alpha=1[sub1];
+    [5:v]format=rgba,fade=t=in:st=2.7:d=0.3:alpha=1,fade=t=out:st=4.8:d=0.2:alpha=1[sub2];
+    [6:v]format=rgba,fade=t=in:st=1.0:d=0.3:alpha=1,fade=t=out:st=4.8:d=0.2:alpha=1[sub3];
+    [demo][pills]overlay=360:860[d1];
+    [d1][sub1]overlay=(W-w)/2:940:enable='between(t,0.2,2.6)'[d2];
+    [d2][sub2]overlay=(W-w)/2:940:enable='between(t,2.7,4.9)'[partA];
+    [review][badge]overlay=120:700:enable='gte(t,1.0)'[r1];
+    [r1][sub3]overlay=(W-w)/2:940:enable='gte(t,1.0)'[partB];
     [partA]trim=duration=5,setpts=PTS-STARTPTS[a];
     [partB]trim=duration=5,setpts=PTS-STARTPTS[b];
     [a][b]concat=n=2:v=1:a=0[outv]
@@ -45,31 +85,65 @@ execSync(`ffmpeg -y -i assets/videos/app_upload_demo.mp4 -i assets/videos/aroll_
 
 // 4. Scene 4 (0:28 - 0:40, 12s)
 console.log("Compiling Scene 4: The Hyperframes Magic...");
-execSync(`ffmpeg -y -i assets/videos/hyperframes_build_demo.mp4 -i assets/overlays/s4_top.png -i assets/overlays/s4_lower.png \
+execSync(`ffmpeg -y \
+  -loop 1 -t 12 -i assets/images/scene_4_hyperframes.jpg \
+  -i assets/videos/hyperframes_build_demo.mp4 \
+  -i assets/overlays/s4_top.png \
+  -i assets/overlays/s4_lower.png \
+  -i assets/overlays/subtitles/sub_4a.png \
+  -i assets/overlays/subtitles/sub_4b.png \
   -filter_complex "
-    [0:v]scale=1920:1080,fps=60[bg];
-    [1:v]format=rgba,fade=t=in:st=0.3:d=0.4:alpha=1[top];
-    [2:v]format=rgba,fade=t=in:st=3.6:d=0.4:alpha=1[lower];
-    [bg][top]overlay=680:80[v1];
-    [v1][lower]overlay=640:880:enable='gte(t,3.6)'[outv]
+    [0:v]scale=1920:1080,fps=60,setsar=1[img_bg];
+    [1:v]scale=1920:1080,fps=60,format=rgba,colorchannelmixer=aa=0.3[vid_overlay];
+    [img_bg][vid_overlay]overlay=0:0[base];
+    [2:v]format=rgba,fade=t=in:st=0.3:d=0.4:alpha=1[top];
+    [3:v]format=rgba,fade=t=in:st=3.6:d=0.4:alpha=1[lower];
+    [4:v]format=rgba,fade=t=in:st=0.2:d=0.3:alpha=1,fade=t=out:st=5.4:d=0.2:alpha=1[sub1];
+    [5:v]format=rgba,fade=t=in:st=5.5:d=0.3:alpha=1,fade=t=out:st=11.6:d=0.2:alpha=1[sub2];
+    [base][top]overlay=680:80[v1];
+    [v1][lower]overlay=640:840:enable='gte(t,3.6)'[v2];
+    [v2][sub1]overlay=(W-w)/2:940:enable='between(t,0.2,5.4)'[v3];
+    [v3][sub2]overlay=(W-w)/2:940:enable='between(t,5.5,11.6)'[outv]
   " -map "[outv]" -t 12 -c:v libx264 -pix_fmt yuv420p -r 60 /tmp/hf_scenes/scene_4.mp4 2>/dev/null`);
 
 // 5. Scene 5 (0:40 - 0:52, 12s)
 console.log("Compiling Scene 5: Simple Credit Pricing...");
-execSync(`ffmpeg -y -i assets/videos/aroll_pricing.mp4 -i assets/overlays/s5_card.png \
+execSync(`ffmpeg -y \
+  -loop 1 -t 12 -i assets/images/scene_5_pricing.jpg \
+  -i assets/videos/aroll_pricing.mp4 \
+  -i assets/overlays/s5_card.png \
+  -i assets/overlays/subtitles/sub_5a.png \
+  -i assets/overlays/subtitles/sub_5b.png \
   -filter_complex "
-    [0:v]scale=1920:1080,fps=60[bg];
-    [1:v]format=rgba,fade=t=in:st=3.0:d=0.5:alpha=1[card];
-    [bg][card]overlay=1100:220:enable='gte(t,3.0)'[outv]
+    [0:v]scale=1920:1080,fps=60,setsar=1[img_bg];
+    [1:v]scale=1920:1080,fps=60,format=rgba,colorchannelmixer=aa=0.2[vid_overlay];
+    [img_bg][vid_overlay]overlay=0:0[base];
+    [2:v]format=rgba,fade=t=in:st=3.0:d=0.5:alpha=1[card];
+    [3:v]format=rgba,fade=t=in:st=0.2:d=0.3:alpha=1,fade=t=out:st=4.7:d=0.2:alpha=1[sub1];
+    [4:v]format=rgba,fade=t=in:st=4.8:d=0.3:alpha=1,fade=t=out:st=11.6:d=0.2:alpha=1[sub2];
+    [base][card]overlay=1100:220:enable='gte(t,3.0)'[v1];
+    [v1][sub1]overlay=(W-w)/2:940:enable='between(t,0.2,4.7)'[v2];
+    [v2][sub2]overlay=(W-w)/2:940:enable='between(t,4.8,11.6)'[outv]
   " -map "[outv]" -t 12 -c:v libx264 -pix_fmt yuv420p -r 60 /tmp/hf_scenes/scene_5.mp4 2>/dev/null`);
 
 // 6. Scene 6 (0:52 - 1:00, 8s)
 console.log("Compiling Scene 6: Call to Action & Skool Community...");
-execSync(`ffmpeg -y -i assets/videos/aroll_cta.mp4 -i assets/overlays/s6_cta.png \
+execSync(`ffmpeg -y \
+  -loop 1 -t 8 -i assets/images/scene_6_cta.jpg \
+  -i assets/videos/aroll_cta.mp4 \
+  -i assets/overlays/s6_cta.png \
+  -i assets/overlays/subtitles/sub_6a.png \
+  -i assets/overlays/subtitles/sub_6b.png \
   -filter_complex "
-    [0:v]scale=1920:1080,fps=60[bg];
-    [1:v]format=rgba,fade=t=in:st=1.0:d=0.4:alpha=1[cta];
-    [bg][cta]overlay=260:860:enable='gte(t,1.0)'[outv]
+    [0:v]scale=1920:1080,fps=60,setsar=1[img_bg];
+    [1:v]scale=1920:1080,fps=60,format=rgba,colorchannelmixer=aa=0.25[vid_overlay];
+    [img_bg][vid_overlay]overlay=0:0[base];
+    [2:v]format=rgba,fade=t=in:st=1.0:d=0.4:alpha=1[cta];
+    [3:v]format=rgba,fade=t=in:st=0.2:d=0.3:alpha=1,fade=t=out:st=3.9:d=0.2:alpha=1[sub1];
+    [4:v]format=rgba,fade=t=in:st=4.0:d=0.3:alpha=1,fade=t=out:st=7.7:d=0.2:alpha=1[sub2];
+    [base][cta]overlay=260:840:enable='gte(t,1.0)'[v1];
+    [v1][sub1]overlay=(W-w)/2:940:enable='between(t,0.2,3.9)'[v2];
+    [v2][sub2]overlay=(W-w)/2:940:enable='between(t,4.0,7.8)'[outv]
   " -map "[outv]" -t 8 -c:v libx264 -pix_fmt yuv420p -r 60 /tmp/hf_scenes/scene_6.mp4 2>/dev/null`);
 
 // Concatenate all 6 video scenes
