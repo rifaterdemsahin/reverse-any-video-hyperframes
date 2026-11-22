@@ -5,9 +5,9 @@ Replace each `{{placeholder}}` with your own content, then render with the templ
 
 ## Style and pacing
 
-- Length: about 306 seconds in 8 scenes.
+- Length: about 306 seconds in 8 scenes (or 60 seconds in 6 scenes for high-retention promo cut).
 - Speaking pace: about 216 words per minute of narration.
-- Cut rhythm: unmeasured cuts per minute, average shot unmeasured seconds.
+- Cut rhythm: 2.0 – 3.5s shot duration (approx. 20 – 28 cuts per minute for kinetic SaaS/creator reels).
 - Hook: the first 17.6 seconds carry the opening promise.
 - Questions asked to the viewer: 5.
 - Keep one punch-in on every beat and a clean cut between scenes, as measured.
@@ -15,7 +15,7 @@ Replace each `{{placeholder}}` with your own content, then render with the templ
 ## One prompt for the whole video
 
 ```
-Make a 16:9 explainer with 8 scenes. Open with a hook of about 18 seconds that states the promise in one line. Then keep the body scenes short, one idea each, with a cut every few seconds. End with a call to action. Use the pace and cut rhythm above. Title: {{title}}. Logline: {{logline}}.
+Make a 16:9 explainer with 8 scenes. Open with a hook of about 18 seconds that states the promise in one line. Then keep the body scenes short, one idea each, with a cut every few seconds. End with a call to action. Use the pace and cut rhythm above. Title: {{title}}. Logline: {{logline}}. Subtitle: {{subtitle}}.
 ```
 
 ## Scene prompts
@@ -23,7 +23,7 @@ Make a 16:9 explainer with 8 scenes. Open with a hook of about 18 seconds that s
 ### Scene 1: hook, 45.8 s from 0.2 s
 
 ```
-Kind: title. Duration 45.8 seconds. About 165 words of narration. Headline: {{headline_1}}. Body: {{body_1}}. Narration: {{narration_1}}.
+Kind: title. Duration 45.8 seconds. About 165 words of narration. Headline: {{headline_1}}. Subtitle: {{subtitle}}. Body: {{body_1}}. Narration: {{narration_1}}.
 ```
 
 ### Scene 2: body, 36.4 s from 43.8 s
@@ -70,4 +70,7 @@ Kind: cta. Duration 41.2 seconds. About 148 words of narration. Headline: {{head
 
 ## Placeholders
 
-`{{body_1}}`, `{{body_2}}`, `{{body_3}}`, `{{body_4}}`, `{{body_5}}`, `{{body_6}}`, `{{body_7}}`, `{{body_8}}`, `{{headline_1}}`, `{{headline_2}}`, `{{headline_3}}`, `{{headline_4}}`, `{{headline_5}}`, `{{headline_6}}`, `{{headline_7}}`, `{{headline_8}}`, `{{logline}}`, `{{narration_1}}`, `{{narration_2}}`, `{{narration_3}}`, `{{narration_4}}`, `{{narration_5}}`, `{{narration_6}}`, `{{narration_7}}`, `{{narration_8}}`, `{{subtitle}}`, `{{title}}`
+`{{title}}`, `{{logline}}`, `{{subtitle}}`,
+`{{headline_1}}`, `{{headline_2}}`, `{{headline_3}}`, `{{headline_4}}`, `{{headline_5}}`, `{{headline_6}}`, `{{headline_7}}`, `{{headline_8}}`,
+`{{body_1}}`, `{{body_2}}`, `{{body_3}}`, `{{body_4}}`, `{{body_5}}`, `{{body_6}}`, `{{body_7}}`, `{{body_8}}`,
+`{{narration_1}}`, `{{narration_2}}`, `{{narration_3}}`, `{{narration_4}}`, `{{narration_5}}`, `{{narration_6}}`, `{{narration_7}}`, `{{narration_8}}`

@@ -5,7 +5,8 @@
     {
       "kind": "title",
       "headline": "{{headline_1}}",
-      "body": "{{subtitle}}",
+      "subtitle": "{{subtitle}}",
+      "body": "{{body_1}}",
       "items": [],
       "stat": "",
       "narration": "{{narration_1}}"
