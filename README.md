@@ -1,51 +1,45 @@
 # Reverse Any Video — HyperFrames Tech Promo (60s, 1080p, 60fps)
 
-A high-retention, 60-second 16:9 tech promo video built natively with **HeyGen HyperFrames** standards, deterministic GSAP kinetic animations, multi-track audio ducking, and frame-accurate timeline synchronization.
+[![Fly.io Status](https://img.shields.io/badge/Fly.io-Live-00D1B2?style=flat&logo=flydotio)](https://reverse-any-video-hyperframes.fly.dev/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=flat&logo=github)](https://github.com/rifaterdemsahin/reverse-any-video-hyperframes)
+[![Resolution](https://img.shields.io/badge/Format-1080p%2060fps-06B6D4?style=flat)](#)
+[![Audio](https://img.shields.io/badge/AI%20Voice-DeepInfra%20Kokoro-10B981?style=flat)](#)
+
+A high-retention, 60-second 16:9 tech promo video built natively with **HeyGen HyperFrames** standards, studio-grade AI voiceover (DeepInfra Kokoro-82M), deterministic GSAP kinetic animations, multi-track audio ducking, and frame-accurate timeline synchronization.
 
 ---
 
-## 📊 Video Analysis & Source Metadata
+## 🚀 Live Deployment & Watch Links
 
-- **Job:** `639a35317eea`
-- **Source:** [YouTube Reference](https://www.youtube.com/watch?v=KnqTiAXUH7M) (analysed for structure and timing)
-- **Included Assets:**
-  - `metrics.json`: Length, pace, cut rate, shot length, and hook timing.
-  - `hyperframes_prompt.md`: Style guidelines, pacing metrics, and scene prompts.
-  - `hyperframes_template.json`: Scene plan with placeholders and timeline tracks.
-  - `AGENTS.md`: Agent automation guidelines.
+- 🌐 **Watch Rendered Video:** [https://reverse-any-video-hyperframes.fly.dev/watch](https://reverse-any-video-hyperframes.fly.dev/watch)
+- ⚡ **Interactive HyperFrames Stage:** [https://reverse-any-video-hyperframes.fly.dev/](https://reverse-any-video-hyperframes.fly.dev/)
+- ⬇️ **Direct MP4 Download:** [https://reverse-any-video-hyperframes.fly.dev/output/reverse_any_video_promo.mp4](https://reverse-any-video-hyperframes.fly.dev/output/reverse_any_video_promo.mp4)
+- 📐 **Production Plan JSON:** [https://reverse-any-video-hyperframes.fly.dev/plan.json](https://reverse-any-video-hyperframes.fly.dev/plan.json)
+- 🩺 **Health Check:** [https://reverse-any-video-hyperframes.fly.dev/health](https://reverse-any-video-hyperframes.fly.dev/health)
 
 ---
 
-## 🎬 Master Promo Video Specifications
-
-- **Format:** 16:9 Landscape (1920×1080)
-- **Frame Rate:** 60 FPS deterministic render
-- **Duration:** 60.0 Seconds (6 scenes)
-- **Aesthetic:** Dark-Mode SaaS / Creator UI (`#0B0F17` deep slate canvas, subtle grid lines, glassmorphism cards, drop shadows)
-- **Accent Palette:**
-  - Electric Cyan (`#06B6D4`): Primary highlights, tech transfers, and primary CTA
-  - Emerald Green (`#10B981`): Positive verified states, AI-ready blueprint checkmarks
-  - Crimson Red (`#EF4444`): Friction / error states, chaotic unsimplified logs
-- **Audio Design:** Voiceover track ducking an upbeat modern 128 BPM electronic synth beat, with synchronized SFX on key visual hits.
-
----
-
-## 📁 Repository Structure
+## 📁 Repository & Directory Layout
 
 ```
 reverse-any-video-hyperframes/
-├── index.html                   # Master HyperFrames composition (1920x1080, 60fps, 60s)
-├── plan.json                    # Structured production plan, beats, timing, and color tokens
-├── compositions/
-│   ├── scene-1.html             # [0:00 – 0:08] Hook & The Promise
-│   ├── scene-2.html             # [0:08 – 0:18] The Old Way vs. The New Way
-│   ├── scene-3.html             # [0:18 – 0:28] Verified Output & Stamp
-│   ├── scene-4.html             # [0:28 – 0:40] The Hyperframes Magic Timeline Drop
-│   ├── scene-5.html             # [0:40 – 0:52] Simple Credit Pricing ($1 = 10 Credits)
+├── seed/                        # 🌱 Seed analysis & initial creative prompts
+│   ├── initial_prompt.md        # Original 60s tech promo prompt & scene-by-scene script
+│   ├── metrics.json             # Reference video measured metrics (Job 639a35317eea)
+│   ├── hyperframes_prompt.md    # Generative prompt for 8-scene 306s explainer format
+│   ├── hyperframes_template.json# Template JSON with timeline markers & placeholders
+│   ├── AGENTS.md                # AI agent execution rules & schema definitions
+│   └── README.md                # Provenance and analysis documentation
+├── compositions/                # 🎬 HyperFrames scene sub-compositions
+│   ├── scene-1.html             # [0:00 – 0:08] Hook & The Promise (100% -> 108% punch-in)
+│   ├── scene-2.html             # [0:08 – 0:18] The Old Way vs. The New Way (50/50 vertical wipe)
+│   ├── scene-3.html             # [0:18 – 0:28] Verified Output (3D tilted app & stamp badge)
+│   ├── scene-4.html             # [0:28 – 0:40] Hyperframes Magic (Timeline drop & snap)
+│   ├── scene-5.html             # [0:40 – 0:52] Simple Credit Pricing ($1 = 10 Credits, 3D coin)
 │   └── scene-6.html             # [0:52 – 1:00] Call To Action & Skool Community
 ├── assets/
 │   ├── audio/
-│   │   ├── voiceover.mp3        # Master voiceover track (Daniel en_GB, timed to 60s)
+│   │   ├── voiceover.mp3        # Master AI voiceover (DeepInfra Kokoro-82M, timed to 60s)
 │   │   ├── bg_music.mp3         # Upbeat modern electronic beat (128 BPM)
 │   │   └── sfx/                 # Bundled crisp sound effects (whoosh, error, chime, stamp, impact, ping, click)
 │   ├── fonts/                   # Inter & JetBrains Mono WOFF2 fonts
@@ -53,12 +47,18 @@ reverse-any-video-hyperframes/
 │   ├── overlays/                # High-res Pango markup cards for each scene
 │   └── videos/                  # 1080p 60fps background video tracks for each scene
 ├── scripts/
-│   ├── generate_audio.mjs       # Synthesizes speech, electronic beat, and ducked audio graph
+│   ├── generate_deepinfra_voiceover.mjs # Studio AI speech synthesis via DeepInfra Kokoro-82M
+│   ├── generate_audio.mjs       # Speech & electronic beat generator fallback
 │   ├── generate_videos.mjs      # Generates 1080p 60fps procedural video tracks
 │   ├── generate_overlays.mjs    # Generates high-resolution typography cards via Pango
 │   └── render_video.mjs         # Master compiler assembling scenes, overlays, and audio to MP4
-└── output/
-    └── reverse_any_video_promo.mp4 # Final compiled 1080p 60fps promo video
+├── output/
+│   └── reverse_any_video_promo.mp4 # Final compiled 1080p 60fps promo video
+├── index.html                   # Master HyperFrames composition with interactive scrubber
+├── plan.json                    # Structured production plan, beats, timing, and color tokens
+├── server.mjs                   # Production HTTP streaming server
+├── Dockerfile                   # Fly.io deployment container definition
+└── fly.toml                     # Fly.io application deployment configuration
 ```
 
 ---
@@ -76,39 +76,35 @@ reverse-any-video-hyperframes/
 
 ---
 
-## 🔄 Swappable vs. Locked Layers
+## 🎙️ AI Voiceover Synthesis (DeepInfra Kokoro-82M)
 
-When you record your personal A-roll or voiceover, you can swap them in without modifying the code:
+The voiceover track is generated with **DeepInfra**'s `hexgrad/Kokoro-82M` text-to-speech engine:
+- **Voice Model:** `hexgrad/Kokoro-82M`
+- **Voice Character:** `am_adam` (crisp American tech narrator)
+- **Tempo Calibration:** Calibrated to 175–216 WPM to align with scene pacing.
 
-| Layer | File Location | How to Swap |
-|---|---|---|
-| **Voiceover Audio** | `assets/audio/voiceover.mp3` | Drop your recorded `.mp3` or `.wav` file into `assets/audio/voiceover.mp3`. |
-| **Background Music** | `assets/audio/bg_music.mp3` | Replace with any upbeat 128 BPM electronic track. |
-| **A-Roll Hook** | `assets/videos/aroll_hook.mp4` | Replace with your video of you introducing the hook (8 seconds). |
-| **A-Roll Review** | `assets/videos/aroll_review.mp4` | Replace with your video inspecting the blueprint (5 seconds). |
-| **A-Roll Pricing** | `assets/videos/aroll_pricing.mp4` | Replace with your video presenting the $1 pricing (12 seconds). |
-| **A-Roll CTA** | `assets/videos/aroll_cta.mp4` | Replace with your video pointing down to the description (8 seconds). |
-| **Kinetic Overlays & Logic** | `compositions/scene-*.html` | **Locked:** Timing and GSAP animations are calibrated to frame accuracy. |
+To re-generate the voiceover:
+```bash
+node scripts/generate_deepinfra_voiceover.mjs
+```
 
 ---
 
-## 🚀 How to Run & Preview
+## 🛠️ How to Preview, Build & Deploy
 
 ### 1. Standalone Live Browser Preview
-Open `index.html` in any modern web browser or run:
+Open `index.html` in your browser or run:
 ```bash
 open index.html
 ```
 
-### 2. Preview in HyperFrames Studio
-```bash
-open -a HyperFrames .
-# or
-npx hyperframes preview
-```
-
-### 3. Re-compile Video to MP4
+### 2. Render Video with FFmpeg
+To re-render the finalized 1080p 60fps video with all audio ducking & SFX:
 ```bash
 node scripts/render_video.mjs
 ```
-The rendered video will be saved to `output/reverse_any_video_promo.mp4`.
+
+### 3. Deploy to Fly.io
+```bash
+fly deploy --remote-only
+```

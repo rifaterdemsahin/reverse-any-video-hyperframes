@@ -1,0 +1,20 @@
+{
+  "duration_s": 306,
+  "words": 1081,
+  "wpm": 216,
+  "questions": 5,
+  "hook_seconds": 17.6,
+  "sections": 8,
+  "ctas": 9,
+  "shots": null,
+  "cuts_per_min": null,
+  "shot_avg_s": null,
+  "analysis_mode": "audio_transcript_timing",
+  "recommended_pacing": {
+    "shot_avg_s": 2.5,
+    "cuts_per_min": 24,
+    "fps": 60,
+    "aspect_ratio": "16:9"
+  },
+  "notes": "Visual cut metrics require direct video file upload. For kinetic SaaS/explainer video, recommended target is 2.0-3.5s shot average (17-30 cuts/min) with 60fps."
+}

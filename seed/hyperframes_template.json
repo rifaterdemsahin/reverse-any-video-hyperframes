@@ -1,0 +1,175 @@
+{
+  "title": "{{title}}",
+  "logline": "{{logline}}",
+  "scenes": [
+    {
+      "kind": "title",
+      "headline": "{{headline_1}}",
+      "subtitle": "{{subtitle}}",
+      "body": "{{body_1}}",
+      "items": [],
+      "stat": "",
+      "narration": "{{narration_1}}"
+    },
+    {
+      "kind": "point",
+      "headline": "{{headline_2}}",
+      "body": "{{body_2}}",
+      "items": [],
+      "stat": "",
+      "narration": "{{narration_2}}"
+    },
+    {
+      "kind": "point",
+      "headline": "{{headline_3}}",
+      "body": "{{body_3}}",
+      "items": [],
+      "stat": "",
+      "narration": "{{narration_3}}"
+    },
+    {
+      "kind": "point",
+      "headline": "{{headline_4}}",
+      "body": "{{body_4}}",
+      "items": [],
+      "stat": "",
+      "narration": "{{narration_4}}"
+    },
+    {
+      "kind": "point",
+      "headline": "{{headline_5}}",
+      "body": "{{body_5}}",
+      "items": [],
+      "stat": "",
+      "narration": "{{narration_5}}"
+    },
+    {
+      "kind": "point",
+      "headline": "{{headline_6}}",
+      "body": "{{body_6}}",
+      "items": [],
+      "stat": "",
+      "narration": "{{narration_6}}"
+    },
+    {
+      "kind": "point",
+      "headline": "{{headline_7}}",
+      "body": "{{body_7}}",
+      "items": [],
+      "stat": "",
+      "narration": "{{narration_7}}"
+    },
+    {
+      "kind": "cta",
+      "headline": "{{headline_8}}",
+      "body": "{{body_8}}",
+      "items": [],
+      "stat": "",
+      "narration": "{{narration_8}}"
+    }
+  ],
+  "timeline": [
+    {
+      "scene": 1,
+      "role": "hook",
+      "start_s": 0.2,
+      "duration_s": 45.8,
+      "target_words": 165,
+      "cuts": null
+    },
+    {
+      "scene": 2,
+      "role": "body",
+      "start_s": 43.8,
+      "duration_s": 36.4,
+      "target_words": 131,
+      "cuts": null
+    },
+    {
+      "scene": 3,
+      "role": "body",
+      "start_s": 78.9,
+      "duration_s": 31.6,
+      "target_words": 114,
+      "cuts": null
+    },
+    {
+      "scene": 4,
+      "role": "body",
+      "start_s": 108.9,
+      "duration_s": 40.7,
+      "target_words": 147,
+      "cuts": null
+    },
+    {
+      "scene": 5,
+      "role": "body",
+      "start_s": 147.1,
+      "duration_s": 33.5,
+      "target_words": 121,
+      "cuts": null
+    },
+    {
+      "scene": 6,
+      "role": "body",
+      "start_s": 179.2,
+      "duration_s": 56.8,
+      "target_words": 204,
+      "cuts": null
+    },
+    {
+      "scene": 7,
+      "role": "body",
+      "start_s": 234.1,
+      "duration_s": 26.5,
+      "target_words": 95,
+      "cuts": null
+    },
+    {
+      "scene": 8,
+      "role": "cta",
+      "start_s": 259.2,
+      "duration_s": 41.2,
+      "target_words": 148,
+      "cuts": null
+    }
+  ],
+  "style": {
+    "wpm": 216,
+    "cuts_per_min": null,
+    "shot_avg_s": null,
+    "hook_seconds": 17.6,
+    "questions": 5,
+    "fps": null,
+    "duration_s": 306
+  },
+  "placeholders": [
+    "body_1",
+    "body_2",
+    "body_3",
+    "body_4",
+    "body_5",
+    "body_6",
+    "body_7",
+    "body_8",
+    "headline_1",
+    "headline_2",
+    "headline_3",
+    "headline_4",
+    "headline_5",
+    "headline_6",
+    "headline_7",
+    "headline_8",
+    "logline",
+    "narration_1",
+    "narration_2",
+    "narration_3",
+    "narration_4",
+    "narration_5",
+    "narration_6",
+    "narration_7",
+    "narration_8",
+    "subtitle",
+    "title"
+  ]
+}
