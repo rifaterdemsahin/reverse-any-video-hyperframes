@@ -280,6 +280,11 @@
           data-track-index="0"
         ></div>
 
+        <!-- Animated Kinetic Subtitle Overlay Track -->
+        <div id="subtitles-track" style="position: absolute; bottom: 65px; left: 0; right: 0; display: flex; justify-content: center; z-index: 100; pointer-events: none;">
+          <div id="kinetic-subtitle-pill" style="opacity: 0; transform: scale(0.9); transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1); background: rgba(6, 9, 16, 0.94); border: 1.5px solid rgba(6, 182, 212, 0.45); border-radius: 14px; padding: 12px 28px; font-family: 'Inter', -apple-system, sans-serif; font-size: 26px; font-weight: 800; color: #FFFFFF; text-transform: uppercase; box-shadow: 0 16px 40px rgba(0,0,0,0.8), 0 0 30px rgba(6, 182, 212, 0.25); letter-spacing: -0.01em;"></div>
+        </div>
+
         <!-- Audio Layers -->
         <!-- Voiceover Track -->
         <audio
@@ -349,7 +354,24 @@
         const timeDisplay = document.getElementById('timecode-display');
         const sceneBadge = document.getElementById('scene-badge');
 
-        const voAudio = document.getElementById('audio-voiceover');
+        const subtitleCues = [
+          { start: 0.3, end: 2.8, html: `WHAT IF YOU COULD TAKE <span style="color:#06B6D4">ANY VIRAL VIDEO?</span>` },
+          { start: 2.8, end: 5.4, html: `REVERSE-ENGINEER EVERY <span style="color:#FACC15">CUT, COLOR &amp; PACING...</span>` },
+          { start: 5.4, end: 7.8, html: `INTO A <span style="color:#10B981">PERFECT BLUEPRINT</span> IN SECONDS?` },
+          { start: 8.2, end: 13.0, html: `<span style="color:#EF4444">THE OLD WAY:</span> <span style="color:#F87171">CHAOTIC, BLOATED RAW LOGS...</span>` },
+          { start: 13.0, end: 17.8, html: `<span style="color:#10B981">THE NEW WAY:</span> CLEAN, <span style="color:#06B6D4">AI-READY BLUEPRINTS</span>` },
+          { start: 18.2, end: 20.8, html: `JUST <span style="color:#06B6D4">DRAG &amp; DROP</span> YOUR TARGET VIDEO` },
+          { start: 20.8, end: 23.4, html: `EXTRACTS <span style="color:#38BDF8">CUT TIMING, COLORS &amp; RHYTHM</span>` },
+          { start: 23.4, end: 27.8, html: `<span style="color:#10B981">✓ VERIFIED &amp; USED IN PRODUCTION</span>` },
+          { start: 28.2, end: 34.0, html: `DROP BLUEPRINT INTO <span style="color:#06B6D4">HYPERFRAMES</span>` },
+          { start: 34.0, end: 39.8, html: `WATCH TIMELINE AUTO-ASSEMBLE <span style="color:#FACC15">10X FASTER!</span>` },
+          { start: 40.2, end: 45.8, html: `BEST OF ALL: <span style="color:#10B981">NO RECURRING SUBSCRIPTIONS</span>` },
+          { start: 45.8, end: 51.8, html: `<span style="color:#FACC15">$1 = 10 FULL VIDEO CREDITS</span> THAT NEVER EXPIRE` },
+          { start: 52.2, end: 55.8, html: `<span style="color:#06B6D4">GRAB YOUR CREDITS BELOW</span> — LINK IN DESCRIPTION!` },
+          { start: 55.8, end: 59.8, html: `OR JOIN OUR <span style="color:#10B981">SKOOL COMMUNITY</span> TO LEARN MORE!` }
+        ];
+
+        const subPill = document.getElementById('kinetic-subtitle-pill');
         const bgAudio = document.getElementById('audio-bg-music');
         if (bgAudio) bgAudio.volume = 0.18; // Ducked under speech
 
@@ -431,6 +453,20 @@
               bgAudio.volume = Math.min(0.65, 0.18 + (currentTime - 57.0) * 0.15);
             } else {
               bgAudio.volume = 0.18;
+            }
+          }
+          // Sync active kinetic subtitle pill
+          if (subPill) {
+            const activeCue = subtitleCues.find(c => currentTime >= c.start && currentTime <= c.end);
+            if (activeCue) {
+              if (subPill.innerHTML !== activeCue.html) {
+                subPill.innerHTML = activeCue.html;
+              }
+              subPill.style.opacity = '1';
+              subPill.style.transform = 'scale(1)';
+            } else {
+              subPill.style.opacity = '0';
+              subPill.style.transform = 'scale(0.9)';
             }
           }
         };
