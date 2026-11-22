@@ -1,0 +1,320 @@
+<template id="scene-4-template">
+  <div data-composition-id="scene-4" data-width="1920" data-height="1080" data-duration="12" data-fps="60">
+    <style>
+      .s4-container {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0B0F17;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #FFFFFF;
+      }
+      .s4-bg-video {
+        position: absolute;
+        inset: 0;
+        opacity: 0.35;
+      }
+      .s4-bg-video video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .s4-scrim {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(11, 15, 23, 0.4) 0%, rgba(11, 15, 23, 0.9) 100%);
+      }
+
+      /* Top Pill */
+      .s4-top-pill {
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-30px);
+        opacity: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 28px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(6, 182, 212, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 9999px;
+        font-size: 20px;
+        font-weight: 800;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(6, 182, 212, 0.3);
+        z-index: 20;
+      }
+
+      /* Glowing AI-Ready Document Icon */
+      .s4-falling-doc {
+        position: absolute;
+        top: -160px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 110px;
+        height: 140px;
+        background: linear-gradient(135deg, #06B6D4, #3B82F6);
+        border: 2px solid #38BDF8;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 0 40px rgba(6, 182, 212, 0.8);
+        z-index: 30;
+      }
+      .s4-doc-icon {
+        font-size: 44px;
+      }
+      .s4-doc-label {
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        letter-spacing: 0.05em;
+      }
+
+      /* Multi-Track Timeline Stage */
+      .s4-timeline-stage {
+        position: absolute;
+        top: 240px;
+        left: 160px;
+        right: 160px;
+        height: 520px;
+        background: rgba(15, 23, 42, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 24px;
+        box-sizing: border-box;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        z-index: 10;
+      }
+      .s4-timeline-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 16px;
+        font-weight: 700;
+        color: #94A3B8;
+      }
+      .s4-track {
+        height: 76px;
+        background: rgba(2, 6, 23, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+      }
+      .s4-track-tag {
+        font-size: 13px;
+        font-weight: 700;
+        color: #64748B;
+        width: 120px;
+        text-transform: uppercase;
+      }
+      .s4-clips-row {
+        flex: 1;
+        display: flex;
+        gap: 12px;
+        height: 52px;
+        align-items: center;
+      }
+      .s4-clip-block {
+        height: 100%;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        opacity: 0;
+        transform: scale(0.6);
+      }
+      .s4-clip-video {
+        width: 220px;
+        background: rgba(6, 182, 212, 0.25);
+        border: 1px solid #06B6D4;
+        color: #E0F2FE;
+      }
+      .s4-clip-trans {
+        width: 90px;
+        background: rgba(168, 85, 247, 0.25);
+        border: 1px solid #C084FC;
+        color: #F3E8FF;
+      }
+      .s4-clip-cap {
+        width: 320px;
+        background: rgba(16, 185, 129, 0.25);
+        border: 1px solid #10B981;
+        color: #D1FAE5;
+      }
+
+      /* Impact Particles */
+      .s4-particles {
+        position: absolute;
+        top: 240px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 400px;
+        height: 100px;
+        pointer-events: none;
+        z-index: 25;
+        opacity: 0;
+      }
+      .s4-particle-ring {
+        position: absolute;
+        inset: 0;
+        border: 2px solid #06B6D4;
+        border-radius: 50%;
+        transform: scale(0);
+        box-shadow: 0 0 40px #06B6D4, inset 0 0 40px #A855F7;
+      }
+
+      /* Lower-Third Badge */
+      .s4-lower-badge {
+        position: absolute;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%) translateY(40px);
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 36px;
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.9), rgba(16, 185, 129, 0.9));
+        border-radius: 20px;
+        font-size: 30px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        color: #0B0F17;
+        box-shadow: 0 10px 40px rgba(6, 182, 212, 0.5);
+        z-index: 20;
+      }
+    </style>
+
+    <div class="s4-container">
+      <div class="s4-bg-video">
+        <video src="assets/videos/hyperframes_build_demo.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <div class="s4-scrim"></div>
+
+      <!-- Top Pill -->
+      <div class="s4-top-pill">
+        <span>AI-Ready Output</span>
+        <span style="color:#06B6D4;">→</span>
+        <span style="color:#38BDF8;">Hyperframes Engine</span>
+      </div>
+
+      <!-- Falling AI-Ready Blueprint Doc Icon -->
+      <div class="s4-falling-doc">
+        <div class="s4-doc-icon">⚡</div>
+        <div class="s4-doc-label">AI Blueprint</div>
+      </div>
+
+      <!-- Impact Ring Effect -->
+      <div class="s4-particles">
+        <div class="s4-particle-ring"></div>
+      </div>
+
+      <!-- Multi-Track Editing Timeline -->
+      <div class="s4-timeline-stage">
+        <div class="s4-timeline-header">
+          <span>HYPERFRAMES TIMELINE (TRACK VIEW)</span>
+          <span style="color:#10B981;">● 60 FPS DETERMINISTIC RENDER</span>
+        </div>
+
+        <div class="s4-track">
+          <div class="s4-track-tag">Track 1: Video</div>
+          <div class="s4-clips-row">
+            <div class="s4-clip-block s4-clip-video c1">Hook Clip 01</div>
+            <div class="s4-clip-block s4-clip-trans t1">Whip-Pan</div>
+            <div class="s4-clip-block s4-clip-video c2">UI Showcase</div>
+            <div class="s4-clip-block s4-clip-trans t2">Snap Cut</div>
+            <div class="s4-clip-block s4-clip-video c3">CTA Outro</div>
+          </div>
+        </div>
+
+        <div class="s4-track">
+          <div class="s4-track-tag">Track 2: Captions</div>
+          <div class="s4-clips-row">
+            <div class="s4-clip-block s4-clip-cap cap1">Kinetic Title Pop</div>
+            <div class="s4-clip-block s4-clip-cap cap2">Feature Highlights (Synced)</div>
+          </div>
+        </div>
+
+        <div class="s4-track">
+          <div class="s4-track-tag">Track 3: Audio</div>
+          <div class="s4-clips-row">
+            <div class="s4-clip-block s4-clip-video" style="width: 480px; background: rgba(245, 158, 11, 0.2); border-color:#F59E0B; color:#FEF3C7; opacity:1; transform:scale(1);">
+              Voiceover + Ducked Beat
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bold Lower Third Badge -->
+      <div class="s4-lower-badge">
+        <span>⚡</span>
+        <span>Build Videos Much Faster</span>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        const tl = gsap.timeline({ paused: true });
+        const topPill = document.querySelector('.s4-top-pill');
+        const fallingDoc = document.querySelector('.s4-falling-doc');
+        const particleRing = document.querySelector('.s4-particle-ring');
+        const lowerBadge = document.querySelector('.s4-lower-badge');
+        const clips = document.querySelectorAll('.s4-clip-block');
+
+        // Top pill in at 0.3s
+        tl.to(topPill, { opacity: 1, y: 0, duration: 0.5, ease: 'back.out(1.4)' }, 0.3);
+
+        // Falling doc drops from top onto timeline at 0.5s -> lands at 1.2s (sub-bass impact)
+        tl.to(fallingDoc, {
+          top: '200px',
+          scale: 0.8,
+          duration: 0.7,
+          ease: 'power3.in'
+        }, 0.5);
+
+        // Impact particle blast at 1.2s
+        tl.set('.s4-particles', { opacity: 1 }, 1.2);
+        tl.to(particleRing, { scale: 3.5, opacity: 0, duration: 0.8, ease: 'power2.out' }, 1.2);
+        tl.to(fallingDoc, { opacity: 0, scale: 1.2, duration: 0.3 }, 1.25);
+
+        // Speed-ramped timeline assembly: clips snap into place rapidly (1.4s - 3.5s)
+        tl.to('.c1', { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(1.8)' }, 1.4);
+        tl.to('.t1', { opacity: 1, scale: 1, duration: 0.2, ease: 'back.out(1.8)' }, 1.7);
+        tl.to('.c2', { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(1.8)' }, 2.0);
+        tl.to('.cap1', { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(1.8)' }, 2.2);
+        tl.to('.t2', { opacity: 1, scale: 1, duration: 0.2, ease: 'back.out(1.8)' }, 2.5);
+        tl.to('.c3', { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(1.8)' }, 2.8);
+        tl.to('.cap2', { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(1.8)' }, 3.1);
+
+        // Bold lower third badge enters at 3.6s
+        tl.to(lowerBadge, { opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.5)' }, 3.6);
+
+        // Exit at 11.7s
+        tl.to(['.s4-timeline-stage', topPill, lowerBadge], { opacity: 0, duration: 0.3, ease: 'power2.in' }, 11.7);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines['scene-4'] = tl;
+      })();
+    </script>
+  </div>
+</template>

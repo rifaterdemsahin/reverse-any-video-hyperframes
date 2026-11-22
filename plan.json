@@ -1,0 +1,198 @@
+{
+  "name": "reverse-any-video-hyperframes",
+  "title": "Reverse-Engineer Any Edit - Tech Promo",
+  "version": "1.0.0",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 60,
+    "aspectRatio": "16:9"
+  },
+  "style": {
+    "theme": "Sleek Dark-Mode SaaS / Creator UI",
+    "background": "#0B0F17",
+    "palette": {
+      "canvas": "#0B0F17",
+      "surface": "rgba(22, 27, 34, 0.75)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "accentCyan": "#06B6D4",
+      "accentEmerald": "#10B981",
+      "accentRed": "#EF4444",
+      "textPrimary": "#FFFFFF",
+      "textSecondary": "#94A3B8"
+    },
+    "typography": {
+      "headlineFont": "Inter, sans-serif",
+      "headlineWeight": "800",
+      "monoFont": "JetBrains Mono, monospace"
+    }
+  },
+  "audio": {
+    "voiceover": {
+      "file": "assets/audio/voiceover.mp3",
+      "duration": 60.0,
+      "volume": 1.0,
+      "duckingTrigger": true
+    },
+    "bgMusic": {
+      "file": "assets/audio/bg_music.mp3",
+      "tempo": 128,
+      "baseVolume": 0.18,
+      "swellVolume": 0.55,
+      "duckedUnderSpeech": true
+    },
+    "sfx": [
+      { "time": 2.0, "file": "assets/audio/sfx/whoosh.mp3", "description": "Card entrance swoosh" },
+      { "time": 8.0, "file": "assets/audio/sfx/error.mp3", "description": "Error thud on old chaotic way" },
+      { "time": 13.0, "file": "assets/audio/sfx/chime.mp3", "description": "Confirmation chime on AI-ready blueprint" },
+      { "time": 24.0, "file": "assets/audio/sfx/notification.mp3", "description": "Emerald verified stamp lock-in" },
+      { "time": 28.0, "file": "assets/audio/sfx/impact-bass-1.mp3", "description": "Sub-bass impact on Hyperframes timeline drop" },
+      { "time": 43.0, "file": "assets/audio/sfx/ping.mp3", "description": "Coin clink on pricing card" },
+      { "time": 53.0, "file": "assets/audio/sfx/click.mp3", "description": "Interactive button hover/click" }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "scene-1",
+      "name": "Hook & The Promise",
+      "start": 0.0,
+      "duration": 8.0,
+      "end": 8.0,
+      "baseLayer": {
+        "type": "video",
+        "file": "assets/videos/aroll_hook.mp4",
+        "zoom": { "from": 1.0, "to": 1.08, "duration": 8.0 }
+      },
+      "overlays": [
+        {
+          "time": 0.5,
+          "type": "kinetic-text",
+          "headline": "REVERSE-ENGINEER ANY EDIT",
+          "subtitle": "Target Video → Perfect Blueprint"
+        },
+        {
+          "time": 2.0,
+          "type": "comparison-card",
+          "position": "right-half",
+          "left": "Fast-Paced Viral Edit",
+          "right": "Raw Footage Snapping to Blueprint",
+          "sfx": "whoosh.mp3"
+        }
+      ],
+      "voiceoverSync": "What if you could take ANY viral video, reverse-engineer every cut, color, and pacing decision, and turn it into a perfect blueprint in seconds?"
+    },
+    {
+      "id": "scene-2",
+      "name": "The Old Way vs. The New Way",
+      "start": 8.0,
+      "duration": 10.0,
+      "end": 18.0,
+      "layout": "50/50 vertical split wipe",
+      "leftPanel": {
+        "active": "8.0 - 13.0",
+        "tone": "red-tinted chaotic dark UI",
+        "video": "assets/videos/raw_logs_scroll.mp4",
+        "label": "The Old Way: Raw & Unsimplified",
+        "sfx": "error.mp3"
+      },
+      "rightPanel": {
+        "active": "13.0 - 18.0",
+        "tone": "emerald-tinted clean AI card",
+        "badge": "AI-Ready Format",
+        "icon": "blueprint-document",
+        "label": "The New Way: AI-Ready Format",
+        "sfx": "chime.mp3"
+      },
+      "voiceoverSync": "The old way was chaotic. Sifting through bloated logs and unsimplified raw data that breaks your workflow. The new way? Clean, structured, AI-ready blueprints."
+    },
+    {
+      "id": "scene-3",
+      "name": "Verified Output",
+      "start": 18.0,
+      "duration": 10.0,
+      "end": 28.0,
+      "segmentA": {
+        "time": "18.0 - 23.0",
+        "view": "3D perspective tilted web app screen capture",
+        "video": "assets/videos/app_upload_demo.mp4",
+        "statusPills": [
+          { "text": "Extracting Cuts...", "time": 18.8 },
+          { "text": "Extracting Colors...", "time": 20.2 },
+          { "text": "Extracting Pacing...", "time": 21.6 }
+        ]
+      },
+      "segmentB": {
+        "time": "23.0 - 28.0",
+        "view": "Split / picture-in-picture inspection",
+        "video": "assets/videos/aroll_review.mp4",
+        "badge": "Checked & Used By Me",
+        "stampTime": 24.0,
+        "sfx": "notification.mp3"
+      },
+      "voiceoverSync": "Just drag and drop your target video. The AI extracts the exact cut timing, color palette, and edit rhythm. Verified and checked in production."
+    },
+    {
+      "id": "scene-4",
+      "name": "The Hyperframes Magic",
+      "start": 28.0,
+      "duration": 12.0,
+      "end": 40.0,
+      "visualAction": "Glowing AI-Ready file icon drops onto multi-track Hyperframes editing timeline",
+      "timelineVideo": "assets/videos/hyperframes_build_demo.mp4",
+      "motionEffects": "Cyan and purple particle burst on impact, rapid clip snapping, speed-ramp timeline assembly",
+      "onScreenGraphics": {
+        "topPill": "AI-Ready Output → Hyperframes",
+        "lowerThirdBadge": "Build Videos Much Faster"
+      },
+      "sfx": "impact-bass-1.mp3",
+      "voiceoverSync": "Then, drop that blueprint directly into Hyperframes. Watch your timeline auto-assemble with precision transitions, dynamic layers, and kinetic captions 10 times faster."
+    },
+    {
+      "id": "scene-5",
+      "name": "Simple Credit Pricing",
+      "start": 40.0,
+      "duration": 12.0,
+      "end": 52.0,
+      "baseLayer": {
+        "type": "video",
+        "file": "assets/videos/aroll_pricing.mp4"
+      },
+      "overlay": {
+        "time": 43.0,
+        "position": "right-third",
+        "card": "Glassmorphism credit card with 3D gold/cyan coin drop",
+        "headline": "$1 = 10 Video Credits",
+        "pill": "NO SUBSCRIPTIONS",
+        "sfx": "ping.mp3"
+      },
+      "voiceoverSync": "Best of all: no recurring subscriptions. It’s simple credit pricing: just one dollar gives you ten full video credits."
+    },
+    {
+      "id": "scene-6",
+      "name": "Call to Action & Skool Community",
+      "start": 52.0,
+      "duration": 8.0,
+      "end": 60.0,
+      "baseLayer": {
+        "type": "video",
+        "file": "assets/videos/aroll_cta.mp4"
+      },
+      "ctaOverlay": {
+        "time": 53.0,
+        "primaryButton": {
+          "label": "Get Your Credits Now ↓",
+          "color": "#06B6D4"
+        },
+        "secondaryCard": {
+          "title": "Join the Skool Community",
+          "subtext": "Learn How to Build It",
+          "color": "#10B981"
+        },
+        "interactiveEffect": "Simulated cursor hover and click glow",
+        "outroMusicSwell": "0:57 - 1:00 sharp cutoff"
+      },
+      "voiceoverSync": "Grab your credits below, or join our Skool community to learn how we built this entire engine. Link is in the description!"
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+<template id="scene-3-template">
+  <div data-composition-id="scene-3" data-width="1920" data-height="1080" data-duration="10" data-fps="60">
+    <style>
+      .s3-container {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0B0F17;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #FFFFFF;
+        perspective: 1200px;
+      }
+      /* Part A: 3D Perspective Web App Screen (0:00 - 0:05 / abs 18-23s) */
+      .s3-app-stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform-style: preserve-3d;
+      }
+      .s3-browser-window {
+        width: 1400px;
+        height: 800px;
+        background: #0F172A;
+        border: 1px solid rgba(6, 182, 212, 0.4);
+        border-radius: 20px;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 50px rgba(6, 182, 212, 0.2);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transform: rotateX(12deg) rotateY(-8deg) scale(0.92);
+        transform-origin: center center;
+      }
+      .s3-browser-topbar {
+        height: 48px;
+        background: #020617;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        gap: 12px;
+      }
+      .s3-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .s3-app-content {
+        flex: 1;
+        position: relative;
+        background: #090D16;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+      }
+      .s3-video-bg {
+        position: absolute;
+        inset: 0;
+        opacity: 0.3;
+      }
+      .s3-video-bg video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .s3-drop-zone {
+        position: relative;
+        z-index: 10;
+        width: 600px;
+        height: 280px;
+        border: 2px dashed #06B6D4;
+        border-radius: 16px;
+        background: rgba(6, 182, 212, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+      }
+      .s3-progress-container {
+        position: relative;
+        z-index: 10;
+        width: 600px;
+        margin-top: 30px;
+      }
+      .s3-progress-bar {
+        height: 10px;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+      }
+      .s3-progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #06B6D4, #10B981);
+        box-shadow: 0 0 16px #06B6D4;
+      }
+      /* Status Pills */
+      .s3-pills-row {
+        position: absolute;
+        bottom: 80px;
+        display: flex;
+        gap: 16px;
+        z-index: 20;
+      }
+      .s3-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(6, 182, 212, 0.4);
+        border-radius: 9999px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #F8FAFC;
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Part B: A-Roll Review with Emerald Verification Badge (0:05 - 0:10 / abs 23-28s) */
+      .s3-review-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        display: flex;
+        opacity: 0;
+      }
+      .s3-review-video {
+        position: absolute;
+        inset: 0;
+      }
+      .s3-review-video video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .s3-review-scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(11, 15, 23, 0.7) 0%, rgba(11, 15, 23, 0.2) 60%);
+      }
+      .s3-badge-stamp {
+        position: absolute;
+        left: 120px;
+        bottom: 160px;
+        background: rgba(6, 24, 17, 0.92);
+        border: 3px solid #10B981;
+        border-radius: 24px;
+        padding: 28px 44px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        box-shadow: 0 0 60px rgba(16, 185, 129, 0.4), 0 20px 40px rgba(0, 0, 0, 0.7);
+        transform: scale(1.6) rotate(-8deg);
+        opacity: 0;
+      }
+      .s3-stamp-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #10B981;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        color: #061811;
+        font-weight: 900;
+      }
+      .s3-stamp-text-col {
+        display: flex;
+        flex-direction: column;
+      }
+      .s3-stamp-title {
+        font-size: 36px;
+        font-weight: 900;
+        color: #34D399;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .s3-stamp-sub {
+        font-size: 18px;
+        font-weight: 600;
+        color: #A7F3D0;
+      }
+    </style>
+
+    <div class="s3-container">
+      <!-- 3D Perspective Web App Screen (0:00 - 0:05) -->
+      <div class="s3-app-stage">
+        <div class="s3-browser-window">
+          <div class="s3-browser-topbar">
+            <div class="s3-dot" style="background:#EF4444;"></div>
+            <div class="s3-dot" style="background:#F59E0B;"></div>
+            <div class="s3-dot" style="background:#10B981;"></div>
+            <span style="font-size:13px; color:#64748B; margin-left:12px;">app.hyperframes.com/reverse-edit</span>
+          </div>
+          <div class="s3-app-content">
+            <div class="s3-video-bg">
+              <video src="assets/videos/app_upload_demo.mp4" autoplay loop muted playsinline></video>
+            </div>
+            <div class="s3-drop-zone">
+              <span style="font-size:48px;">📂</span>
+              <div style="font-size:20px; font-weight:700; color:#E2E8F0;">viral_reference_reel.mp4</div>
+              <div style="font-size:14px; color:#06B6D4;">Auto-Parsing Timeline Kinetics...</div>
+            </div>
+            <div class="s3-progress-container">
+              <div class="s3-progress-bar">
+                <div class="s3-progress-fill"></div>
+              </div>
+            </div>
+            <div class="s3-pills-row">
+              <div class="s3-pill s3-pill-1">
+                <span style="color:#06B6D4;">✂️</span>
+                <span>Extracting Cuts...</span>
+              </div>
+              <div class="s3-pill s3-pill-2">
+                <span style="color:#10B981;">🎨</span>
+                <span>Extracting Colors...</span>
+              </div>
+              <div class="s3-pill s3-pill-3">
+                <span style="color:#F59E0B;">⚡</span>
+                <span>Extracting Pacing...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Part B: A-Roll Review with Emerald Verification Badge (0:05 - 0:10) -->
+      <div class="s3-review-overlay">
+        <div class="s3-review-video">
+          <video src="assets/videos/aroll_review.mp4" autoplay loop muted playsinline></video>
+        </div>
+        <div class="s3-review-scrim"></div>
+        <div class="s3-badge-stamp">
+          <div class="s3-stamp-icon">✓</div>
+          <div class="s3-stamp-text-col">
+            <div class="s3-stamp-title">Checked & Used By Me</div>
+            <div class="s3-stamp-sub">Battle-Tested Production Output</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        const tl = gsap.timeline({ paused: true });
+        const browserWindow = document.querySelector('.s3-browser-window');
+        const progressFill = document.querySelector('.s3-progress-fill');
+        const pill1 = document.querySelector('.s3-pill-1');
+        const pill2 = document.querySelector('.s3-pill-2');
+        const pill3 = document.querySelector('.s3-pill-3');
+        const reviewOverlay = document.querySelector('.s3-review-overlay');
+        const badgeStamp = document.querySelector('.s3-badge-stamp');
+
+        // Smooth 3D tilt camera move
+        tl.to(browserWindow, {
+          rotateX: 4,
+          rotateY: 2,
+          scale: 1.0,
+          duration: 4.8,
+          ease: 'power1.inOut'
+        }, 0);
+
+        // Progress bar glowing fill
+        tl.to(progressFill, { width: '100%', duration: 4.0, ease: 'power2.out' }, 0.4);
+
+        // Pop up three sequential status pills
+        tl.to(pill1, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.5)' }, 0.8);
+        tl.to(pill2, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.5)' }, 2.0);
+        tl.to(pill3, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.5)' }, 3.2);
+
+        // At 5.0s (abs 23s): Switch to A-Roll review
+        tl.to(reviewOverlay, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 5.0);
+
+        // At 6.0s (abs 24s): Emerald verification badge stamps down with crisp lock-in
+        tl.to(badgeStamp, {
+          opacity: 1,
+          scale: 1.0,
+          rotate: -2,
+          duration: 0.5,
+          ease: 'back.out(1.8)'
+        }, 6.0);
+
+        // Exit at 9.7s
+        tl.to([reviewOverlay], { opacity: 0, duration: 0.3, ease: 'power2.in' }, 9.7);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines['scene-3'] = tl;
+      })();
+    </script>
+  </div>
+</template>

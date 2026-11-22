@@ -1,0 +1,276 @@
+<template id="scene-1-template">
+  <div data-composition-id="scene-1" data-width="1920" data-height="1080" data-duration="8" data-fps="60">
+    <style>
+      .s1-container {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0B0F17;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #FFFFFF;
+      }
+      .s1-video-wrap {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transform-origin: center center;
+      }
+      .s1-video-wrap video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .s1-overlay-dark {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(11, 15, 23, 0.85) 0%, rgba(11, 15, 23, 0.4) 60%, rgba(6, 182, 212, 0.15) 100%);
+        pointer-events: none;
+      }
+      /* Title Card */
+      .s1-title-card {
+        position: absolute;
+        left: 100px;
+        top: 240px;
+        max-width: 820px;
+        z-index: 10;
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+      }
+      .s1-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 18px;
+        background: rgba(6, 182, 212, 0.15);
+        border: 1px solid rgba(6, 182, 212, 0.4);
+        border-radius: 9999px;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #06B6D4;
+        margin-bottom: 20px;
+        box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+      }
+      .s1-headline {
+        font-size: 68px;
+        font-weight: 900;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        margin: 0 0 24px 0;
+        background: linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      }
+      .s1-subtitle-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 24px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(16px);
+        border-radius: 14px;
+        font-size: 22px;
+        font-weight: 700;
+        color: #F8FAFC;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+      .s1-arrow {
+        color: #06B6D4;
+        font-weight: 900;
+      }
+      /* Comparison Card on Right Half */
+      .s1-card-right {
+        position: absolute;
+        right: 100px;
+        top: 180px;
+        width: 780px;
+        height: 680px;
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid rgba(6, 182, 212, 0.35);
+        backdrop-filter: blur(24px);
+        border-radius: 24px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(6, 182, 212, 0.15);
+        z-index: 10;
+        padding: 36px;
+        box-sizing: border-box;
+        opacity: 0;
+        transform: translateX(120px) scale(0.92);
+        display: flex;
+        flex-direction: column;
+      }
+      .s1-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .s1-card-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #F1F5F9;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .s1-split-body {
+        display: flex;
+        gap: 24px;
+        flex: 1;
+        position: relative;
+      }
+      .s1-half {
+        flex: 1;
+        background: rgba(2, 6, 23, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .s1-half-badge {
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 6px 12px;
+        border-radius: 8px;
+        width: fit-content;
+      }
+      .s1-badge-viral {
+        background: rgba(239, 68, 68, 0.18);
+        color: #F87171;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+      .s1-badge-blue {
+        background: rgba(16, 185, 129, 0.18);
+        color: #34D399;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+      .s1-preview-box {
+        height: 380px;
+        border-radius: 12px;
+        background: #0F172A;
+        border: 1px dashed rgba(255, 255, 255, 0.15);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        color: #64748B;
+        font-size: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .s1-pulse-line {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #06B6D4;
+        box-shadow: 0 0 12px #06B6D4;
+        transform: scaleX(0);
+      }
+      .s1-transfer-line {
+        position: absolute;
+        left: 50%;
+        top: 25%;
+        bottom: 25%;
+        width: 3px;
+        background: linear-gradient(180deg, #06B6D4, #10B981);
+        box-shadow: 0 0 16px #06B6D4;
+        transform: translateX(-50%) scaleY(0);
+      }
+    </style>
+
+    <div class="s1-container">
+      <div class="s1-video-wrap">
+        <video src="assets/videos/aroll_hook.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <div class="s1-overlay-dark"></div>
+
+      <!-- Title Card (0:00 - 0:08) -->
+      <div class="s1-title-card">
+        <div class="s1-badge">AI Video Reverse Engineering</div>
+        <h1 class="s1-headline">REVERSE-ENGINEER<br/>ANY EDIT</h1>
+        <div class="s1-subtitle-pill">
+          <span>Target Video</span>
+          <span class="s1-arrow">→</span>
+          <span style="color:#06B6D4">Perfect Blueprint</span>
+        </div>
+      </div>
+
+      <!-- Split Screen Comparison Card (0:02 - 0:08) -->
+      <div class="s1-card-right">
+        <div class="s1-card-header">
+          <div class="s1-card-title">
+            <span style="color:#06B6D4; font-size: 24px;">⚡</span>
+            <span>Real-Time Style Extraction</span>
+          </div>
+          <span style="font-size:14px; color:#10B981; font-weight:700;">● Active Sync</span>
+        </div>
+        <div class="s1-split-body">
+          <div class="s1-half">
+            <div class="s1-half-badge s1-badge-viral">1. Reference Edit</div>
+            <div class="s1-preview-box">
+              <span style="font-size:40px;">🎬</span>
+              <div style="font-weight:700; color:#E2E8F0;">Viral Reference</div>
+              <div style="font-size:13px; color:#94A3B8;">Pacing: 1.8s cuts • High Retention</div>
+              <div class="s1-pulse-line"></div>
+            </div>
+          </div>
+
+          <div class="s1-transfer-line"></div>
+
+          <div class="s1-half">
+            <div class="s1-half-badge s1-badge-blue">2. Generated Blueprint</div>
+            <div class="s1-preview-box">
+              <span style="font-size:40px;">📐</span>
+              <div style="font-weight:700; color:#E2E8F0;">Matched Blueprint</div>
+              <div style="font-size:13px; color:#10B981;">Snapping cuts & color grade...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        const tl = gsap.timeline({ paused: true });
+        const videoWrap = document.querySelector('.s1-video-wrap');
+        const titleCard = document.querySelector('.s1-title-card');
+        const cardRight = document.querySelector('.s1-card-right');
+        const transferLine = document.querySelector('.s1-transfer-line');
+        const pulseLine = document.querySelector('.s1-pulse-line');
+
+        // Subtle punch-in zoom 100% -> 108% over 8 seconds
+        tl.fromTo(videoWrap, { scale: 1.0 }, { scale: 1.08, duration: 8.0, ease: 'none' }, 0);
+
+        // Kinetic Title Card pop-in at 0.3s
+        tl.to(titleCard, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'back.out(1.4)' }, 0.3);
+
+        // Comparison card swooshes in from right at 2.0s (synced to SFX whoosh)
+        tl.to(cardRight, { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'power3.out' }, 2.0);
+
+        // Glowing transfer lines & pulse animations
+        tl.to(pulseLine, { scaleX: 1, duration: 0.6, ease: 'power2.out' }, 2.6);
+        tl.to(transferLine, { scaleY: 1, duration: 0.8, ease: 'elastic.out(1, 0.6)' }, 2.9);
+
+        // Exit transition to Scene 2 at 7.7s
+        tl.to([titleCard, cardRight], { opacity: 0, scale: 0.96, duration: 0.3, ease: 'power2.in' }, 7.7);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines['scene-1'] = tl;
+      })();
+    </script>
+  </div>
+</template>

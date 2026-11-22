@@ -1,0 +1,225 @@
+<template id="scene-5-template">
+  <div data-composition-id="scene-5" data-width="1920" data-height="1080" data-duration="12" data-fps="60">
+    <style>
+      .s5-container {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0B0F17;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #FFFFFF;
+      }
+      .s5-bg-video {
+        position: absolute;
+        inset: 0;
+      }
+      .s5-bg-video video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .s5-scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(11, 15, 23, 0.4) 0%, rgba(11, 15, 23, 0.85) 60%);
+      }
+
+      /* Presenter Text Left */
+      .s5-left-text {
+        position: absolute;
+        left: 120px;
+        top: 360px;
+        max-width: 600px;
+        z-index: 10;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .s5-left-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(245, 158, 11, 0.15);
+        color: #F59E0B;
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        padding: 8px 18px;
+        border-radius: 9999px;
+        font-size: 15px;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .s5-left-headline {
+        font-size: 54px;
+        font-weight: 900;
+        line-height: 1.15;
+        color: #F8FAFC;
+        margin: 0;
+      }
+
+      /* Glassmorphism Pricing Card Right Third (0:43 / abs 3.0s into scene) */
+      .s5-pricing-card {
+        position: absolute;
+        right: 120px;
+        top: 220px;
+        width: 620px;
+        height: 640px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 2px solid rgba(6, 182, 212, 0.4);
+        backdrop-filter: blur(28px);
+        border-radius: 28px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 50px rgba(6, 182, 212, 0.2);
+        padding: 48px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 20;
+        opacity: 0;
+        transform: translateX(100px) scale(0.9);
+      }
+
+      /* 3D Gold/Cyan Coin */
+      .s5-coin-wrapper {
+        position: relative;
+        width: 140px;
+        height: 140px;
+        margin-top: 10px;
+      }
+      .s5-coin {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, #FDE047 0%, #EAB308 50%, #B45309 100%);
+        border: 4px solid #FEF08A;
+        box-shadow: 0 0 35px rgba(234, 179, 8, 0.7), 0 15px 30px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 64px;
+        color: #78350F;
+        font-weight: 900;
+        transform: translateY(-80px) rotateY(180deg) scale(0.5);
+        opacity: 0;
+      }
+
+      .s5-price-text {
+        font-size: 56px;
+        font-weight: 900;
+        color: #FFFFFF;
+        text-align: center;
+        margin: 16px 0 8px 0;
+        letter-spacing: -0.02em;
+      }
+      .s5-price-sub {
+        font-size: 20px;
+        color: #94A3B8;
+        font-weight: 600;
+        text-align: center;
+      }
+      .s5-badge-no-sub {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 32px;
+        background: rgba(16, 185, 129, 0.15);
+        border: 2px solid #10B981;
+        border-radius: 16px;
+        font-size: 20px;
+        font-weight: 900;
+        color: #34D399;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+      }
+      .s5-feature-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .s5-feat-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #CBD5E1;
+      }
+    </style>
+
+    <div class="s5-container">
+      <div class="s5-bg-video">
+        <video src="assets/videos/aroll_pricing.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <div class="s5-scrim"></div>
+
+      <!-- Presenter text left -->
+      <div class="s5-left-text">
+        <div class="s5-left-badge">Transparent Pricing</div>
+        <h2 class="s5-left-headline">No Bloat.<br/>Pay Only For What You Create.</h2>
+      </div>
+
+      <!-- Glassmorphism Pricing Card Right Third (0:43 -> 3.0s into scene) -->
+      <div class="s5-pricing-card">
+        <div class="s5-coin-wrapper">
+          <div class="s5-coin">$</div>
+        </div>
+
+        <div>
+          <div class="s5-price-text">$1 = 10 Credits</div>
+          <div class="s5-price-sub">Reverse 10 Full Videos</div>
+        </div>
+
+        <div class="s5-badge-no-sub">
+          <span>✓</span>
+          <span>NO SUBSCRIPTIONS</span>
+        </div>
+
+        <div class="s5-feature-list">
+          <div class="s5-feat-item">
+            <span style="color:#06B6D4;">●</span>
+            <span>Credits never expire</span>
+          </div>
+          <div class="s5-feat-item">
+            <span style="color:#10B981;">●</span>
+            <span>Instant AI blueprint download</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        const tl = gsap.timeline({ paused: true });
+        const leftText = document.querySelector('.s5-left-text');
+        const card = document.querySelector('.s5-pricing-card');
+        const coin = document.querySelector('.s5-coin');
+
+        // Left text enters at 0.4s
+        tl.to(leftText, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.4);
+
+        // At 3.0s (abs 43s): Pricing card swooshes in from right
+        tl.to(card, { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: 'power3.out' }, 3.0);
+
+        // 3D Coin drops in and lands with bounce (synced to coin clink SFX at 3.0s)
+        tl.to(coin, {
+          opacity: 1,
+          y: 0,
+          rotateY: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: 'bounce.out'
+        }, 3.0);
+
+        // Exit at 11.7s
+        tl.to([leftText, card], { opacity: 0, duration: 0.3, ease: 'power2.in' }, 11.7);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines['scene-5'] = tl;
+      })();
+    </script>
+  </div>
+</template>

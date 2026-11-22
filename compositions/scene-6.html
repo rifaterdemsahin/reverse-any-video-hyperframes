@@ -1,0 +1,221 @@
+<template id="scene-6-template">
+  <div data-composition-id="scene-6" data-width="1920" data-height="1080" data-duration="8" data-fps="60">
+    <style>
+      .s6-container {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0B0F17;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #FFFFFF;
+      }
+      .s6-bg-video {
+        position: absolute;
+        inset: 0;
+        /* Framed slightly higher to leave clean lower-third space */
+        transform: translateY(-40px);
+      }
+      .s6-bg-video video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .s6-scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(0deg, rgba(11, 15, 23, 0.95) 0%, rgba(11, 15, 23, 0.5) 45%, rgba(11, 15, 23, 0.1) 100%);
+      }
+
+      /* Headline above buttons */
+      .s6-callout {
+        position: absolute;
+        bottom: 250px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        opacity: 0;
+        text-align: center;
+        z-index: 10;
+      }
+      .s6-callout h2 {
+        font-size: 42px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        margin: 0;
+        background: linear-gradient(180deg, #FFFFFF, #94A3B8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Lower-Third CTA Buttons Row (0:53 -> 1.0s into scene) */
+      .s6-cta-row {
+        position: absolute;
+        bottom: 90px;
+        left: 50%;
+        transform: translateX(-50%) translateY(40px);
+        opacity: 0;
+        display: flex;
+        gap: 32px;
+        z-index: 20;
+      }
+
+      /* Primary Cyan Button */
+      .s6-btn-primary {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 24px 44px;
+        background: #06B6D4;
+        border: 2px solid #22D3EE;
+        border-radius: 20px;
+        font-size: 24px;
+        font-weight: 900;
+        color: #082F49;
+        box-shadow: 0 10px 40px rgba(6, 182, 212, 0.5), 0 0 25px rgba(6, 182, 212, 0.4);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+      .s6-arrow-icon {
+        font-size: 28px;
+        font-weight: 900;
+        transition: transform 0.2s;
+      }
+
+      /* Secondary Emerald Card */
+      .s6-btn-secondary {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 18px 40px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 2px solid #10B981;
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.25);
+        cursor: pointer;
+        position: relative;
+      }
+      .s6-sec-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: #34D399;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .s6-sec-sub {
+        font-size: 14px;
+        font-weight: 600;
+        color: #94A3B8;
+        margin-top: 4px;
+      }
+
+      /* Simulated Interactive Cursor */
+      .s6-cursor {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        width: 32px;
+        height: 32px;
+        z-index: 40;
+        pointer-events: none;
+        opacity: 0;
+        transform: translate(-200px, 100px);
+      }
+      .s6-cursor svg {
+        filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+      }
+
+      /* Final Glow Flash */
+      .s6-flash-overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
+        pointer-events: none;
+        opacity: 0;
+        z-index: 50;
+      }
+    </style>
+
+    <div class="s6-container">
+      <div class="s6-bg-video">
+        <video src="assets/videos/aroll_cta.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <div class="s6-scrim"></div>
+      <div class="s6-flash-overlay"></div>
+
+      <!-- Headline -->
+      <div class="s6-callout">
+        <h2>Start Reverse-Engineering In Seconds</h2>
+      </div>
+
+      <!-- CTA Buttons (0:53 -> 1.0s into scene) -->
+      <div class="s6-cta-row">
+        <!-- Primary Button -->
+        <div class="s6-btn-primary">
+          <span>Get Your Credits Now</span>
+          <span class="s6-arrow-icon">↓</span>
+        </div>
+
+        <!-- Secondary Card -->
+        <div class="s6-btn-secondary">
+          <div class="s6-sec-title">
+            <span>🎓</span>
+            <span>Join the Skool Community</span>
+          </div>
+          <div class="s6-sec-sub">Learn How to Build It Step-by-Step</div>
+        </div>
+      </div>
+
+      <!-- Simulated Cursor SVG -->
+      <div class="s6-cursor">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M4 3L11.5 21L14.5 13.5L22 10.5L4 3Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        const tl = gsap.timeline({ paused: true });
+        const callout = document.querySelector('.s6-callout');
+        const ctaRow = document.querySelector('.s6-cta-row');
+        const btnPrimary = document.querySelector('.s6-btn-primary');
+        const cursor = document.querySelector('.s6-cursor');
+        const flash = document.querySelector('.s6-flash-overlay');
+
+        // Callout appears at 0.4s
+        tl.to(callout, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.4);
+
+        // CTA buttons animate in at 1.0s (abs 0:53)
+        tl.to(ctaRow, { opacity: 1, y: 0, duration: 0.7, ease: 'back.out(1.5)' }, 1.0);
+
+        // Simulated cursor glides in and clicks Primary button (1.8s - 3.2s)
+        tl.set(cursor, { opacity: 1 }, 1.8);
+        tl.to(cursor, {
+          x: -160,
+          y: -120,
+          duration: 1.0,
+          ease: 'power2.out'
+        }, 1.8);
+
+        // Click trigger at 3.0s (synced to click SFX)
+        tl.to(btnPrimary, {
+          scale: 0.95,
+          duration: 0.1,
+          boxShadow: '0 0 50px #22D3EE, 0 0 80px rgba(6, 182, 212, 0.8)'
+        }, 2.8);
+        tl.to(btnPrimary, { scale: 1.04, duration: 0.3, ease: 'elastic.out(1, 0.4)' }, 2.9);
+
+        // Final Outro music swell and button glow cutoff at 7.8s - 8.0s (exact 1:00)
+        tl.to(flash, { opacity: 0.8, duration: 0.5, ease: 'power2.in' }, 7.3);
+        tl.to(flash, { opacity: 0, duration: 0.2 }, 7.95);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines['scene-6'] = tl;
+      })();
+    </script>
+  </div>
+</template>

@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reverse Any Video - HyperFrames Promo</title>
+    <!-- Local fallback & CDN support for GSAP -->
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: 'Inter';
+        src: url('assets/fonts/Inter-700.woff2') format('woff2');
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('assets/fonts/Inter-400.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'JetBrains Mono';
+        src: url('assets/fonts/JetBrainsMono-700.woff2') format('woff2');
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #05070B;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Viewport Container for 16:9 Presentation */
+      #preview-viewport {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        max-width: 100vw;
+        max-height: calc(100vh - 60px);
+        aspect-ratio: 16 / 9;
+        background: #0B0F17;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(6, 182, 212, 0.15);
+        overflow: hidden;
+      }
+
+      /* HyperFrames Master Stage */
+      #stage {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        transform-origin: top left;
+        background: #0B0F17;
+        overflow: hidden;
+      }
+
+      .scene-host {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+      }
+
+      .scene-host.active {
+        display: block;
+      }
+
+      /* Control Bar for Standalone Inspection */
+      #player-controls {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 56px;
+        background: rgba(11, 15, 23, 0.95);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(16px);
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        gap: 20px;
+        z-index: 1000;
+        color: #F8FAFC;
+        font-size: 14px;
+      }
+
+      .ctrl-btn {
+        background: #06B6D4;
+        color: #0B0F17;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-weight: 800;
+        cursor: pointer;
+        font-size: 14px;
+        transition: transform 0.15s, background 0.15s;
+      }
+      .ctrl-btn:hover {
+        background: #22D3EE;
+        transform: scale(1.04);
+      }
+
+      .scrubber-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      #timeline-scrubber {
+        flex: 1;
+        accent-color: #06B6D4;
+        cursor: pointer;
+      }
+
+      .timecode {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #94A3B8;
+        min-width: 110px;
+      }
+
+      .scene-badge-indicator {
+        padding: 6px 14px;
+        background: rgba(6, 182, 212, 0.15);
+        border: 1px solid rgba(6, 182, 212, 0.4);
+        border-radius: 9999px;
+        color: #06B6D4;
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="preview-viewport">
+      <!-- HyperFrames Stage Definition -->
+      <div
+        id="stage"
+        data-composition-id="reverse-any-video"
+        data-start="0"
+        data-width="1920"
+        data-height="1080"
+        data-duration="60"
+        data-fps="60"
+      >
+        <!-- Scene 1: Hook & The Promise (0:00 - 0:08) -->
+        <div
+          id="scene-1"
+          class="clip scene-host active"
+          data-composition-id="scene-1"
+          data-composition-src="compositions/scene-1.html"
+          data-start="0"
+          data-duration="8"
+          data-track-index="0"
+        ></div>
+
+        <!-- Scene 2: The Old Way vs The New Way (0:08 - 0:18) -->
+        <div
+          id="scene-2"
+          class="clip scene-host"
+          data-composition-id="scene-2"
+          data-composition-src="compositions/scene-2.html"
+          data-start="8"
+          data-duration="10"
+          data-track-index="0"
+        ></div>
+
+        <!-- Scene 3: Verified Output (0:18 - 0:28) -->
+        <div
+          id="scene-3"
+          class="clip scene-host"
+          data-composition-id="scene-3"
+          data-composition-src="compositions/scene-3.html"
+          data-start="18"
+          data-duration="10"
+          data-track-index="0"
+        ></div>
+
+        <!-- Scene 4: The Hyperframes Magic (0:28 - 0:40) -->
+        <div
+          id="scene-4"
+          class="clip scene-host"
+          data-composition-id="scene-4"
+          data-composition-src="compositions/scene-4.html"
+          data-start="28"
+          data-duration="12"
+          data-track-index="0"
+        ></div>
+
+        <!-- Scene 5: Simple Credit Pricing (0:40 - 0:52) -->
+        <div
+          id="scene-5"
+          class="clip scene-host"
+          data-composition-id="scene-5"
+          data-composition-src="compositions/scene-5.html"
+          data-start="40"
+          data-duration="12"
+          data-track-index="0"
+        ></div>
+
+        <!-- Scene 6: Call To Action & Skool Community (0:52 - 1:00) -->
+        <div
+          id="scene-6"
+          class="clip scene-host"
+          data-composition-id="scene-6"
+          data-composition-src="compositions/scene-6.html"
+          data-start="52"
+          data-duration="8"
+          data-track-index="0"
+        ></div>
+
+        <!-- Audio Layers -->
+        <!-- Voiceover Track -->
+        <audio
+          id="audio-voiceover"
+          data-start="0"
+          data-duration="60"
+          data-track-index="1"
+          data-volume="1.0"
+          src="assets/audio/voiceover.mp3"
+          preload="auto"
+        ></audio>
+
+        <!-- Upbeat Modern Electronic Background Beat (Ducked under speech) -->
+        <audio
+          id="audio-bg-music"
+          data-start="0"
+          data-duration="60"
+          data-track-index="2"
+          data-volume="0.18"
+          src="assets/audio/bg_music.mp3"
+          preload="auto"
+        ></audio>
+
+        <!-- Sound Effects Tracks -->
+        <audio id="sfx-whoosh" src="assets/audio/sfx/whoosh.mp3" data-start="2.0" data-track-index="3" preload="auto"></audio>
+        <audio id="sfx-error" src="assets/audio/sfx/error.mp3" data-start="8.0" data-track-index="3" preload="auto"></audio>
+        <audio id="sfx-chime" src="assets/audio/sfx/chime.mp3" data-start="13.0" data-track-index="3" preload="auto"></audio>
+        <audio id="sfx-notification" src="assets/audio/sfx/notification.mp3" data-start="24.0" data-track-index="3" preload="auto"></audio>
+        <audio id="sfx-impact" src="assets/audio/sfx/impact-bass-1.mp3" data-start="28.0" data-track-index="3" preload="auto"></audio>
+        <audio id="sfx-coin" src="assets/audio/sfx/ping.mp3" data-start="43.0" data-track-index="3" preload="auto"></audio>
+        <audio id="sfx-click" src="assets/audio/sfx/click.mp3" data-start="53.0" data-track-index="3" preload="auto"></audio>
+      </div>
+    </div>
+
+    <!-- Standalone Inspection & Player Controls -->
+    <div id="player-controls">
+      <button id="btn-play-pause" class="ctrl-btn">▶ Play</button>
+      <div class="scrubber-wrap">
+        <input type="range" id="timeline-scrubber" min="0" max="60" step="0.05" value="0" />
+        <span id="timecode-display" class="timecode">00:00 / 01:00</span>
+      </div>
+      <div id="scene-badge" class="scene-badge-indicator">Scene 1: Hook</div>
+      <span style="font-size: 12px; color: #64748B;">1080p • 60fps</span>
+    </div>
+
+    <!-- Master Player Runtime for Browser & Deterministic Seeking -->
+    <script>
+      (function() {
+        const scenes = [
+          { id: 'scene-1', name: 'Scene 1: Hook & Promise', start: 0, duration: 8, end: 8, src: 'compositions/scene-1.html' },
+          { id: 'scene-2', name: 'Scene 2: Old vs New Way', start: 8, duration: 10, end: 18, src: 'compositions/scene-2.html' },
+          { id: 'scene-3', name: 'Scene 3: Verified Output', start: 18, duration: 10, end: 28, src: 'compositions/scene-3.html' },
+          { id: 'scene-4', name: 'Scene 4: Hyperframes Magic', start: 28, duration: 12, end: 40, src: 'compositions/scene-4.html' },
+          { id: 'scene-5', name: 'Scene 5: Credit Pricing', start: 40, duration: 12, end: 52, src: 'compositions/scene-5.html' },
+          { id: 'scene-6', name: 'Scene 6: CTA & Skool', start: 52, duration: 8, end: 60, src: 'compositions/scene-6.html' }
+        ];
+
+        let currentTime = 0;
+        let isPlaying = false;
+        let lastTimestamp = null;
+        const totalDuration = 60.0;
+
+        const stage = document.getElementById('stage');
+        const viewport = document.getElementById('preview-viewport');
+        const playBtn = document.getElementById('btn-play-pause');
+        const scrubber = document.getElementById('timeline-scrubber');
+        const timeDisplay = document.getElementById('timecode-display');
+        const sceneBadge = document.getElementById('scene-badge');
+
+        const voAudio = document.getElementById('audio-voiceover');
+        const bgAudio = document.getElementById('audio-bg-music');
+        if (bgAudio) bgAudio.volume = 0.18; // Ducked under speech
+
+        // Responsive scaling to fit viewport while maintaining 1920x1080 canvas
+        function updateScaling() {
+          const rect = viewport.getBoundingClientRect();
+          const scale = rect.width / 1920;
+          stage.style.transform = `scale(${scale})`;
+        }
+        window.addEventListener('resize', updateScaling);
+        updateScaling();
+
+        // Load all sub-compositions
+        async function loadScenes() {
+          for (const s of scenes) {
+            const host = document.getElementById(s.id);
+            try {
+              const res = await fetch(s.src);
+              const text = await res.text();
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(text, 'text/html');
+              const template = doc.querySelector('template');
+              if (template) {
+                host.appendChild(document.importNode(template.content, true));
+                // Execute inline scripts inside the imported template
+                const scripts = host.querySelectorAll('script');
+                scripts.forEach(oldScript => {
+                  const newScript = document.createElement('script');
+                  newScript.textContent = oldScript.textContent;
+                  document.body.appendChild(newScript);
+                });
+              }
+            } catch (err) {
+              console.warn(`Local fetch notice for ${s.src}:`, err);
+            }
+          }
+        }
+        loadScenes();
+
+        // Seek frame-by-frame deterministically
+        window.seekTo = function(seconds) {
+          currentTime = Math.max(0, Math.min(seconds, totalDuration));
+          scrubber.value = currentTime;
+
+          // Format timecode MM:SS.ff
+          const mins = Math.floor(currentTime / 60).toString().padStart(2, '0');
+          const secs = Math.floor(currentTime % 60).toString().padStart(2, '0');
+          timeDisplay.textContent = `${mins}:${secs} / 01:00`;
+
+          // Active scene routing
+          for (const s of scenes) {
+            const host = document.getElementById(s.id);
+            if (currentTime >= s.start && currentTime < s.end) {
+              if (!host.classList.contains('active')) {
+                document.querySelectorAll('.scene-host').forEach(el => el.classList.remove('active'));
+                host.classList.add('active');
+                sceneBadge.textContent = s.name;
+              }
+              // Seek the GSAP timeline of the active scene
+              if (window.__timelines && window.__timelines[s.id]) {
+                const localTime = currentTime - s.start;
+                window.__timelines[s.id].time(localTime);
+              }
+            }
+          }
+
+          // Sync media audio
+          if (voAudio && !isNaN(voAudio.duration)) {
+            if (Math.abs(voAudio.currentTime - currentTime) > 0.3) {
+              voAudio.currentTime = currentTime;
+            }
+          }
+          if (bgAudio && !isNaN(bgAudio.duration)) {
+            if (Math.abs(bgAudio.currentTime - currentTime) > 0.3) {
+              bgAudio.currentTime = currentTime;
+            }
+            // Outro music swell at 57s - 60s
+            if (currentTime >= 57.0) {
+              bgAudio.volume = Math.min(0.65, 0.18 + (currentTime - 57.0) * 0.15);
+            } else {
+              bgAudio.volume = 0.18;
+            }
+          }
+        };
+
+        // Play/Pause Loop
+        function tick(timestamp) {
+          if (!isPlaying) return;
+          if (lastTimestamp === null) lastTimestamp = timestamp;
+          const dt = (timestamp - lastTimestamp) / 1000;
+          lastTimestamp = timestamp;
+
+          currentTime += dt;
+          if (currentTime >= totalDuration) {
+            currentTime = 0;
+            isPlaying = false;
+            playBtn.textContent = '▶ Play';
+            if (voAudio) voAudio.pause();
+            if (bgAudio) bgAudio.pause();
+          }
+
+          window.seekTo(currentTime);
+          if (isPlaying) requestAnimationFrame(tick);
+        }
+
+        playBtn.addEventListener('click', () => {
+          isPlaying = !isPlaying;
+          if (isPlaying) {
+            playBtn.textContent = '⏸ Pause';
+            lastTimestamp = null;
+            if (voAudio) voAudio.play().catch(() => {});
+            if (bgAudio) bgAudio.play().catch(() => {});
+            requestAnimationFrame(tick);
+          } else {
+            playBtn.textContent = '▶ Play';
+            if (voAudio) voAudio.pause();
+            if (bgAudio) bgAudio.pause();
+          }
+        });
+
+        scrubber.addEventListener('input', (e) => {
+          window.seekTo(parseFloat(e.target.value));
+        });
+
+        // Initialize at 0s
+        window.seekTo(0);
+      })();
+    </script>
+  </body>
+</html>
