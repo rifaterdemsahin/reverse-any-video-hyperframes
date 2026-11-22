@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reverse Any Video — Master Navigation Hub</title>
+    <style>
+      :root {
+        --bg: #070A10;
+        --card-bg: rgba(15, 23, 42, 0.65);
+        --card-hover: rgba(30, 41, 59, 0.85);
+        --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(6, 182, 212, 0.5);
+        --cyan: #06B6D4;
+        --cyan-glow: rgba(6, 182, 212, 0.25);
+        --emerald: #10B981;
+        --emerald-glow: rgba(16, 185, 129, 0.25);
+        --amber: #F59E0B;
+        --purple: #A855F7;
+        --text-primary: #F8FAFC;
+        --text-secondary: #94A3B8;
+        --text-dim: #64748B;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text-primary);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.5;
+        background-image: 
+          radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+          radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.06) 0%, transparent 40%),
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+      }
+
+      .container {
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 40px 24px 80px;
+        flex: 1;
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 36px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 28px;
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .logo-badge {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #06B6D4, #3B82F6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 25px var(--cyan-glow);
+      }
+
+      .logo-badge svg {
+        width: 26px;
+        height: 26px;
+        color: #070A10;
+      }
+
+      .title-group h1 {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        background: linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .title-group p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 2px;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 9999px;
+        background: rgba(16, 185, 129, 0.12);
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        color: var(--emerald);
+        font-size: 13px;
+        font-weight: 700;
+        box-shadow: 0 0 20px var(--emerald-glow);
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--emerald);
+        box-shadow: 0 0 8px var(--emerald);
+        animation: pulse 2s infinite ease-in-out;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.85); }
+      }
+
+      /* Search & Controls */
+      .controls-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+      }
+
+      .search-box {
+        position: relative;
+        flex: 1;
+        min-width: 280px;
+        max-width: 440px;
+      }
+
+      .search-box svg {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        color: var(--text-dim);
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 16px 12px 42px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: var(--text-primary);
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s;
+      }
+
+      .search-input:focus {
+        border-color: var(--cyan);
+        box-shadow: 0 0 0 3px var(--cyan-glow);
+      }
+
+      .category-filters {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid var(--border);
+        border-radius: 9999px;
+        color: var(--text-secondary);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .filter-btn:hover {
+        color: var(--text-primary);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .filter-btn.active {
+        background: rgba(6, 182, 212, 0.15);
+        border-color: var(--cyan);
+        color: var(--cyan);
+        box-shadow: 0 0 15px var(--cyan-glow);
+      }
+
+      /* Section Groups */
+      .section-group {
+        margin-bottom: 40px;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+        color: var(--text-primary);
+      }
+
+      .section-header svg {
+        width: 20px;
+        height: 20px;
+        color: var(--cyan);
+      }
+
+      .section-header h2 {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      .section-header .count {
+        font-size: 12px;
+        color: var(--text-dim);
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2px 8px;
+        border-radius: 9999px;
+      }
+
+      /* Cards Grid */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 18px;
+      }
+
+      .nav-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 16px;
+        text-decoration: none;
+        color: inherit;
+        backdrop-filter: blur(12px);
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      .nav-card:hover {
+        transform: translateY(-3px);
+        background: var(--card-hover);
+        border-color: var(--border-hover);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 25px var(--cyan-glow);
+      }
+
+      .nav-card:hover::before {
+        opacity: 1;
+      }
+
+      .card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: transform 0.2s;
+      }
+
+      .nav-card:hover .icon-box {
+        transform: scale(1.08);
+      }
+
+      .icon-box svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .icon-cyan {
+        background: rgba(6, 182, 212, 0.15);
+        border: 1px solid rgba(6, 182, 212, 0.3);
+        color: var(--cyan);
+      }
+
+      .icon-emerald {
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: var(--emerald);
+      }
+
+      .icon-amber {
+        background: rgba(245, 158, 11, 0.15);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        color: var(--amber);
+      }
+
+      .icon-purple {
+        background: rgba(168, 85, 247, 0.15);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        color: var(--purple);
+      }
+
+      .badge-tag {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 9999px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-secondary);
+      }
+
+      .badge-cyan {
+        background: rgba(6, 182, 212, 0.12);
+        border-color: rgba(6, 182, 212, 0.35);
+        color: var(--cyan);
+      }
+
+      .badge-emerald {
+        background: rgba(16, 185, 129, 0.12);
+        border-color: rgba(16, 185, 129, 0.35);
+        color: var(--emerald);
+      }
+
+      .card-content h3 {
+        font-size: 17px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .card-content p {
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.45;
+      }
+
+      .card-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 12px;
+        color: var(--text-dim);
+      }
+
+      .card-path {
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--text-dim);
+        font-size: 11.5px;
+        max-width: 240px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .action-arrow {
+        color: var(--cyan);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: 700;
+        transition: transform 0.15s;
+      }
+
+      .nav-card:hover .action-arrow {
+        transform: translateX(4px);
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 30px 24px;
+        border-top: 1px solid var(--border);
+        color: var(--text-dim);
+        font-size: 13px;
+      }
+
+      footer a {
+        color: var(--cyan);
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-top">
+          <div class="brand">
+            <div class="logo-badge">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+            <div class="title-group">
+              <h1>Master Navigation Hub</h1>
+              <p>Reverse Any Video — HyperFrames 60s High-Retention Tech Promo</p>
+            </div>
+          </div>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span>Fly.io Live • 1080p 60fps</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Search & Filters -->
+      <div class="controls-bar">
+        <div class="search-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"></path>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search pages, assets, scripts..." />
+        </div>
+
+        <div class="category-filters">
+          <button class="filter-btn active" data-category="all">All Links</button>
+          <button class="filter-btn" data-category="video">Video & Player</button>
+          <button class="filter-btn" data-category="creative">Creative & Storyboard</button>
+          <button class="filter-btn" data-category="blueprint">Blueprints & Prompts</button>
+          <button class="filter-btn" data-category="system">System & Deploy</button>
+        </div>
+      </div>
+
+      <!-- Group 1: Video & Playback -->
+      <section class="section-group" data-category="video">
+        <div class="section-header">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <h2>Video & Interactive Player</h2>
+          <span class="count">3</span>
+        </div>
+        <div class="cards-grid">
+          <!-- Card: Watch Video -->
+          <a href="/watch" class="nav-card" data-title="Watch Rendered Video Initial Draft 1080p 60fps" data-category="video">
+            <div class="card-top">
+              <div class="icon-box icon-cyan">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                </svg>
+              </div>
+              <span class="badge-tag badge-cyan">1080p 60fps</span>
+            </div>
+            <div class="card-content">
+              <h3>Watch Rendered Video</h3>
+              <p>Full 60s rendered promo video with Kokoro AI voiceover, ducked soundtrack, SFX triggers & animated subtitles.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/watch</span>
+              <span class="action-arrow">Open →</span>
+            </div>
+          </a>
+
+          <!-- Card: Interactive Stage -->
+          <a href="/" class="nav-card" data-title="Interactive HyperFrames Stage Studio Scrubber" data-category="video">
+            <div class="card-top">
+              <div class="icon-box icon-emerald">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+              </div>
+              <span class="badge-tag badge-emerald">Interactive</span>
+            </div>
+            <div class="card-content">
+              <h3>HyperFrames Studio Stage</h3>
+              <p>Frame-accurate interactive browser composition with timecode scrubber, GSAP kinetics & animated subtitle pills.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/index.html</span>
+              <span class="action-arrow">Launch →</span>
+            </div>
+          </a>
+
+          <!-- Card: Direct MP4 Download -->
+          <a href="/output/reverse_any_video_promo.mp4" download class="nav-card" data-title="Download MP4 Video 30MB" data-category="video">
+            <div class="card-top">
+              <div class="icon-box icon-amber">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+              </div>
+              <span class="badge-tag">30.1 MB MP4</span>
+            </div>
+            <div class="card-content">
+              <h3>Direct MP4 Download</h3>
+              <p>Master 1080p 60fps export video file with multi-track audio ready for YouTube, TikTok & Reels distribution.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/output/reverse_any_video_promo.mp4</span>
+              <span class="action-arrow">Download ⬇</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Group 2: Creative Assets & Storyboard -->
+      <section class="section-group" data-category="creative">
+        <div class="section-header">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <h2>Creative & Storyboard</h2>
+          <span class="count">3</span>
+        </div>
+        <div class="cards-grid">
+          <!-- Card: Storyboard Master Grid -->
+          <a href="/seed/images/storyboard_grid.jpg" target="_blank" class="nav-card" data-title="AI Storyboard Master Grid Image FLUX-1" data-category="creative">
+            <div class="card-top">
+              <div class="icon-box icon-purple">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+              </div>
+              <span class="badge-tag">FLUX-1-schnell</span>
+            </div>
+            <div class="card-content">
+              <h3>Master Storyboard Grid</h3>
+              <p>High-resolution 6-panel visual grid generated with DeepInfra FLUX-1 AI showing all 6 key scenes.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/seed/images/storyboard_grid.jpg</span>
+              <span class="action-arrow">View Grid 🖼️</span>
+            </div>
+          </a>
+
+          <!-- Card: Storyboard Markdown -->
+          <a href="/seed/storyboard.md" target="_blank" class="nav-card" data-title="Storyboard Breakdown Markdown Scenes Timing" data-category="creative">
+            <div class="card-top">
+              <div class="icon-box icon-cyan">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+              </div>
+              <span class="badge-tag">Pre-Production</span>
+            </div>
+            <div class="card-content">
+              <h3>Storyboard Breakdown</h3>
+              <p>Panel-by-panel creative directions: shot types, motion paths, color palettes, SFX triggers & voice sync.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/seed/storyboard.md</span>
+              <span class="action-arrow">Read Spec →</span>
+            </div>
+          </a>
+
+          <!-- Card: Production Script -->
+          <a href="/seed/script.md" target="_blank" class="nav-card" data-title="Current Production Script Narration WPM Voiceover" data-category="creative">
+            <div class="card-top">
+              <div class="icon-box icon-emerald">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </div>
+              <span class="badge-tag badge-emerald">Editable</span>
+            </div>
+            <div class="card-content">
+              <h3>Production Script</h3>
+              <p>Current voiceover narration lines, target speech rate (180–210 WPM), and on-screen kinetic headlines.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/seed/script.md</span>
+              <span class="action-arrow">Open Script 📝</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Group 3: Blueprints & Prompts -->
+      <section class="section-group" data-category="blueprint">
+        <div class="section-header">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <h2>Blueprints & Prompts</h2>
+          <span class="count">4</span>
+        </div>
+        <div class="cards-grid">
+          <!-- Card: plan.json -->
+          <a href="/plan.json" target="_blank" class="nav-card" data-title="Production Plan JSON Timeline Markers SFX" data-category="blueprint">
+            <div class="card-top">
+              <div class="icon-box icon-cyan">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <line x1="12" y1="4" x2="12" y2="20"></line>
+                </svg>
+              </div>
+              <span class="badge-tag badge-cyan">JSON Plan</span>
+            </div>
+            <div class="card-content">
+              <h3>plan.json (Production Config)</h3>
+              <p>Machine-readable JSON schema defining scenes, durations, motion layers, color tokens & audio cues.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/plan.json</span>
+              <span class="action-arrow">View JSON →</span>
+            </div>
+          </a>
+
+          <!-- Card: metrics.json -->
+          <a href="/seed/metrics.json" target="_blank" class="nav-card" data-title="Measured Video Metrics Cuts Pace WPM" data-category="blueprint">
+            <div class="card-top">
+              <div class="icon-box icon-amber">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+              <span class="badge-tag">Retention Data</span>
+            </div>
+            <div class="card-content">
+              <h3>metrics.json (Measured Data)</h3>
+              <p>Reference video analytics: cut frequency (2.4s), target pace (216 WPM), shot duration and hook timings.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/seed/metrics.json</span>
+              <span class="action-arrow">Inspect 📊</span>
+            </div>
+          </a>
+
+          <!-- Card: hyperframes_prompt.md -->
+          <a href="/seed/hyperframes_prompt.md" target="_blank" class="nav-card" data-title="Hyperframes Prompt 306s 8 Scene Explainer" data-category="blueprint">
+            <div class="card-top">
+              <div class="icon-box icon-purple">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                </svg>
+              </div>
+              <span class="badge-tag">Generative Prompt</span>
+            </div>
+            <div class="card-content">
+              <h3>hyperframes_prompt.md</h3>
+              <p>Generative AI prompt defining visual pacing, design tokens & scene prompts for 8-scene 306s explainers.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/seed/hyperframes_prompt.md</span>
+              <span class="action-arrow">Read Prompt →</span>
+            </div>
+          </a>
+
+          <!-- Card: AGENTS.md -->
+          <a href="/seed/AGENTS.md" target="_blank" class="nav-card" data-title="Agent Instructions AGENTS Rules Verification" data-category="blueprint">
+            <div class="card-top">
+              <div class="icon-box icon-emerald">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <span class="badge-tag badge-emerald">Agent Rules</span>
+            </div>
+            <div class="card-content">
+              <h3>AGENTS.md (Execution Guide)</h3>
+              <p>Agent rules, placeholder schemas (`{{headline_1}}`), audio ducking parameters and verification checklist.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/seed/AGENTS.md</span>
+              <span class="action-arrow">View Rules →</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Group 4: System & Deployment -->
+      <section class="section-group" data-category="system">
+        <div class="section-header">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <h2>System & Deployment</h2>
+          <span class="count">3</span>
+        </div>
+        <div class="cards-grid">
+          <!-- Card: GitHub Repo -->
+          <a href="https://github.com/rifaterdemsahin/reverse-any-video-hyperframes" target="_blank" class="nav-card" data-title="GitHub Repository Source Code Commits" data-category="system">
+            <div class="card-top">
+              <div class="icon-box icon-cyan">
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+                </svg>
+              </div>
+              <span class="badge-tag">GitHub Repo</span>
+            </div>
+            <div class="card-content">
+              <h3>GitHub Repository</h3>
+              <p>Full source tree, git commits, Dockerfile, scripts, and production assets on branch <code>main</code>.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">rifaterdemsahin/reverse-any-video...</span>
+              <span class="action-arrow">Open Repo 🐙</span>
+            </div>
+          </a>
+
+          <!-- Card: Fly.io App -->
+          <a href="https://reverse-any-video-hyperframes.fly.dev/" target="_blank" class="nav-card" data-title="Fly.io Deployment App Live Edge" data-category="system">
+            <div class="card-top">
+              <div class="icon-box icon-emerald">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                </svg>
+              </div>
+              <span class="badge-tag badge-emerald">Fly.io Live</span>
+            </div>
+            <div class="card-content">
+              <h3>Fly.io Edge Deployment</h3>
+              <p>Production container hosted on Fly.io London (lhr) with automatic SSL and global CDN distribution.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">reverse-any-video-hyperframes.fly.dev</span>
+              <span class="action-arrow">Visit 🌐</span>
+            </div>
+          </a>
+
+          <!-- Card: Health Check -->
+          <a href="/health" target="_blank" class="nav-card" data-title="Health Check Status Uptime JSON" data-category="system">
+            <div class="card-top">
+              <div class="icon-box icon-amber">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+              </div>
+              <span class="badge-tag">HTTP 200 OK</span>
+            </div>
+            <div class="card-content">
+              <h3>Health Check API</h3>
+              <p>Real-time uptime and heartbeat probe endpoint for uptime monitoring and container orchestration.</p>
+            </div>
+            <div class="card-bottom">
+              <span class="card-path">/health</span>
+              <span class="action-arrow">Ping API 🩺</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>HyperFrames Studio • Reverse Any Video Engine • Built by <a href="https://github.com/rifaterdemsahin" target="_blank">Rifat Erdem Sahin</a></p>
+    </footer>
+
+    <!-- Search & Filter Script -->
+    <script>
+      (function() {
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.nav-card');
+        const sectionGroups = document.querySelectorAll('.section-group');
+
+        let activeCategory = 'all';
+
+        function filterCards() {
+          const query = searchInput.value.toLowerCase().trim();
+
+          sectionGroups.forEach(group => {
+            const groupCategory = group.dataset.category;
+            const groupCards = group.querySelectorAll('.nav-card');
+            let visibleInGroup = 0;
+
+            groupCards.forEach(card => {
+              const cardCat = card.dataset.category;
+              const title = (card.dataset.title || '').toLowerCase();
+              const text = card.textContent.toLowerCase();
+
+              const matchesCat = (activeCategory === 'all' || cardCat === activeCategory);
+              const matchesQuery = (!query || title.includes(query) || text.includes(query));
+
+              if (matchesCat && matchesQuery) {
+                card.style.display = 'flex';
+                visibleInGroup++;
+              } else {
+                card.style.display = 'none';
+              }
+            });
+
+            // Toggle group visibility
+            if (visibleInGroup > 0) {
+              group.style.display = 'block';
+            } else {
+              group.style.display = 'none';
+            }
+          });
+        }
+
+        searchInput.addEventListener('input', filterCards);
+
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = btn.dataset.category;
+            filterCards();
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

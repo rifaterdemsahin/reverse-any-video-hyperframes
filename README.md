@@ -9,11 +9,13 @@ A high-retention, 60-second 16:9 tech promo video built natively with **HeyGen H
 
 ---
 
-## 🚀 Live Deployment & Watch Links
+## 🚀 Live Deployment & Master Hub
 
+- 🧭 **Master Navigation Hub (All Links & Icons):** [https://reverse-any-video-hyperframes.fly.dev/nav](https://reverse-any-video-hyperframes.fly.dev/nav)
 - 🌐 **Watch Rendered Video & Storyboard Gallery:** [https://reverse-any-video-hyperframes.fly.dev/watch](https://reverse-any-video-hyperframes.fly.dev/watch)
 - ⚡ **Interactive HyperFrames Stage:** [https://reverse-any-video-hyperframes.fly.dev/](https://reverse-any-video-hyperframes.fly.dev/)
 - 📋 **Master Storyboard Markdown:** [https://reverse-any-video-hyperframes.fly.dev/seed/storyboard.md](https://reverse-any-video-hyperframes.fly.dev/seed/storyboard.md)
+- 📝 **Current Production Script:** [https://reverse-any-video-hyperframes.fly.dev/seed/script.md](https://reverse-any-video-hyperframes.fly.dev/seed/script.md)
 - 🖼️ **Storyboard Master Grid Image:** [https://reverse-any-video-hyperframes.fly.dev/seed/images/storyboard_grid.jpg](https://reverse-any-video-hyperframes.fly.dev/seed/images/storyboard_grid.jpg)
 - ⬇️ **Direct MP4 Download:** [https://reverse-any-video-hyperframes.fly.dev/output/reverse_any_video_promo.mp4](https://reverse-any-video-hyperframes.fly.dev/output/reverse_any_video_promo.mp4)
 - 📐 **Production Plan JSON:** [https://reverse-any-video-hyperframes.fly.dev/plan.json](https://reverse-any-video-hyperframes.fly.dev/plan.json)

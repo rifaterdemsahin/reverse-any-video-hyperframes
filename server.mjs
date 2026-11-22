@@ -217,9 +217,10 @@ const server = createServer((req, res) => {
     </div>
     <div class="actions">
       <a href="/output/reverse_any_video_promo.mp4" download class="btn btn-primary">⬇ Download Promo Video MP4 (30 MB)</a>
-      <a href="/" class="btn btn-secondary">⚡ Open Interactive HyperFrames Stage</a>
-      <a href="/seed/storyboard.md" class="btn btn-secondary">📋 Storyboard Markdown</a>
-      <a href="/plan.json" class="btn btn-secondary">📐 View plan.json</a>
+      <a href="/nav" class="btn btn-secondary">🧭 Master Navigation Hub</a>
+      <a href="/" class="btn btn-secondary">⚡ Interactive Studio</a>
+      <a href="/seed/storyboard.md" class="btn btn-secondary">📋 Storyboard</a>
+      <a href="/plan.json" class="btn btn-secondary">📐 plan.json</a>
     </div>
 
     <div class="storyboard-section">
@@ -290,6 +291,11 @@ const server = createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(videoHtml);
     return;
+  }
+
+  // Master navigation hub routes
+  if (pathname === '/nav' || pathname === '/links' || pathname === '/hub') {
+    pathname = '/nav.html';
   }
 
   // Default to index.html
