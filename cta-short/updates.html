@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delivery Pilot Short — Full Evolution (v7 → v13)</title>
+    <style>
+      :root {
+        --bg: #060914;
+        --panel: rgba(13, 19, 38, 0.88);
+        --border: rgba(129, 140, 248, 0.28);
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --indigo: #6366f1;
+        --cyan: #38bdf8;
+        --emerald: #10b981;
+        --amber: #f59e0b;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background:
+          radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.2), transparent 42%),
+          radial-gradient(circle at 85% 18%, rgba(16, 185, 129, 0.16), transparent 40%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.55;
+        min-height: 100vh;
+        padding: 36px 20px 80px;
+      }
+
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 16px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+        padding-bottom: 24px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: rgba(16, 185, 129, 0.16);
+        border: 1px solid rgba(52, 211, 153, 0.45);
+        color: #6ee7b7;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        font-size: clamp(28px, 4vw, 42px);
+        font-weight: 900;
+        letter-spacing: -0.02em;
+      }
+
+      h1 span {
+        color: var(--cyan);
+      }
+
+      .subtitle {
+        color: var(--muted);
+        max-width: 680px;
+        margin-top: 8px;
+        font-size: 15px;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 18px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: rgba(30, 41, 59, 0.7);
+        color: var(--text);
+        transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        border-color: var(--cyan);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        border-color: rgba(52, 211, 153, 0.7);
+        color: #ffffff;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.28);
+      }
+
+      /* ── Stats Strip ── */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 16px;
+      }
+
+      .stat-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px 20px;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .stat-val {
+        font-size: 26px;
+        font-weight: 900;
+        margin-top: 6px;
+        color: #ffffff;
+      }
+
+      .stat-val span {
+        color: var(--emerald);
+      }
+
+      .stat-sub {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      /* ── Interactive Player + Compare Stage ── */
+      .stage-grid {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 24px;
+        align-items: start;
+      }
+
+      @media (max-width: 900px) {
+        .stage-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .player-box {
+        background: var(--panel);
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        border-radius: 24px;
+        padding: 16px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+        position: sticky;
+        top: 20px;
+      }
+
+      .player-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .player-tag {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        color: var(--cyan);
+        text-transform: uppercase;
+      }
+
+      .video-frame {
+        width: 100%;
+        aspect-ratio: 9 / 16;
+        border-radius: 16px;
+        overflow: hidden;
+        background: #020617;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .video-frame video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .version-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .v-pill {
+        flex: 1 0 auto;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        background: rgba(15, 23, 42, 0.85);
+        color: #cbd5e1;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.15s ease;
+      }
+
+      .v-pill:hover {
+        border-color: var(--cyan);
+        color: #ffffff;
+      }
+
+      .v-pill.active {
+        background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+        border-color: #7dd3fc;
+        color: #ffffff;
+      }
+
+      .player-meta {
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      /* ── Timeline Cards ── */
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .v-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 20px 22px;
+        transition: border-color 0.18s ease, transform 0.18s ease;
+      }
+
+      .v-card.latest {
+        border-color: rgba(52, 211, 153, 0.65);
+        box-shadow: 0 0 36px rgba(16, 185, 129, 0.12);
+      }
+
+      .v-card:hover {
+        border-color: rgba(56, 189, 248, 0.6);
+      }
+
+      .v-top {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .v-title-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .v-badge {
+        padding: 4px 11px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        background: rgba(99, 102, 241, 0.22);
+        border: 1px solid rgba(129, 140, 248, 0.5);
+        color: #c7d2fe;
+      }
+
+      .v-badge.latest {
+        background: rgba(16, 185, 129, 0.22);
+        border-color: rgba(52, 211, 153, 0.65);
+        color: #6ee7b7;
+      }
+
+      .v-badge.baseline {
+        background: rgba(148, 163, 184, 0.16);
+        border-color: rgba(148, 163, 184, 0.35);
+        color: #cbd5e1;
+      }
+
+      .v-name {
+        font-size: 18px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+
+      .v-commit {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+        font-size: 12px;
+        color: var(--muted);
+        background: rgba(15, 23, 42, 0.9);
+        padding: 4px 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .v-list {
+        margin: 10px 0 14px 18px;
+        color: #cbd5e1;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .v-list strong {
+        color: #ffffff;
+      }
+
+      .v-footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(148, 163, 184, 0.12);
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .v-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .mini-btn {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        border: 1px solid rgba(129, 140, 248, 0.4);
+        background: rgba(30, 41, 59, 0.8);
+        color: #e2e8f0;
+        cursor: pointer;
+      }
+
+      .mini-btn:hover {
+        border-color: var(--cyan);
+        color: #ffffff;
+      }
+
+      /* ── Comparison Table ── */
+      .table-wrap {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px;
+        overflow-x: auto;
+      }
+
+      .table-wrap h2 {
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 14px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 11px 14px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+      }
+
+      th {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      td code {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 12px;
+        color: #7dd3fc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <div class="eyebrow">HyperFrames Production Log · Delivery Pilot Short</div>
+          <h1>Video Evolution: <span>v7 → v13</span></h1>
+          <p class="subtitle">
+            Every visual, motion, framing, wardrobe, subtitle, pacing, and audio DSP upgrade applied to
+            <strong>Delivery-Pilot-Short</strong> in one interactive review page.
+          </p>
+        </div>
+        <div class="header-actions">
+          <a class="btn btn-primary" href="Delivery-Pilot-Short-v13.mp4" download>Download Latest (v13)</a>
+          <a class="btn" href="/">Master Hub</a>
+        </div>
+      </header>
+
+      <section class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Latest Render</div>
+          <div class="stat-val"><span>v13</span> · 48.2s</div>
+          <div class="stat-sub">1080×1920 · 25fps · H.264 + AAC 192k</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Background Music Cut</div>
+          <div class="stat-val"><span>-17.0 dB</span></div>
+          <div class="stat-sub">Exact phase-aligned cancellation (r = 0.93)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Actor Voice Level</div>
+          <div class="stat-val"><span>-16.2 dB</span></div>
+          <div class="stat-sub">Up +11.4 dB from v7 (-27.6 dB), zero cuts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pacing &amp; Visuals</div>
+          <div class="stat-val"><span>8</span> Scenes</div>
+          <div class="stat-sub">Moving B-roll + 0.65s breath at 00:16.36</div>
+        </div>
+      </section>
+
+      <section class="stage-grid">
+        <aside class="player-box">
+          <div class="player-header">
+            <span id="player-label" class="player-tag">Playing: v13 (Latest)</span>
+            <a id="player-open" class="mini-btn" href="Delivery-Pilot-Short-v13.mp4" target="_blank">Open MP4</a>
+          </div>
+          <div class="video-frame">
+            <video id="main-player" src="Delivery-Pilot-Short-v13.mp4" controls playsinline preload="metadata"></video>
+          </div>
+          <div class="version-pills" id="version-pills">
+            <button class="v-pill active" data-v="v13" data-src="Delivery-Pilot-Short-v13.mp4" data-info="48.2s · Latest · +0.65s gap at 00:16.36">v13</button>
+            <button class="v-pill" data-v="v12" data-src="Delivery-Pilot-Short-v12.mp4" data-info="47.6s · -17 dB phase-cancelled music">v12</button>
+            <button class="v-pill" data-v="v11" data-src="Delivery-Pilot-Short-v11.mp4" data-info="47.6s · Zero-cut audio + lower subs">v11</button>
+            <button class="v-pill" data-v="v10" data-src="Delivery-Pilot-Short-v10.mp4" data-info="47.6s · Stain fix + bigger logo">v10</button>
+            <button class="v-pill" data-v="v9" data-src="Delivery-Pilot-Short-v9.mp4" data-info="47.6s · 1.16x zoom + shirt print">v9</button>
+            <button class="v-pill" data-v="v8" data-src="Delivery-Pilot-Short-v8.mp4" data-info="47.6s · Moving B-roll + 8 components">v8</button>
+            <button class="v-pill" data-v="v7" data-src="Delivery-Pilot-Short-v7.mp4" data-info="47.6s · Original baseline">v7</button>
+          </div>
+          <div class="player-meta">
+            <span id="player-info">48.2s · Latest · +0.65s gap at 00:16.36</span>
+          </div>
+        </aside>
+
+        <div class="timeline">
+          <article class="v-card latest">
+            <div class="v-top">
+              <div class="v-title-group">
+                <span class="v-badge latest">v13 · LATEST</span>
+                <span class="v-name">Natural Breathing Gap at 00:16–00:17</span>
+              </div>
+              <span class="v-commit">v13 · 48.20s</span>
+            </div>
+            <ul class="v-list">
+              <li><strong>Pacing Fix:</strong> Inserted a clean <strong>0.65s breathing pause</strong> right after <em>"AI-ready format"</em> at the <code>w2 → w3</code> cut (<code>00:16.36</code>) so the transition into the CTA doesn't feel rushed.</li>
+              <li><strong>100% Locked Sync:</strong> Padded both base video (<code>base_v13_paced.mp4</code>) and music-cancelled audio (<code>audio_v13_paced.m4a</code>) to an identical <code>48.20s</code> and shifted all downstream B-roll and kinetic components by <code>+0.65s</code>.</li>
+            </ul>
+            <div class="v-footer">
+              <span>Includes all v8–v12 visual, wardrobe, subtitle &amp; audio upgrades</span>
+              <div class="v-links">
+                <button class="mini-btn" onclick="selectVersion('v13')">Play in Player</button>
+                <a class="mini-btn" href="Delivery-Pilot-Short-v13.mp4" download>Download</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="v-card">
+            <div class="v-top">
+              <div class="v-title-group">
+                <span class="v-badge">v12</span>
+                <span class="v-name">Exact Phase-Aligned Background Music Cancellation</span>
+              </div>
+              <span class="v-commit">97ca8cb</span>
+            </div>
+            <ul class="v-list">
+              <li><strong>DSP Breakthrough:</strong> Locked onto the exact <code>239</code>-sample (<code>5.0 ms</code>) alignment of <code>build/music-bed.mp3</code> across all 3 cuts via the pure-music stereo side channel (<code>r = 0.92–0.93</code>).</li>
+              <li><strong>-17 dB Music Bed Reduction:</strong> Subtracted <strong>90%</strong> of the exact music waveform without touching the actor's mono voice — zero noise-gating, zero dropouts, normalized to <code>-16.2 dB</code> mean / <code>-1.4 dB</code> peak.</li>
+            </ul>
+            <div class="v-footer">
+              <span>48.9 MB · 47.6s</span>
+              <div class="v-links">
+                <button class="mini-btn" onclick="selectVersion('v12')">Play in Player</button>
+                <a class="mini-btn" href="Delivery-Pilot-Short-v12.mp4" download>Download</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="v-card">
+            <div class="v-top">
+              <div class="v-title-group">
+                <span class="v-badge">v11</span>
+                <span class="v-name">Audio Dropout Root-Cause Fix + Lower Subtitles</span>
+              </div>
+              <span class="v-commit">7fcc230</span>
+            </div>
+            <ul class="v-list">
+              <li><strong>Eliminated Audio Cuts:</strong> Diagnosed v10's 32 audio cutouts (caused by <code>agate</code> threshold at <code>-27 dB</code> slamming shut on softer syllables) and removed all gating/heavy FFT denoising.</li>
+              <li><strong>Lower Subtitles:</strong> Shifted burned-in captions <strong>+40px lower</strong> with clean top padding below the upper motion stage.</li>
+              <li><strong>Faster Deploys:</strong> Added <code>.dockerignore</code> to exclude <code>.git/</code> and local caches (cutting Fly.io upload size in half).</li>
+            </ul>
+            <div class="v-footer">
+              <span>48.9 MB · 47.6s</span>
+              <div class="v-links">
+                <button class="mini-btn" onclick="selectVersion('v11')">Play in Player</button>
+                <a class="mini-btn" href="Delivery-Pilot-Short-v11.mp4" download>Download</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="v-card">
+            <div class="v-top">
+              <div class="v-title-group">
+                <span class="v-badge">v10</span>
+                <span class="v-name">Uniform T-Shirt / Stain Removal, Seam Fix &amp; Larger Logo</span>
+              </div>
+              <span class="v-commit">6c840ad</span>
+            </div>
+            <ul class="v-list">
+              <li><strong>Wardrobe Polish:</strong> Blended out the lower-left T-shirt stain and smoothed the navy tee to a uniform deep color while keeping natural fabric shading.</li>
+              <li><strong>Seamless Head Blend:</strong> Removed the faint horizontal line above the speaker's head using dual feathered viewport masks.</li>
+              <li><strong>Bigger, Lower Chest Logo:</strong> Moved <code>DeliveryPilot</code> lower on the chest (<code>top: 1650px</code>) and enlarged it (<code>54px</code> text + <code>46px</code> rocket mark).</li>
+            </ul>
+            <div class="v-footer">
+              <span>49.3 MB · 47.6s</span>
+              <div class="v-links">
+                <button class="mini-btn" onclick="selectVersion('v10')">Play in Player</button>
+                <a class="mini-btn" href="Delivery-Pilot-Short-v10.mp4" download>Download</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="v-card">
+            <div class="v-top">
+              <div class="v-title-group">
+                <span class="v-badge">v9</span>
+                <span class="v-name">Closer Speaker Zoom (1.16×) + Screen-Printed T-Shirt</span>
+              </div>
+              <span class="v-commit">0affbe8</span>
+            </div>
+            <ul class="v-list">
+              <li><strong>Split Captions &amp; Speaker Viewports:</strong> Zoomed the speaker <strong>1.16×</strong> for stronger camera presence while keeping captions crisp and unzoomed — also cropping out the studio lamp artifact on the right edge.</li>
+              <li><strong>DeliveryPilot Tee:</strong> Added a screen-printed <code>DeliveryPilot</code> chest graphic with <code>mix-blend-mode: screen</code> and subtle breathing motion.</li>
+              <li><strong>First Audio Lift:</strong> Raised mean volume from <code>-27.6 dB</code> to <code>-18.6 dB</code>.</li>
+            </ul>
+            <div class="v-footer">
+              <span>51.3 MB · 47.6s</span>
+              <div class="v-links">
+                <button class="mini-btn" onclick="selectVersion('v9')">Play in Player</button>
+                <a class="mini-btn" href="Delivery-Pilot-Short-v9.mp4" download>Download</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="v-card">
+            <div class="v-top">
+              <div class="v-title-group">
+                <span class="v-badge">v8</span>
+                <span class="v-name">Moving Video Backgrounds &amp; 8 Kinetic Visual Components</span>
+              </div>
+              <span class="v-commit">65547ac</span>
+            </div>
+            <ul class="v-list">
+              <li><strong>Full-Length HyperFrames Composition:</strong> Expanded from v7's 32s stub to the full <code>47.56s</code> timeline.</li>
+              <li><strong>Moving B-Roll Stage:</strong> Added 8 timed muted B-roll clips (<code>app_upload_demo.mp4</code>, <code>hyperframes_build_demo.mp4</code>, <code>raw_logs_scroll.mp4</code>) with continuous GSAP Ken Burns drift, drifting cyber-grid, glowing orbs, scan beam, and top progress bar.</li>
+              <li><strong>8 Synced Components:</strong> Hook Blueprint Card, 3-Node SaaS Pipeline, Sample Business Card, 2×2 Feature Grid, Rotating Delivery Pilot Emblem, Shimmering URL CTA, 3-Pillar Cards (Learn/Fix/Adapt), and Skool Finale CTA — passing <code>hyperframes check</code> (27/27 WCAG AA).</li>
+            </ul>
+            <div class="v-footer">
+              <span>50.0 MB · 47.6s</span>
+              <div class="v-links">
+                <button class="mini-btn" onclick="selectVersion('v8')">Play in Player</button>
+                <a class="mini-btn" href="Delivery-Pilot-Short-v8.mp4" download>Download</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="v-card">
+            <div class="v-top">
+              <div class="v-title-group">
+                <span class="v-badge baseline">v7 · BASELINE</span>
+                <span class="v-name">Initial Green-Screen Cut &amp; Static Pillow Graphics</span>
+              </div>
+              <span class="v-commit">17cbba1</span>
+            </div>
+            <ul class="v-list">
+              <li>Original 3-window joined short (<code>w1-hook</code> + <code>w2-bridge</code> + <code>w3-cta</code>) with static navy upper backdrop, flat Pillow cards on CTA, quiet audio (<code>-27.6 dB</code> mean), and unzoomed speaker framing.</li>
+            </ul>
+            <div class="v-footer">
+              <span>26.9 MB · 47.6s</span>
+              <div class="v-links">
+                <button class="mini-btn" onclick="selectVersion('v7')">Play in Player</button>
+                <a class="mini-btn" href="Delivery-Pilot-Short-v7.mp4" download>Download</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="table-wrap">
+        <h2>Technical Progression Summary</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Version</th>
+              <th>Duration</th>
+              <th>Audio Mean / Peak</th>
+              <th>Key Upgrade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>v7</strong></td>
+              <td>47.56s</td>
+              <td><code>-27.6 dB / -10.1 dB</code></td>
+              <td>Baseline ffmpeg join + static Pillow graphics</td>
+            </tr>
+            <tr>
+              <td><strong>v8</strong></td>
+              <td>47.56s</td>
+              <td><code>-27.6 dB / -10.1 dB</code></td>
+              <td>Moving B-roll backgrounds + ambient motion + 8 GSAP components</td>
+            </tr>
+            <tr>
+              <td><strong>v9</strong></td>
+              <td>47.56s</td>
+              <td><code>-18.6 dB / -1.3 dB</code></td>
+              <td>1.16× speaker zoom + DeliveryPilot shirt print + initial vocal lift</td>
+            </tr>
+            <tr>
+              <td><strong>v10</strong></td>
+              <td>47.56s</td>
+              <td><code>-15.9 dB / -0.6 dB</code></td>
+              <td>T-shirt stain fix + uniform navy + seam removal + bigger/lower logo</td>
+            </tr>
+            <tr>
+              <td><strong>v11</strong></td>
+              <td>47.56s</td>
+              <td><code>-18.8 dB / -1.3 dB</code></td>
+              <td>Removed gating cuts (32 → 7 natural pauses) + subtitles +40px lower</td>
+            </tr>
+            <tr>
+              <td><strong>v12</strong></td>
+              <td>47.56s</td>
+              <td><code>-16.2 dB / -1.4 dB</code></td>
+              <td>Exact phase-aligned music cancellation (-17 dB music bed, zero cuts)</td>
+            </tr>
+            <tr>
+              <td><strong>v13</strong></td>
+              <td><strong>48.20s</strong></td>
+              <td><code>-16.2 dB / -1.4 dB</code></td>
+              <td><strong>+0.65s natural breathing gap at 00:16.36 after "AI-ready format"</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <script>
+      const player = document.getElementById("main-player");
+      const label = document.getElementById("player-label");
+      const info = document.getElementById("player-info");
+      const openLink = document.getElementById("player-open");
+      const pills = Array.from(document.querySelectorAll(".v-pill"));
+
+      function selectVersion(v) {
+        const pill = pills.find((p) => p.dataset.v === v);
+        if (!pill) return;
+        pills.forEach((p) => p.classList.remove("active"));
+        pill.classList.add("active");
+        const src = pill.dataset.src;
+        player.src = src;
+        player.load();
+        player.play().catch(() => {});
+        label.textContent = v === "v13" ? "Playing: v13 (Latest)" : `Playing: ${v}`;
+        info.textContent = pill.dataset.info;
+        openLink.href = src;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      pills.forEach((p) => {
+        p.addEventListener("click", () => selectVersion(p.dataset.v));
+      });
+    </script>
+  </body>
+</html>

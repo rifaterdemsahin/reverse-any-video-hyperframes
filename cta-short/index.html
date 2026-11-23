@@ -855,20 +855,20 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="47.56"
+      data-duration="48.2"
       data-width="1080"
       data-height="1920"
     >
-      <!-- TRACK 0: Split Captions (crisp, unzoomed) + Zoomed Speaker (1.18x) -->
+      <!-- TRACK 0: Split Captions (crisp, unzoomed) + Zoomed Speaker (1.16x) with 0.65s breath at 16.36s -->
       <div class="captions-viewport">
         <video
           id="a-roll-captions"
           class="clip captions-vid"
-          src="Delivery-Pilot-Short-v7.mp4"
+          src="assets/base_v13_paced.mp4"
           muted
           playsinline
           data-start="0"
-          data-duration="47.56"
+          data-duration="48.2"
           data-track-index="0"
           data-layout-allow-overflow
         ></video>
@@ -879,41 +879,41 @@
         <video
           id="a-roll-speaker"
           class="clip speaker-vid"
-          src="Delivery-Pilot-Short-v7.mp4"
+          src="assets/base_v13_paced.mp4"
           muted
           playsinline
           data-start="0"
-          data-duration="47.56"
+          data-duration="48.2"
           data-track-index="0"
           data-layout-allow-overflow
         ></video>
       </div>
 
-      <!-- TRACK 4: Exact Phase-Aligned Music-Cancelled Actor Audio (-17 dB music, zero cuts) -->
+      <!-- TRACK 4: Exact Phase-Aligned Music-Cancelled Actor Audio with 0.65s gap after AI-ready format -->
       <audio
         id="voice-boosted"
         class="clip"
-        src="assets/audio_v12_music_cancelled.m4a"
+        src="assets/audio_v13_paced.m4a"
         data-start="0"
-        data-duration="47.4"
+        data-duration="48.2"
         data-track-index="4"
       ></audio>
 
       <!-- TRACK 1: Moving Video Background Stage (non-timed wrapper; each <video> owns its own data-start) -->
       <div class="stage-video-wrap">
         <video id="bv1" class="clip stage-vid" src="assets/app_upload_demo.mp4" muted playsinline data-start="0" data-duration="8.64" data-track-index="1" data-layout-allow-overflow></video>
-        <video id="bv2" class="clip stage-vid" src="assets/hyperframes_build_demo.mp4" muted playsinline data-start="8.64" data-duration="7.72" data-track-index="1" data-layout-allow-overflow></video>
-        <video id="bv3" class="clip stage-vid" src="assets/raw_logs_scroll.mp4" muted playsinline data-start="16.36" data-duration="4.74" data-track-index="1" data-layout-allow-overflow></video>
-        <video id="bv4" class="clip stage-vid" src="assets/hyperframes_build_demo.mp4" muted playsinline data-start="21.1" data-duration="6.9" data-track-index="1" data-layout-allow-overflow></video>
-        <video id="bv5" class="clip stage-vid" src="assets/app_upload_demo.mp4" muted playsinline data-start="28.0" data-duration="5.0" data-track-index="1" data-layout-allow-overflow></video>
-        <video id="bv6" class="clip stage-vid" src="assets/raw_logs_scroll.mp4" muted playsinline data-start="33.0" data-duration="5.2" data-track-index="1" data-layout-allow-overflow></video>
-        <video id="bv7" class="clip stage-vid" src="assets/hyperframes_build_demo.mp4" muted playsinline data-start="38.2" data-duration="5.1" data-track-index="1" data-layout-allow-overflow></video>
-        <video id="bv8" class="clip stage-vid" src="assets/app_upload_demo.mp4" muted playsinline data-start="43.3" data-duration="4.26" data-track-index="1" data-layout-allow-overflow></video>
+        <video id="bv2" class="clip stage-vid" src="assets/hyperframes_build_demo.mp4" muted playsinline data-start="8.64" data-duration="8.37" data-track-index="1" data-layout-allow-overflow></video>
+        <video id="bv3" class="clip stage-vid" src="assets/raw_logs_scroll.mp4" muted playsinline data-start="17.01" data-duration="4.74" data-track-index="1" data-layout-allow-overflow></video>
+        <video id="bv4" class="clip stage-vid" src="assets/hyperframes_build_demo.mp4" muted playsinline data-start="21.75" data-duration="6.9" data-track-index="1" data-layout-allow-overflow></video>
+        <video id="bv5" class="clip stage-vid" src="assets/app_upload_demo.mp4" muted playsinline data-start="28.65" data-duration="5.0" data-track-index="1" data-layout-allow-overflow></video>
+        <video id="bv6" class="clip stage-vid" src="assets/raw_logs_scroll.mp4" muted playsinline data-start="33.65" data-duration="5.2" data-track-index="1" data-layout-allow-overflow></video>
+        <video id="bv7" class="clip stage-vid" src="assets/hyperframes_build_demo.mp4" muted playsinline data-start="38.85" data-duration="5.1" data-track-index="1" data-layout-allow-overflow></video>
+        <video id="bv8" class="clip stage-vid" src="assets/app_upload_demo.mp4" muted playsinline data-start="43.95" data-duration="4.25" data-track-index="1" data-layout-allow-overflow></video>
         <div class="stage-tint"></div>
       </div>
 
       <!-- TRACK 2: Continuous Ambient Motion (drifting grid, glowing orbs, scan beam, HUD, progress bar) -->
-      <div id="ambient-layer" class="clip" data-start="0" data-duration="47.56" data-track-index="2">
+      <div id="ambient-layer" class="clip" data-start="0" data-duration="48.2" data-track-index="2">
         <div class="ambient-stage">
           <div id="moving-grid" class="moving-grid" data-layout-allow-overflow></div>
           <div id="orb-1" class="orb orb-indigo" data-layout-allow-overflow></div>
@@ -928,7 +928,7 @@
             <span id="live-dot" class="live-dot"></span>
             <span data-layout-ignore>DELIVERY PILOT</span>
           </div>
-          <div class="hud-pill mono" data-layout-ignore>V12 · HYPERFRAMES</div>
+          <div class="hud-pill mono" data-layout-ignore>V13 · HYPERFRAMES</div>
         </div>
         <div class="shirt-even-coat" data-layout-ignore></div>
         <div class="shirt-stain-patch" data-layout-ignore></div>
@@ -984,8 +984,8 @@
         </div>
       </div>
 
-      <!-- 2. BRIDGE: SAAS PIPELINE (8.7s – 16.2s) -->
-      <div id="comp-bridge" class="clip" data-start="8.7" data-duration="7.5" data-track-index="3">
+      <!-- 2. BRIDGE: SAAS PIPELINE (8.7s – 16.85s, holds cleanly through the 0.65s breath) -->
+      <div id="comp-bridge" class="clip" data-start="8.7" data-duration="8.15" data-track-index="3">
         <div class="comp-stage">
           <div id="pipe-card" class="glass-card pipe-card">
             <span class="eyebrow eyebrow-indigo" data-layout-allow-safe-zone>COMMUNITY SAAS TOOL</span>
@@ -1030,8 +1030,8 @@
         </div>
       </div>
 
-      <!-- 3. SAMPLE BUSINESS (16.4s – 21.0s) -->
-      <div id="comp-sample" class="clip" data-start="16.4" data-duration="4.6" data-track-index="3">
+      <!-- 3. SAMPLE BUSINESS (17.05s – 21.65s) -->
+      <div id="comp-sample" class="clip" data-start="17.05" data-duration="4.6" data-track-index="3">
         <div class="comp-stage">
           <div id="sample-card" class="glass-card sample-card">
             <span class="eyebrow eyebrow-amber" data-layout-allow-safe-zone>LIVE BUSINESS BLUEPRINT</span>
@@ -1045,8 +1045,8 @@
         </div>
       </div>
 
-      <!-- 4. WHAT WE PROVIDE (21.1s – 27.9s) -->
-      <div id="comp-provide" class="clip" data-start="21.1" data-duration="6.8" data-track-index="3">
+      <!-- 4. WHAT WE PROVIDE (21.75s – 28.55s) -->
+      <div id="comp-provide" class="clip" data-start="21.75" data-duration="6.8" data-track-index="3">
         <div class="comp-stage">
           <div class="provide-wrap">
             <div id="prov-head" class="section-heading" data-layout-allow-safe-zone>WHAT WE PROVIDE</div>
@@ -1113,8 +1113,8 @@
         </div>
       </div>
 
-      <!-- 5. DELIVERY PILOT EMBLEM (28.0s – 32.9s) -->
-      <div id="comp-pilot" class="clip" data-start="28.0" data-duration="4.9" data-track-index="3">
+      <!-- 5. DELIVERY PILOT EMBLEM (28.65s – 33.55s) -->
+      <div id="comp-pilot" class="clip" data-start="28.65" data-duration="4.9" data-track-index="3">
         <div class="comp-stage">
           <div class="emblem-wrap">
             <div id="emblem-outer" class="emblem-outer">
@@ -1134,8 +1134,8 @@
         </div>
       </div>
 
-      <!-- 6. START AT DELIVERYPILOT.NET (33.0s – 38.1s) -->
-      <div id="comp-url" class="clip" data-start="33.0" data-duration="5.1" data-track-index="3">
+      <!-- 6. START AT DELIVERYPILOT.NET (33.65s – 38.75s) -->
+      <div id="comp-url" class="clip" data-start="33.65" data-duration="5.1" data-track-index="3">
         <div class="comp-stage">
           <div id="url-card" class="glass-card url-card">
             <span class="eyebrow eyebrow-emerald" data-layout-allow-safe-zone>START HERE · CLAIM CREDITS</span>
@@ -1152,8 +1152,8 @@
         </div>
       </div>
 
-      <!-- 7. LEARN / FIX / ADAPT PILLARS (38.2s – 43.2s) -->
-      <div id="comp-pillars" class="clip" data-start="38.2" data-duration="5.0" data-track-index="3">
+      <!-- 7. LEARN / FIX / ADAPT PILLARS (38.85s – 43.85s) -->
+      <div id="comp-pillars" class="clip" data-start="38.85" data-duration="5.0" data-track-index="3">
         <div class="comp-stage">
           <div class="pillars-wrap">
             <div class="pillars-row">
@@ -1178,8 +1178,8 @@
         </div>
       </div>
 
-      <!-- 8. FINALE CTA: JOIN SKOOL (43.3s – 47.56s) -->
-      <div id="comp-finale" class="clip" data-start="43.3" data-duration="4.26" data-track-index="3">
+      <!-- 8. FINALE CTA: JOIN SKOOL (43.95s – 48.2s) -->
+      <div id="comp-finale" class="clip" data-start="43.95" data-duration="4.25" data-track-index="3">
         <div class="comp-stage">
           <div id="finale-card" class="glass-card finale-card">
             <span class="eyebrow eyebrow-emerald" data-layout-allow-safe-zone>BUILD · SHIP · SCALE</span>
@@ -1202,24 +1202,24 @@
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
 
-      // ── Continuous Background Video Ken Burns Drift (all 8 B-roll segments) ──
+      // ── Continuous Background Video Ken Burns Drift (all 8 B-roll segments, synced +0.65s after 16.36s) ──
       tl.fromTo("#bv1", { scale: 1.04, x: -16, y: 0 }, { scale: 1.14, x: 18, y: -12, duration: 8.64, ease: "none" }, 0);
-      tl.fromTo("#bv2", { scale: 1.12, x: 14, y: -8 }, { scale: 1.03, x: -16, y: 10, duration: 7.72, ease: "none" }, 8.64);
-      tl.fromTo("#bv3", { scale: 1.05, y: 14 }, { scale: 1.13, y: -18, duration: 4.74, ease: "none" }, 16.36);
-      tl.fromTo("#bv4", { scale: 1.04, x: -12 }, { scale: 1.14, x: 16, duration: 6.9, ease: "none" }, 21.1);
-      tl.fromTo("#bv5", { scale: 1.12, x: 12 }, { scale: 1.04, x: -14, duration: 5.0, ease: "none" }, 28.0);
-      tl.fromTo("#bv6", { scale: 1.05, y: 16 }, { scale: 1.14, y: -16, duration: 5.2, ease: "none" }, 33.0);
-      tl.fromTo("#bv7", { scale: 1.04, x: -14 }, { scale: 1.12, x: 14, duration: 5.1, ease: "none" }, 38.2);
-      tl.fromTo("#bv8", { scale: 1.11, x: 10 }, { scale: 1.04, x: -12, duration: 4.26, ease: "none" }, 43.3);
+      tl.fromTo("#bv2", { scale: 1.12, x: 14, y: -8 }, { scale: 1.03, x: -16, y: 10, duration: 8.37, ease: "none" }, 8.64);
+      tl.fromTo("#bv3", { scale: 1.05, y: 14 }, { scale: 1.13, y: -18, duration: 4.74, ease: "none" }, 17.01);
+      tl.fromTo("#bv4", { scale: 1.04, x: -12 }, { scale: 1.14, x: 16, duration: 6.9, ease: "none" }, 21.75);
+      tl.fromTo("#bv5", { scale: 1.12, x: 12 }, { scale: 1.04, x: -14, duration: 5.0, ease: "none" }, 28.65);
+      tl.fromTo("#bv6", { scale: 1.05, y: 16 }, { scale: 1.14, y: -16, duration: 5.2, ease: "none" }, 33.65);
+      tl.fromTo("#bv7", { scale: 1.04, x: -14 }, { scale: 1.12, x: 14, duration: 5.1, ease: "none" }, 38.85);
+      tl.fromTo("#bv8", { scale: 1.11, x: 10 }, { scale: 1.04, x: -12, duration: 4.25, ease: "none" }, 43.95);
 
-      // ── Continuous Ambient Motion (0..47.56s) ──
-      tl.to("#progress-fill", { scaleX: 1, duration: 47.56, ease: "none" }, 0);
-      tl.fromTo("#moving-grid", { x: 0, y: 0 }, { x: 64, y: 64, duration: 47.56, ease: "none" }, 0);
-      tl.fromTo("#orb-1", { x: 0, y: 0, scale: 1 }, { x: 340, y: 120, scale: 1.18, duration: 23.78, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
-      tl.fromTo("#orb-2", { x: 0, y: 0, scale: 1 }, { x: -320, y: -110, scale: 1.2, duration: 23.78, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
-      tl.fromTo("#scan-beam", { y: 40 }, { y: 620, duration: 5.9, ease: "none", repeat: 7 }, 0);
-      tl.to("#live-dot", { opacity: 0.35, scale: 0.8, duration: 0.75, ease: "sine.inOut", yoyo: true, repeat: 62 }, 0);
-      tl.fromTo("#shirt-print", { x: -3, y: -3 }, { x: 4, y: 5, duration: 2.8, ease: "sine.inOut", yoyo: true, repeat: 15 }, 0);
+      // ── Continuous Ambient Motion (0..48.2s) ──
+      tl.to("#progress-fill", { scaleX: 1, duration: 48.2, ease: "none" }, 0);
+      tl.fromTo("#moving-grid", { x: 0, y: 0 }, { x: 64, y: 64, duration: 48.2, ease: "none" }, 0);
+      tl.fromTo("#orb-1", { x: 0, y: 0, scale: 1 }, { x: 340, y: 120, scale: 1.18, duration: 24.1, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+      tl.fromTo("#orb-2", { x: 0, y: 0, scale: 1 }, { x: -320, y: -110, scale: 1.2, duration: 24.1, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+      tl.fromTo("#scan-beam", { y: 40 }, { y: 620, duration: 6.0, ease: "none", repeat: 7 }, 0);
+      tl.to("#live-dot", { opacity: 0.35, scale: 0.8, duration: 0.75, ease: "sine.inOut", yoyo: true, repeat: 63 }, 0);
+      tl.fromTo("#shirt-print", { x: -3, y: -3 }, { x: 4, y: 5, duration: 2.8, ease: "sine.inOut", yoyo: true, repeat: 16 }, 0);
 
       // ── Component 1: HOOK (0.2s – 8.5s) ──
       tl.from("#hook-card", { opacity: 0, y: -36, scale: 0.94, duration: 0.55, ease: "power3.out" }, 0.25);
@@ -1233,48 +1233,48 @@
       );
       tl.to("#hook-card", { opacity: 0, y: -24, scale: 0.96, duration: 0.35, ease: "power2.in" }, 8.1);
 
-      // ── Component 2: BRIDGE PIPELINE (8.7s – 16.2s) ──
+      // ── Component 2: BRIDGE PIPELINE (8.7s – 16.85s) ──
       tl.from("#pipe-card", { opacity: 0, y: 32, scale: 0.95, duration: 0.5, ease: "power3.out" }, 8.75);
       tl.from(["#pn-1", "#pn-2", "#pn-3"], { opacity: 0, y: 26, scale: 0.92, duration: 0.45, stagger: 0.22, ease: "back.out(1.4)" }, 9.05);
       tl.fromTo("#pipe-pulse", { x: 0, opacity: 0.95 }, { x: 640, opacity: 0.95, duration: 1.6, repeat: 3, ease: "power1.inOut" }, 9.4);
-      tl.to("#pipe-card", { opacity: 0, y: -20, duration: 0.35, ease: "power2.in" }, 15.8);
+      tl.to("#pipe-card", { opacity: 0, y: -20, duration: 0.35, ease: "power2.in" }, 16.45);
 
-      // ── Component 3: SAMPLE BUSINESS (16.4s – 21.0s) ──
-      tl.from("#sample-card", { opacity: 0, scale: 0.92, y: 28, duration: 0.5, ease: "back.out(1.3)" }, 16.45);
-      tl.from(["#mp-1", "#mp-2"], { opacity: 0, y: 18, duration: 0.4, stagger: 0.18, ease: "power2.out" }, 17.0);
-      tl.to("#sample-card", { opacity: 0, y: -20, duration: 0.32, ease: "power2.in" }, 20.65);
+      // ── Component 3: SAMPLE BUSINESS (17.05s – 21.65s) ──
+      tl.from("#sample-card", { opacity: 0, scale: 0.92, y: 28, duration: 0.5, ease: "back.out(1.3)" }, 17.1);
+      tl.from(["#mp-1", "#mp-2"], { opacity: 0, y: 18, duration: 0.4, stagger: 0.18, ease: "power2.out" }, 17.65);
+      tl.to("#sample-card", { opacity: 0, y: -20, duration: 0.32, ease: "power2.in" }, 21.3);
 
-      // ── Component 4: WHAT WE PROVIDE (21.1s – 27.9s) ──
-      tl.from("#prov-head", { opacity: 0, y: -22, duration: 0.4, ease: "power3.out" }, 21.15);
-      tl.from("#ft-1", { opacity: 0, y: 28, scale: 0.9, duration: 0.42, ease: "back.out(1.5)" }, 21.3);
-      tl.from("#ft-2", { opacity: 0, y: 28, scale: 0.9, duration: 0.42, ease: "back.out(1.5)" }, 22.9);
-      tl.from("#ft-3", { opacity: 0, y: 28, scale: 0.9, duration: 0.42, ease: "back.out(1.5)" }, 23.9);
-      tl.from("#ft-4", { opacity: 0, y: 28, scale: 0.9, duration: 0.42, ease: "back.out(1.5)" }, 24.8);
-      tl.to("#comp-provide .provide-wrap", { opacity: 0, scale: 0.96, duration: 0.32, ease: "power2.in" }, 27.55);
+      // ── Component 4: WHAT WE PROVIDE (21.75s – 28.55s) ──
+      tl.from("#prov-head", { opacity: 0, y: -22, duration: 0.4, ease: "power3.out" }, 21.8);
+      tl.from("#ft-1", { opacity: 0, y: 28, scale: 0.9, duration: 0.42, ease: "back.out(1.5)" }, 21.95);
+      tl.from("#ft-2", { opacity: 0, y: 28, scale: 0.9, duration: 0.42, ease: "back.out(1.5)" }, 23.55);
+      tl.from("#ft-3", { opacity: 0, y: 28, scale: 0.9, duration: 0.42, ease: "back.out(1.5)" }, 24.55);
+      tl.from("#ft-4", { opacity: 0, y: 28, scale: 0.9, duration: 0.42, ease: "back.out(1.5)" }, 25.45);
+      tl.to("#comp-provide .provide-wrap", { opacity: 0, scale: 0.96, duration: 0.32, ease: "power2.in" }, 28.2);
 
-      // ── Component 5: DELIVERY PILOT EMBLEM (28.0s – 32.9s) ──
-      tl.from("#emblem-outer", { opacity: 0, scale: 0.72, duration: 0.55, ease: "back.out(1.6)" }, 28.05);
-      tl.to("#emblem-ring", { rotation: 360, duration: 4.8, ease: "none" }, 28.05);
-      tl.from("#emblem-sub", { opacity: 0, y: 24, duration: 0.45, ease: "power3.out" }, 28.55);
-      tl.to("#comp-pilot .emblem-wrap", { opacity: 0, scale: 0.94, duration: 0.32, ease: "power2.in" }, 32.55);
+      // ── Component 5: DELIVERY PILOT EMBLEM (28.65s – 33.55s) ──
+      tl.from("#emblem-outer", { opacity: 0, scale: 0.72, duration: 0.55, ease: "back.out(1.6)" }, 28.7);
+      tl.to("#emblem-ring", { rotation: 360, duration: 4.8, ease: "none" }, 28.7);
+      tl.from("#emblem-sub", { opacity: 0, y: 24, duration: 0.45, ease: "power3.out" }, 29.2);
+      tl.to("#comp-pilot .emblem-wrap", { opacity: 0, scale: 0.94, duration: 0.32, ease: "power2.in" }, 33.2);
 
-      // ── Component 6: URL CTA (33.0s – 38.1s) ──
-      tl.from("#url-card", { opacity: 0, y: 28, scale: 0.93, duration: 0.48, ease: "back.out(1.4)" }, 33.05);
-      tl.to("#url-btn", { scale: 1.04, duration: 0.65, ease: "sine.inOut", yoyo: true, repeat: 5 }, 33.5);
-      tl.fromTo("#url-sheen", { x: 0 }, { x: 820, duration: 1.1, repeat: 3, repeatDelay: 0.2, ease: "power2.inOut" }, 33.4);
-      tl.to("#url-card", { opacity: 0, y: -20, duration: 0.32, ease: "power2.in" }, 37.75);
+      // ── Component 6: URL CTA (33.65s – 38.75s) ──
+      tl.from("#url-card", { opacity: 0, y: 28, scale: 0.93, duration: 0.48, ease: "back.out(1.4)" }, 33.7);
+      tl.to("#url-btn", { scale: 1.04, duration: 0.65, ease: "sine.inOut", yoyo: true, repeat: 5 }, 34.15);
+      tl.fromTo("#url-sheen", { x: 0 }, { x: 820, duration: 1.1, repeat: 3, repeatDelay: 0.2, ease: "power2.inOut" }, 34.05);
+      tl.to("#url-card", { opacity: 0, y: -20, duration: 0.32, ease: "power2.in" }, 38.4);
 
-      // ── Component 7: LEARN / FIX / ADAPT (38.2s – 43.2s) ──
-      tl.from("#pil-1", { opacity: 0, y: 36, scale: 0.88, duration: 0.42, ease: "back.out(1.5)" }, 38.25);
-      tl.from("#pil-2", { opacity: 0, y: 36, scale: 0.88, duration: 0.42, ease: "back.out(1.5)" }, 38.95);
-      tl.from("#pil-3", { opacity: 0, y: 36, scale: 0.88, duration: 0.42, ease: "back.out(1.5)" }, 39.65);
-      tl.from("#pil-foot", { opacity: 0, y: 22, duration: 0.45, ease: "power3.out" }, 40.35);
-      tl.to("#comp-pillars .pillars-wrap", { opacity: 0, y: -18, duration: 0.32, ease: "power2.in" }, 42.85);
+      // ── Component 7: LEARN / FIX / ADAPT (38.85s – 43.85s) ──
+      tl.from("#pil-1", { opacity: 0, y: 36, scale: 0.88, duration: 0.42, ease: "back.out(1.5)" }, 38.9);
+      tl.from("#pil-2", { opacity: 0, y: 36, scale: 0.88, duration: 0.42, ease: "back.out(1.5)" }, 39.6);
+      tl.from("#pil-3", { opacity: 0, y: 36, scale: 0.88, duration: 0.42, ease: "back.out(1.5)" }, 40.3);
+      tl.from("#pil-foot", { opacity: 0, y: 22, duration: 0.45, ease: "power3.out" }, 41.0);
+      tl.to("#comp-pillars .pillars-wrap", { opacity: 0, y: -18, duration: 0.32, ease: "power2.in" }, 43.5);
 
-      // ── Component 8: FINALE CTA (43.3s – 47.56s) ──
-      tl.from("#finale-card", { opacity: 0, scale: 0.9, y: 30, duration: 0.55, ease: "back.out(1.4)" }, 43.35);
-      tl.to("#fin-btn", { scale: 1.05, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 5 }, 43.9);
-      tl.fromTo("#fin-sheen", { x: 0 }, { x: 760, duration: 1.0, repeat: 2, repeatDelay: 0.25, ease: "power2.inOut" }, 43.8);
+      // ── Component 8: FINALE CTA (43.95s – 48.2s) ──
+      tl.from("#finale-card", { opacity: 0, scale: 0.9, y: 30, duration: 0.55, ease: "back.out(1.4)" }, 44.0);
+      tl.to("#fin-btn", { scale: 1.05, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 5 }, 44.55);
+      tl.fromTo("#fin-sheen", { x: 0 }, { x: 760, duration: 1.0, repeat: 2, repeatDelay: 0.25, ease: "power2.inOut" }, 44.45);
 
       window.__timelines["main"] = tl;
     </script>
