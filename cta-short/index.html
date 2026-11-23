@@ -158,6 +158,85 @@
         color: rgba(125, 211, 252, 0.98);
       }
 
+      /* ── Chapter Transition Overlay (00:16.15 -> 00:17.25, masks w2->w3 cut cleanly) ── */
+      .trans-shutter {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 50% 45%, rgba(99, 102, 241, 0.35), transparent 55%),
+          radial-gradient(circle at 50% 65%, rgba(16, 185, 129, 0.25), transparent 55%),
+          linear-gradient(180deg, #060a18 0%, #0b132b 50%, #060a18 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        opacity: 0;
+        z-index: 30;
+      }
+
+      .trans-streak {
+        position: absolute;
+        left: -20%;
+        width: 140%;
+        height: 6px;
+        background: linear-gradient(90deg, transparent 0%, #38bdf8 50%, transparent 100%);
+        box-shadow: 0 0 32px #38bdf8;
+      }
+
+      .trans-tag {
+        padding: 12px 28px;
+        border-radius: 999px;
+        background: rgba(99, 102, 241, 0.25);
+        border: 1.5px solid rgba(129, 140, 248, 0.65);
+        color: #c7d2fe;
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .trans-title {
+        font-size: 68px;
+        font-weight: 900;
+        color: #ffffff;
+        letter-spacing: -0.02em;
+        text-align: center;
+      }
+
+      .trans-title span {
+        color: #38bdf8;
+      }
+
+      .trans-bar-wrap {
+        width: 420px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        overflow: hidden;
+      }
+
+      .trans-bar-fill {
+        width: 100%;
+        height: 100%;
+        transform-origin: left center;
+        transform: scaleX(0);
+        background: linear-gradient(90deg, #6366f1, #38bdf8, #10b981);
+      }
+
+      /* Full-screen dark outro backdrop behind centered CTA in last second */
+      .outro-backdrop {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 50% 42%, rgba(16, 185, 129, 0.26), transparent 55%),
+          radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.22), transparent 50%),
+          linear-gradient(180deg, #060914 0%, #091124 55%, #060914 100%);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 15;
+      }
+
       /* ── Top Moving Video Stage (opaque to y=648px, soft feather to y=696px above captions) ── */
       .stage-video-wrap {
         position: absolute;
@@ -875,7 +954,7 @@
         <div class="captions-edge-fix"></div>
       </div>
 
-      <div class="speaker-viewport">
+      <div id="speaker-box" class="speaker-viewport">
         <video
           id="a-roll-speaker"
           class="clip speaker-vid"
@@ -928,10 +1007,10 @@
             <span id="live-dot" class="live-dot"></span>
             <span data-layout-ignore>DELIVERY PILOT</span>
           </div>
-          <div class="hud-pill mono" data-layout-ignore>V14 · NEURAL AI</div>
+          <div class="hud-pill mono" data-layout-ignore>V15 · NEURAL AI</div>
         </div>
-        <div class="shirt-even-coat" data-layout-ignore></div>
-        <div class="shirt-stain-patch" data-layout-ignore></div>
+        <div id="shirt-even" class="shirt-even-coat" data-layout-ignore></div>
+        <div id="shirt-patch" class="shirt-stain-patch" data-layout-ignore></div>
         <div id="shirt-print" class="shirt-print" data-layout-ignore data-layout-allow-safe-zone>
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="rgba(125, 211, 252, 0.96)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
@@ -939,6 +1018,19 @@
             <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
           </svg>
           <span class="shirt-text" data-layout-ignore>Delivery<span>Pilot</span></span>
+        </div>
+        <div id="outro-bg" class="outro-backdrop"></div>
+      </div>
+
+      <!-- CHAPTER TRANSITION (16.15s – 17.25s): Smooth visual bridge across the 0.65s cut -->
+      <div id="comp-transition" class="clip" data-start="16.15" data-duration="1.1" data-track-index="4" style="z-index: 30;">
+        <div id="trans-shutter" class="trans-shutter">
+          <div id="trans-streak" class="trans-streak" style="top: 38%;"></div>
+          <div class="trans-tag mono">LIVE BLUEPRINT</div>
+          <div class="trans-title">Run It With <span>AI</span></div>
+          <div class="trans-bar-wrap">
+            <div id="trans-bar-fill" class="trans-bar-fill"></div>
+          </div>
         </div>
       </div>
 
@@ -1177,8 +1269,8 @@
         </div>
       </div>
 
-      <!-- 8. FINALE CTA: JOIN SKOOL ZOOMED IN (43.95s – 47.0s) -->
-      <div id="comp-finale" class="clip" data-start="43.95" data-duration="3.05" data-track-index="3">
+      <!-- 8. FINALE CTA: JOIN SKOOL ZOOMED IN & CENTERED OUTRO (43.95s – 47.0s) -->
+      <div id="comp-finale" class="clip" data-start="43.95" data-duration="3.05" data-track-index="3" style="z-index: 25;">
         <div class="comp-stage">
           <div id="finale-card" class="glass-card finale-card">
             <span class="eyebrow eyebrow-emerald" data-layout-allow-safe-zone>BUILD · SHIP · SCALE</span>
@@ -1238,6 +1330,12 @@
       tl.fromTo("#pipe-pulse", { x: 0, opacity: 0.95 }, { x: 640, opacity: 0.95, duration: 1.6, repeat: 3, ease: "power1.inOut" }, 9.4);
       tl.to("#pipe-card", { opacity: 0, y: -20, duration: 0.35, ease: "power2.in" }, 16.45);
 
+      // ── Chapter Transition (16.15s – 17.25s): Sleek full-frame wipe across the 0.65s cut ──
+      tl.fromTo("#trans-shutter", { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 16.18);
+      tl.fromTo("#trans-bar-fill", { scaleX: 0 }, { scaleX: 1, duration: 0.62, ease: "power2.inOut" }, 16.32);
+      tl.fromTo("#trans-streak", { y: -120, opacity: 0.9 }, { y: 320, opacity: 0.2, duration: 0.75, ease: "power1.inOut" }, 16.25);
+      tl.to("#trans-shutter", { opacity: 0, y: -40, duration: 0.28, ease: "power2.in" }, 16.92);
+
       // ── Component 3: SAMPLE BUSINESS (17.05s – 21.65s) ──
       tl.from("#sample-card", { opacity: 0, scale: 0.92, y: 28, duration: 0.5, ease: "back.out(1.3)" }, 17.1);
       tl.from(["#mp-1", "#mp-2"], { opacity: 0, y: 18, duration: 0.4, stagger: 0.18, ease: "power2.out" }, 17.65);
@@ -1269,15 +1367,16 @@
       tl.from("#pil-3", { opacity: 0, y: 36, scale: 0.88, duration: 0.42, ease: "back.out(1.5)" }, 40.3);
       tl.to("#comp-pillars .pillars-wrap", { opacity: 0, y: -18, duration: 0.32, ease: "power2.in" }, 43.5);
 
-      // ── Component 8: ZOOMED-IN FINALE CTA (43.95s – 47.0s) ──
-      tl.fromTo("#finale-card", { opacity: 0, scale: 0.9, y: 30 }, { opacity: 1, scale: 1.07, y: 12, duration: 0.75, ease: "back.out(1.3)" }, 44.0);
-      tl.to("#finale-card", { scale: 1.11, duration: 2.1, ease: "power1.out" }, 44.75);
+      // ── Component 8: ZOOMED-IN FINALE CTA + CHARACTER FADE-OUT (43.95s – 47.0s) ──
+      tl.fromTo("#finale-card", { opacity: 0, scale: 0.9, y: 30 }, { opacity: 1, scale: 1.04, y: 12, duration: 0.65, ease: "back.out(1.3)" }, 44.0);
       tl.to("#fin-btn", { scale: 1.06, duration: 0.55, ease: "sine.inOut", yoyo: true, repeat: 4 }, 44.4);
       tl.fromTo("#fin-sheen", { x: 0 }, { x: 760, duration: 0.95, repeat: 2, repeatDelay: 0.15, ease: "power2.inOut" }, 44.3);
-      // Smooth push-in zoom on speaker & fade out captions right after "how you can adapt it"
+      // Fade out captions & character completely before 46.0s so last second is pure zoomed CTA end card
       tl.to("#captions-box", { opacity: 0, duration: 0.3, ease: "power2.out" }, 44.75);
-      tl.to("#a-roll-speaker", { scale: 1.28, y: 14, duration: 2.1, ease: "power2.out" }, 44.5);
-      tl.to("#shirt-print", { scale: 1.1, duration: 2.1, ease: "power2.out" }, 44.5);
+      tl.to("#a-roll-speaker", { scale: 1.24, y: 16, duration: 1.0, ease: "power2.out" }, 44.5);
+      tl.to(["#speaker-box", "#shirt-print", "#shirt-even", "#shirt-patch"], { opacity: 0, duration: 0.75, ease: "power2.inOut" }, 45.05);
+      tl.to("#outro-bg", { opacity: 1, duration: 0.75, ease: "power2.inOut" }, 45.05);
+      tl.to("#finale-card", { y: 420, scale: 1.09, duration: 0.85, ease: "power3.inOut" }, 45.1);
 
       window.__timelines["main"] = tl;
     </script>
