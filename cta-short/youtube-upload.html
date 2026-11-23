@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1-Command YouTube Shorts Upload Guide — Delivery Pilot</title>
+    <style>
+      :root {
+        --bg: #060914;
+        --panel: rgba(13, 19, 38, 0.88);
+        --border: rgba(129, 140, 248, 0.28);
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --cyan: #38bdf8;
+        --emerald: #10b981;
+        --amber: #f59e0b;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        background:
+          radial-gradient(circle at 12% 10%, rgba(239, 68, 68, 0.16), transparent 40%),
+          radial-gradient(circle at 86% 15%, rgba(16, 185, 129, 0.16), transparent 40%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 36px 20px 80px;
+      }
+      .wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+      header {
+        display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.16); padding-bottom: 22px;
+      }
+      .eyebrow {
+        display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px;
+        background: rgba(239, 68, 68, 0.16); border: 1px solid rgba(248, 113, 113, 0.45);
+        color: #fca5a5; font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      h1 { font-size: clamp(26px, 4vw, 40px); font-weight: 900; letter-spacing: -0.02em; }
+      h1 span { color: var(--cyan); }
+      .subtitle { color: var(--muted); max-width: 700px; margin-top: 8px; font-size: 15px; }
+      .nav-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 12px;
+        font-size: 14px; font-weight: 700; text-decoration: none; border: 1px solid var(--border);
+        background: rgba(30, 41, 59, 0.75); color: var(--text);
+      }
+      .btn:hover { border-color: var(--cyan); }
+      .btn-primary { background: linear-gradient(135deg, #059669, #10b981); border-color: rgba(52, 211, 153, 0.7); }
+      .card {
+        background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 22px 24px;
+        display: flex; flex-direction: column; gap: 12px;
+      }
+      .card.highlight { border-color: rgba(52, 211, 153, 0.6); }
+      .step-badge {
+        display: inline-block; width: fit-content; padding: 4px 12px; border-radius: 999px;
+        font-size: 12px; font-weight: 800; letter-spacing: 0.08em;
+        background: rgba(99, 102, 241, 0.24); border: 1px solid rgba(129, 140, 248, 0.5); color: #c7d2fe;
+      }
+      h2 { font-size: 20px; font-weight: 800; color: #ffffff; }
+      ol, ul { margin-left: 20px; color: #cbd5e1; font-size: 14.5px; display: flex; flex-direction: column; gap: 6px; }
+      strong { color: #ffffff; }
+      a.inline { color: var(--cyan); }
+      pre {
+        background: #020617; border: 1px solid rgba(148, 163, 184, 0.22); border-radius: 12px;
+        padding: 14px 16px; overflow-x: auto; font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 12.5px; color: #7dd3fc; line-height: 1.5;
+      }
+      code { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12.5px; color: #7dd3fc; }
+      .warn {
+        background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(245, 158, 11, 0.45);
+        border-left: 4px solid var(--amber); border-radius: 14px; padding: 14px 18px; font-size: 14px; color: #fde68a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <div class="eyebrow">YouTube Data API v3 · Channel UCSJyG3bTM7lnjMIZcV8C4OQ</div>
+          <h1>1-Command <span>YouTube Shorts</span> CLI Upload</h1>
+          <p class="subtitle">
+            Complete setup &amp; usage guide for <code>publish_short.sh</code> and <code>upload_youtube.py</code> — automated resumable Shorts uploads with channel verification and zero manual virtualenv setup.
+          </p>
+        </div>
+        <div class="nav-actions">
+          <a class="btn btn-primary" href="https://studio.youtube.com/channel/UCSJyG3bTM7lnjMIZcV8C4OQ" target="_blank">Open YouTube Studio</a>
+          <a class="btn" href="updates.html">← Video Evolution (v7 → v16)</a>
+        </div>
+      </header>
+
+      <section class="card">
+        <span class="step-badge">STEP 1 · ONE-TIME GOOGLE CLOUD SETUP</span>
+        <h2>Enable YouTube Data API v3 &amp; Download Desktop OAuth JSON</h2>
+        <ol>
+          <li>Open <a class="inline" href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank">Google Cloud Console — YouTube Data API v3</a> and click <strong>Enable</strong>.</li>
+          <li>Go to <strong>APIs &amp; Services → OAuth consent screen</strong> → choose <strong>External</strong> → add scopes <code>youtube.upload</code> and <code>youtube.readonly</code>.</li>
+          <li>Under <strong>Test users</strong>, add the Google email that owns channel <code>UCSJyG3bTM7lnjMIZcV8C4OQ</code> (prevents <code>Error 403: access_denied</code>).</li>
+          <li>Go to <strong>Credentials → + Create Credentials → OAuth client ID → Desktop app</strong> → click <strong>Download JSON</strong>.</li>
+        </ol>
+        <pre>mkdir -p ~/.config/youtube-upload
+chmod 700 ~/.config/youtube-upload
+mv ~/Downloads/client_secret_*.json ~/.config/youtube-upload/client_secret.json
+chmod 600 ~/.config/youtube-upload/client_secret.json</pre>
+      </section>
+
+      <section class="card highlight">
+        <span class="step-badge">STEP 2 · 1-COMMAND UPLOAD</span>
+        <h2>Publish Your Latest Short from the Terminal</h2>
+        <p style="color:#cbd5e1;font-size:14.5px;">
+          Use the 1-command wrapper (auto-selects the newest <code>Delivery-Pilot-Short-v*.mp4</code> and defaults to <code>unlisted</code> for safe review):
+        </p>
+        <pre>cta-short/scripts/video/publish_short.sh</pre>
+        <p style="color:#cbd5e1;font-size:14.5px;">Or run the direct <code>uv run</code> command for a specific version:</p>
+        <pre>uv run --with google-api-python-client --with google-auth-oauthlib \
+  cta-short/scripts/video/upload_youtube.py \
+  cta-short/Delivery-Pilot-Short-v16.mp4 \
+  --meta cta-short/scripts/video/youtube_metadata.json \
+  --channel-id UCSJyG3bTM7lnjMIZcV8C4OQ \
+  --privacy unlisted</pre>
+        <p style="color:#cbd5e1;font-size:14.5px;">Validate video specs &amp; metadata anytime with <code>--dry-run</code>:</p>
+        <pre>cta-short/scripts/video/publish_short.sh --dry-run</pre>
+      </section>
+
+      <section class="card">
+        <span class="step-badge">STEP 3 · WHAT THE SCRIPT GUARANTEES</span>
+        <h2>Built-In Safety &amp; Shorts Verification</h2>
+        <ul>
+          <li><strong>Channel Lock:</strong> Queries <code>channels.list(mine=True)</code> and aborts if the signed-in account does not match <code>UCSJyG3bTM7lnjMIZcV8C4OQ</code>.</li>
+          <li><strong>Shorts Spec Check:</strong> Probes resolution (<code>1080×1920</code> vertical) and duration (<code>≤ 60s</code>) via <code>ffprobe</code> and ensures <code>#Shorts</code> is present.</li>
+          <li><strong>Resumable Chunked Upload:</strong> Streams in <code>8 MB</code> chunks with live percentage progress and prints the direct Watch &amp; Studio edit links.</li>
+          <li><strong>Token Caching:</strong> First run opens Google Chrome once for OAuth consent and caches the refresh token at <code>~/.config/youtube-upload/token.json</code> for headless future runs.</li>
+        </ul>
+      </section>
+
+      <div class="warn">
+        <strong>Security Rule:</strong> Never commit <code>client_secret.json</code> or <code>token.json</code> to git. Both stay outside the repository in <code>~/.config/youtube-upload/</code> with <code>chmod 600</code>.
+      </div>
+    </div>
+  </body>
+</html>

@@ -6,6 +6,8 @@
     "dev": "npx --yes hyperframes@0.9.81 preview",
     "check": "npx --yes hyperframes@0.9.81 check",
     "render": "npx --yes hyperframes@0.9.81 render",
-    "publish": "npx --yes hyperframes@0.9.81 publish"
+    "publish": "npx --yes hyperframes@0.9.81 publish",
+    "upload:youtube": "scripts/video/publish_short.sh",
+    "upload:youtube:dry": "scripts/video/publish_short.sh --dry-run"
   }
 }

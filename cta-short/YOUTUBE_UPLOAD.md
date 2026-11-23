@@ -1,0 +1,117 @@
+# 1-Command YouTube Shorts CLI Upload Guide
+
+This document explains how to enable and run **1-command automated YouTube Shorts uploads** for your channel (`UCSJyG3bTM7lnjMIZcV8C4OQ`) using the official **YouTube Data API v3** and OAuth 2.0.
+
+---
+
+## Architecture Overview
+
+| File | Purpose |
+|---|---|
+| `cta-short/scripts/video/upload_youtube.py` | Official YouTube Data API v3 resumable chunked uploader (`8 MB` chunks), validates `9:16` vertical & `≤ 60s` Shorts specs, verifies target channel ID `UCSJyG3bTM7lnjMIZcV8C4OQ`, and handles OAuth 2.0 token refresh. |
+| `cta-short/scripts/video/publish_short.sh` | 1-command wrapper that auto-selects the newest `Delivery-Pilot-Short-v*.mp4`, checks `~/.config/youtube-upload/client_secret.json`, and runs `upload_youtube.py` via `uv run` (no manual virtualenv needed). |
+| `cta-short/scripts/video/youtube_metadata.json` | Editable title, description, tags, and category (`28` = Science & Technology). |
+| `cta-short/skill/youtube-short-upload/SKILL.md` | Agent skill definition so any future agent session knows how to upload Shorts safely. |
+| `~/.config/youtube-upload/client_secret.json` | **Local-only** Google Cloud Desktop OAuth JSON (**never commit to git**). |
+| `~/.config/youtube-upload/token.json` | **Local-only** cached OAuth refresh token auto-created on first login (**never commit to git**). |
+
+---
+
+## One-Time Setup (5 Minutes)
+
+### Step 1 — Enable YouTube Data API v3
+1. Open [Google Cloud Console — YouTube Data API v3](https://console.cloud.google.com/apis/library/youtube.googleapis.com) in Google Chrome.
+2. Select (or create) a Google Cloud project (e.g., `delivery-pilot-youtube`).
+3. Click **Enable**.
+
+### Step 2 — Configure OAuth Consent Screen
+1. Go to **APIs & Services → OAuth consent screen**.
+2. Choose **External** → click **Create**.
+3. Fill in:
+   - **App name**: `Delivery Pilot Uploader`
+   - **User support email**: your Google account email
+   - **Developer contact email**: your Google account email
+4. Under **Scopes**, click **Add or Remove Scopes** and add:
+   - `https://www.googleapis.com/auth/youtube.upload`
+   - `https://www.googleapis.com/auth/youtube.readonly`
+5. Under **Test users**, click **Add Users** and add the exact Google email that owns channel `UCSJyG3bTM7lnjMIZcV8C4OQ`.
+   > **Important:** Without adding your own email as a Test User while the app is in Testing mode, Google will return `Error 403: access_denied`.
+
+### Step 3 — Create Desktop OAuth Client ID
+1. Go to **APIs & Services → Credentials**.
+2. Click **+ Create Credentials → OAuth client ID**.
+3. Set **Application type** to **Desktop app** (name: `Delivery Pilot CLI`).
+4. Click **Create** → **Download JSON**.
+
+### Step 4 — Install the Credentials Locally
+Move the downloaded JSON file into `~/.config/youtube-upload/client_secret.json` with strict permissions:
+
+```bash
+mkdir -p ~/.config/youtube-upload
+chmod 700 ~/.config/youtube-upload
+mv ~/Downloads/client_secret_*.json ~/.config/youtube-upload/client_secret.json
+chmod 600 ~/.config/youtube-upload/client_secret.json
+```
+
+---
+
+## How to Upload (1-Command CLI)
+
+### Option A — Wrapper Script (Auto-picks Latest Render)
+```bash
+cta-short/scripts/video/publish_short.sh
+```
+- Defaults to `--privacy unlisted` so you can verify the Short in YouTube Studio before switching to Public.
+- Pass `public` or `private` to override:
+  ```bash
+  cta-short/scripts/video/publish_short.sh cta-short/Delivery-Pilot-Short-v16.mp4 public
+  ```
+- Dry-run check (validates video specs & metadata without uploading):
+  ```bash
+  cta-short/scripts/video/publish_short.sh --dry-run
+  ```
+
+### Option B — Direct `uv run` Command
+```bash
+uv run --with google-api-python-client --with google-auth-oauthlib \
+  cta-short/scripts/video/upload_youtube.py \
+  cta-short/Delivery-Pilot-Short-v16.mp4 \
+  --meta cta-short/scripts/video/youtube_metadata.json \
+  --channel-id UCSJyG3bTM7lnjMIZcV8C4OQ \
+  --privacy unlisted
+```
+
+### Option C — npm Script (from `cta-short/`)
+```bash
+cd cta-short
+npm run upload:youtube
+```
+
+---
+
+## First-Run OAuth Flow
+
+1. The first time you run the command, Google Chrome opens a local Google sign-in window.
+2. Select the Google account that owns channel **`UCSJyG3bTM7lnjMIZcV8C4OQ`**.
+3. If Google shows *"Google hasn't verified this app"*, click **Advanced → Go to Delivery Pilot Uploader (unsafe)** (safe because it is your own private Google Cloud project).
+4. Approve permissions. The script saves your refresh token to `~/.config/youtube-upload/token.json` (`chmod 600`) and verifies your channel ID before uploading.
+5. Every future upload runs completely headlessly with **zero browser prompts**.
+
+---
+
+## Troubleshooting
+
+| Issue | Fix |
+|---|---|
+| `Error 403: access_denied` | Add your Google email under **OAuth consent screen → Test users** in Google Cloud Console. |
+| `Authenticated channel mismatch` | You signed into a different Google account/brand channel. Delete `~/.config/youtube-upload/token.json` and re-run to pick the right channel. |
+| `quotaExceeded` | Default YouTube Data API v3 quota is `10,000` units/day (~6 video uploads/day at `1,600` units each). Quota resets at midnight Pacific Time. |
+| Video not marked as a Short | Confirm video is vertical (`1080×1920`), `≤ 60s`, and `#Shorts` is in the title/description (`upload_youtube.py` checks all three automatically). |
+
+---
+
+## Security Rules
+
+- **Never** commit `client_secret.json` or `token.json` into git.
+- Keep both files in `~/.config/youtube-upload/` with `chmod 600`.
+- If a secret is ever exposed, revoke it immediately in Google Cloud Console → **Credentials** and download a fresh one.
