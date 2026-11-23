@@ -69,14 +69,14 @@ chmod 600 ~/.config/youtube-upload/client_secret.json
 
 ## How to Upload (1-Command CLI)
 
-### Option A — Wrapper Script (Auto-picks Latest Render)
+### Option A — Wrapper Script (Auto-picks Latest Render, Private Mode)
 ```bash
 cta-short/scripts/video/publish_short.sh
 ```
-- Defaults to `--privacy unlisted` so you can verify the Short in YouTube Studio before switching to Public.
-- Pass `public` or `private` to override:
+- Defaults to `--privacy private` on Brand Channel `UCSJyG3bTM7lnjMIZcV8C4OQ` so you can review privately in YouTube Studio before publishing.
+- Pass `unlisted` or `public` to override:
   ```bash
-  cta-short/scripts/video/publish_short.sh cta-short/Delivery-Pilot-Short-v16.mp4 public
+  cta-short/scripts/video/publish_short.sh cta-short/Delivery-Pilot-Short-v16.mp4 unlisted
   ```
 - Dry-run check (validates video specs & metadata without uploading):
   ```bash
@@ -90,7 +90,7 @@ uv run --with google-api-python-client --with google-auth-oauthlib \
   cta-short/Delivery-Pilot-Short-v16.mp4 \
   --meta cta-short/scripts/video/youtube_metadata.json \
   --channel-id UCSJyG3bTM7lnjMIZcV8C4OQ \
-  --privacy unlisted
+  --privacy private
 ```
 
 ### Option C — npm Script (from `cta-short/`)

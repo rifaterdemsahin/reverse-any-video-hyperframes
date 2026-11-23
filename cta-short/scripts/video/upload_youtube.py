@@ -184,7 +184,7 @@ def main() -> None:
     parser.add_argument("--description", help="Video description")
     parser.add_argument("--tags", help="Comma-separated tags")
     parser.add_argument("--category-id", default="28", help="YouTube category ID (default: 28 = Science & Tech)")
-    parser.add_argument("--privacy", choices=["public", "unlisted", "private"], default="unlisted")
+    parser.add_argument("--privacy", choices=["public", "unlisted", "private"], default="private")
     parser.add_argument("--made-for-kids", action="store_true", default=False)
     parser.add_argument("--channel-id", default=DEFAULT_CHANNEL_ID)
     parser.add_argument("--client-secret", type=pathlib.Path, default=DEFAULT_CLIENT_SECRET)

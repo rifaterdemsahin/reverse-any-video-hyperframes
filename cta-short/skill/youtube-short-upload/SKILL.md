@@ -19,9 +19,15 @@ Uploads a rendered 9:16 MP4 short to YouTube Studio (`https://studio.youtube.com
    ```
 4. Never commit `client_secret.json` or `token.json` to any repository.
 
-## Upload Command
+## Upload Command (Default: Private on Brand Channel)
 
-Run with `uv run` (automatically installs `google-api-python-client` and `google-auth-oauthlib` in an isolated ephemeral environment):
+Run with the 1-command wrapper (defaults to `--privacy private` and verifies Brand Channel `UCSJyG3bTM7lnjMIZcV8C4OQ`):
+
+```bash
+cta-short/scripts/video/publish_short.sh
+```
+
+Or run directly with `uv run`:
 
 ```bash
 uv run --with google-api-python-client --with google-auth-oauthlib \
@@ -29,12 +35,19 @@ uv run --with google-api-python-client --with google-auth-oauthlib \
   cta-short/Delivery-Pilot-Short-v16.mp4 \
   --meta cta-short/scripts/video/youtube_metadata.json \
   --channel-id UCSJyG3bTM7lnjMIZcV8C4OQ \
-  --privacy unlisted
+  --privacy private
 ```
+
+### Brand Channel Spec & Auth Rules
+
+- **Target Channel**: Brand Channel `UCSJyG3bTM7lnjMIZcV8C4OQ` (`https://studio.youtube.com/channel/UCSJyG3bTM7lnjMIZcV8C4OQ`).
+- **Default Privacy**: `private` (safe for private review in YouTube Studio before publishing).
+- **Brand Account Selection**: `upload_youtube.py` uses `prompt="select_account consent"`. After picking your Google email, Google displays a second **"Choose an account or a brand account"** screen — you **must** click the Brand Channel (`UCSJyG3bTM7lnjMIZcV8C4OQ`), NOT the personal/admin channel (`Pexabo LTD Admin`).
+- **Channel Safety Lock**: `verify_channel()` queries `channels.list(mine=True)` and aborts immediately if the token resolves to any other channel ID.
 
 ### Options
 
-- `--privacy`: `unlisted` (default, safest for review), `private`, or `public`.
+- `--privacy`: `private` (default), `unlisted`, or `public`.
 - `--channel-id`: Verifies the authenticated YouTube channel matches `UCSJyG3bTM7lnjMIZcV8C4OQ` before uploading.
 - `--dry-run`: Validates video dimensions/duration (`9:16`, `<= 60s`), metadata, and credentials without uploading.
 - `--title`, `--description`, `--tags`: Override fields from `--meta`.

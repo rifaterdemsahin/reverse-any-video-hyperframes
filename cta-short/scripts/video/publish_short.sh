@@ -2,7 +2,7 @@
 # 1-command YouTube Shorts publisher for Delivery Pilot (channel UCSJyG3bTM7lnjMIZcV8C4OQ).
 #
 # Usage:
-#   cta-short/scripts/video/publish_short.sh [video.mp4] [unlisted|private|public] [--dry-run]
+#   cta-short/scripts/video/publish_short.sh [video.mp4] [private|unlisted|public] [--dry-run]
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -25,7 +25,7 @@ if [[ -z "${VIDEO}" || ! -f "${VIDEO}" ]]; then
   exit 1
 fi
 
-PRIVACY="unlisted"
+PRIVACY="private"
 EXTRA_ARGS=()
 for arg in "$@"; do
   case "$arg" in
