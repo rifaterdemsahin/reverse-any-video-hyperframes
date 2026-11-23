@@ -2,6 +2,18 @@
 
 This document explains how to enable and run **1-command automated YouTube Shorts uploads** for your channel (`UCSJyG3bTM7lnjMIZcV8C4OQ`) using the official **YouTube Data API v3** and OAuth 2.0.
 
+## Current State & Blocker
+
+| Check | Status | Details |
+|---|---|---|
+| Rendered Short (`v16`) | **READY** | `cta-short/Delivery-Pilot-Short-v16.mp4` (`1080×1920`, `47.0s`, `47.4 MB`) |
+| Uploader Script & Skill | **READY** | `publish_short.sh` + `upload_youtube.py` (`--dry-run` verified) |
+| YouTube Studio Upload | **NOT UPLOADED YET** | Blocked on missing Google OAuth credential (`~/.config/youtube-upload/client_secret.json`) |
+| `~/.config/youtube-upload/` | **EMPTY** | Directory created (`chmod 700`), waiting for `client_secret.json` |
+| `~/Downloads/client_secret*.json` | **NOT FOUND** | Needs to be downloaded once from Google Cloud Console |
+
+**Why it is not visible in YouTube Studio yet:** YouTube requires an authenticated OAuth 2.0 client credential (`client_secret.json`) and your Google account consent before any CLI or agent can upload videos to channel `UCSJyG3bTM7lnjMIZcV8C4OQ`. Until `client_secret.json` is saved to `~/.config/youtube-upload/client_secret.json` (or you drag & drop the MP4 into YouTube Studio manually), no upload can be sent.
+
 ---
 
 ## Architecture Overview
