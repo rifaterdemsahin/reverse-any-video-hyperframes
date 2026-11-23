@@ -80,7 +80,7 @@ def get_authenticated_service(client_secret: pathlib.Path, token_path: pathlib.P
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(str(client_secret), SCOPES)
-            creds = flow.run_local_server(port=0)
+            creds = flow.run_local_server(port=0, prompt="select_account consent")
         token_path.parent.mkdir(parents=True, exist_ok=True)
         token_path.write_text(creds.to_json(), encoding="utf-8")
         os.chmod(token_path, 0o600)
