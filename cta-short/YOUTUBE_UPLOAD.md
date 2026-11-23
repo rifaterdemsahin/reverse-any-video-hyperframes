@@ -143,6 +143,21 @@ If Google shows *"Access blocked: OAuth consent screen has not completed the Goo
 
 ---
 
+## Why Automated Comment Pinning Is Not Possible via API
+
+While `upload_youtube.py` supports posting a top-level comment (`--comment` / `--comment-only <VIDEO_ID>`), **pinning a comment cannot be automated via the YouTube Data API v3** due to three platform constraints:
+
+1. **No Pin Endpoint in YouTube Data API v3:** Google's official API (`commentThreads.insert`, `comments.update`, `comments.setModerationStatus`) does **not** expose any method or field to pin a comment. Pinning is intentionally restricted to the YouTube / YouTube Studio UI (`⋮ → Pin`).
+2. **Comments Are Disabled on Private Videos:** Videos uploaded with `privacyStatus: "private"` cannot receive comments (the API returns `403 commentsDisabled` / `forbidden`). Visibility must be `unlisted` or `public` before any comment can be posted.
+3. **Separate OAuth Scope Required for Posting Comments:** Posting a comment via `commentThreads.insert` requires the `https://www.googleapis.com/auth/youtube.force-ssl` scope (already added to `upload_youtube.py`, requiring a one-time token refresh if your existing `token.json` only has `youtube.upload` + `youtube.readonly`).
+
+### Recommended Workflow for Pinned CTA Comments
+1. Upload privately with `cta-short/scripts/video/publish_short.sh`.
+2. Switch visibility to **Unlisted** or **Public** in YouTube Studio.
+3. Post your CTA comment (either via `upload_youtube.py --comment-only <VIDEO_ID> --comment "..."` or directly in Studio), then click **⋮ → Pin**.
+
+---
+
 ## Security Rules
 
 - **Never** commit `client_secret.json` or `token.json` into git.

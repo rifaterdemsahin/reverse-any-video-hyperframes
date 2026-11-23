@@ -163,6 +163,16 @@ chmod 600 ~/.config/youtube-upload/client_secret.json</pre>
         </ul>
       </section>
 
+      <section class="card">
+        <span class="step-badge">API LIMITATION · PINNED COMMENTS</span>
+        <h2>Why Automated Comment Pinning Cannot Be Done via Code</h2>
+        <ul>
+          <li><strong>No Pin Endpoint in YouTube Data API v3:</strong> The official API supports creating comments (<code>commentThreads.insert</code>), but Google does <strong>not</strong> provide an API endpoint or parameter to pin a comment. Pinning is UI-only (<code>⋮ → Pin</code> in YouTube Studio).</li>
+          <li><strong>Private Videos Block Comments:</strong> YouTube disables comments on <code>private</code> videos until visibility is changed to <code>unlisted</code> or <code>public</code>.</li>
+          <li><strong>Extra OAuth Scope for Posting:</strong> Posting comments via API requires <code>https://www.googleapis.com/auth/youtube.force-ssl</code> (wired into <code>upload_youtube.py --comment-only &lt;VIDEO_ID&gt;</code>).</li>
+        </ul>
+      </section>
+
       <div class="warn">
         <strong>Security Rule:</strong> Never commit <code>client_secret.json</code> or <code>token.json</code> to git. Both stay outside the repository in <code>~/.config/youtube-upload/</code> with <code>chmod 600</code>.
       </div>
