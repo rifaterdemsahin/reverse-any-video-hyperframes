@@ -17,7 +17,7 @@ if [[ $# -ge 1 && "$1" != --* && "$1" != "unlisted" && "$1" != "private" && "$1"
   VIDEO="$1"
   shift
 else
-  VIDEO="$(ls -1v "${PROJECT_DIR}"/Delivery-Pilot-Short-v*.mp4 2>/dev/null | tail -n 1 || true)"
+  VIDEO="$(ls -1 "${PROJECT_DIR}"/Delivery-Pilot-Short-v*.mp4 2>/dev/null | sort -V | tail -n 1 || true)"
 fi
 
 if [[ -z "${VIDEO}" || ! -f "${VIDEO}" ]]; then
