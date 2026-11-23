@@ -4,7 +4,10 @@ A 9:16 vertical short (47.6 s) for Delivery Pilot. Three parts, joined with hard
 hook, bridge, and call to action (CTA). Built with ffmpeg scripts and laid out as a
 HyperFrames project.
 
-**Final file:** `Delivery-Pilot-Short-v7.mp4`
+**Final file (v16, latest):** `Delivery-Pilot-Short-v16.mp4` (original baseline: `Delivery-Pilot-Short-v7.mp4`)
+
+> **First Project Auto-Uploaded to YouTube with Code:**
+> `Delivery-Pilot-Short-v16.mp4` was auto-uploaded directly to Brand Channel `UCSJyG3bTM7lnjMIZcV8C4OQ` via `scripts/video/publish_short.sh` (`Video ID: 6aq1oz-cKhQ`). See `YOUTUBE_UPLOAD.md` and `skill/youtube-short-upload/SKILL.md`.
 
 ## What is in this folder
 

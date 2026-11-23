@@ -21,6 +21,7 @@ import sys
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/youtube.force-ssl",
 ]
 
 DEFAULT_CONFIG_DIR = pathlib.Path.home() / ".config" / "youtube-upload"
@@ -176,9 +177,24 @@ def upload_short(
     return video_id
 
 
+def post_comment(youtube, video_id: str, text: str) -> str:
+    resp = youtube.commentThreads().insert(
+        part="snippet",
+        body={
+            "snippet": {
+                "videoId": video_id,
+                "topLevelComment": {"snippet": {"textOriginal": text}},
+            }
+        },
+    ).execute()
+    cid = resp["id"]
+    print(f"Comment posted (ID: {cid}). Note: YouTube Data API v3 does not support pinning — pin it in Studio: https://studio.youtube.com/video/{video_id}/comments")
+    return cid
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Upload a YouTube Short via YouTube Data API v3.")
-    parser.add_argument("video", type=pathlib.Path, help="Path to MP4 file")
+    parser.add_argument("video", nargs="?", type=pathlib.Path, help="Path to MP4 file")
     parser.add_argument("--meta", type=pathlib.Path, help="Optional JSON file with title, description, tags")
     parser.add_argument("--title", help="Video title (max 100 chars)")
     parser.add_argument("--description", help="Video description")
@@ -190,7 +206,17 @@ def main() -> None:
     parser.add_argument("--client-secret", type=pathlib.Path, default=DEFAULT_CLIENT_SECRET)
     parser.add_argument("--token", type=pathlib.Path, default=DEFAULT_TOKEN_PATH)
     parser.add_argument("--dry-run", action="store_true", help="Validate video and payload without uploading")
+    parser.add_argument("--comment", help="Optional top-level comment to post after upload (requires unlisted/public)")
+    parser.add_argument("--comment-only", metavar="VIDEO_ID", help="Post --comment to an existing video ID without uploading")
     args = parser.parse_args()
+
+    if args.comment_only:
+        if not args.comment:
+            parser.error("--comment is required with --comment-only")
+        youtube = get_authenticated_service(args.client_secret, args.token)
+        verify_channel(youtube, args.channel_id)
+        post_comment(youtube, args.comment_only, args.comment)
+        return
 
     meta = {}
     if args.meta:
@@ -201,7 +227,7 @@ def main() -> None:
     tags = [t.strip() for t in args.tags.split(",") if t.strip()] if args.tags else meta.get("tags", [])
     category_id = str(meta.get("categoryId", args.category_id))
 
-    upload_short(
+    video_id = upload_short(
         video_path=args.video,
         title=title,
         description=description,
@@ -214,6 +240,9 @@ def main() -> None:
         token_path=args.token,
         dry_run=args.dry_run,
     )
+    if video_id and args.comment and not args.dry_run:
+        youtube = get_authenticated_service(args.client_secret, args.token)
+        post_comment(youtube, video_id, args.comment)
 
 
 if __name__ == "__main__":

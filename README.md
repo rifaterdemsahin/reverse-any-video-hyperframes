@@ -7,6 +7,14 @@
 
 A high-retention, 60-second 16:9 tech promo video built natively with **HeyGen HyperFrames** standards, studio-grade AI voiceover (DeepInfra Kokoro-82M), deterministic GSAP kinetic animations, multi-track audio ducking, and frame-accurate timeline synchronization.
 
+> **Milestone — First Project Auto-Uploaded to YouTube with Code:**
+> This repository is the **first project we auto-uploaded to YouTube via code** using the official **YouTube Data API v3** and OAuth 2.0 (`cta-short/scripts/video/publish_short.sh` + `upload_youtube.py`).
+> - **Uploaded Short (v16, Private):** [https://youtube.com/shorts/6aq1oz-cKhQ](https://youtube.com/shorts/6aq1oz-cKhQ) ([Studio Edit](https://studio.youtube.com/video/6aq1oz-cKhQ/edit))
+> - **Brand Channel:** `Rifat Erdem Sahin | Master AI and Build The Future` (`UCSJyG3bTM7lnjMIZcV8C4OQ`)
+> - **Video Evolution (v7 → v16):** [https://reverse-any-video-hyperframes.fly.dev/cta-short/updates.html](https://reverse-any-video-hyperframes.fly.dev/cta-short/updates.html)
+> - **1-Command YouTube CLI Guide & OAuth Fixes:** [https://reverse-any-video-hyperframes.fly.dev/cta-short/youtube-upload.html](https://reverse-any-video-hyperframes.fly.dev/cta-short/youtube-upload.html)
+> - **Speaker Audio Enhancement Guide:** [https://reverse-any-video-hyperframes.fly.dev/cta-short/audio-guide.html](https://reverse-any-video-hyperframes.fly.dev/cta-short/audio-guide.html)
+
 ---
 
 ## 🚀 Live Deployment & Master Hub
