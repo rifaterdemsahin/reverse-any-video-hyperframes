@@ -121,6 +121,17 @@ If Google shows *"Access blocked: OAuth consent screen has not completed the Goo
 
 ---
 
+## All OAuth Errors We Hit & How Each Was Fixed
+
+| # | Error / Screen | Root Cause | Exact Fix |
+|---|---|---|---|
+| 1 | `Authenticated channel mismatch: got UCK-Oz-GXbkXxcHcNwfdTJBA (Pexabo LTD Admin), expected UCSJyG3bTM7lnjMIZcV8C4OQ` | OAuth silently reused the default signed-in Google Workspace account instead of showing the account/Brand Channel picker. | Added `prompt="select_account consent"` in `upload_youtube.py`, deleted `~/.config/youtube-upload/token.json`, and kept `verify_channel()` as a safety lock. |
+| 2 | Could not find where to add `youtube.upload` / `youtube.readonly` scopes on `/auth/clients/...` | In Google Cloud's **Google Auth Platform**, **Clients**, **Audience (Test users)**, and **Data Access (Scopes)** are separate sidebar pages. | Used direct links: `/auth/scopes?project=delivery-pilot-chat` (Data Access → Scopes) and `/auth/audience?project=delivery-pilot-chat` (Audience → Test users). |
+| 3 | `Error 403: access_denied` — *"Access blocked: OAuth consent screen has not completed the Google verification process"* | OAuth app is in **Testing** mode and the Brand Channel owner email (`@rifaterdemsahin`) was not yet added to **Test users**. | Opened `/auth/audience?project=delivery-pilot-chat` → **Test users → + Add users** → added the Brand Channel owner email → **Save**. |
+| 4 | *"Google hasn't verified this app — You've been given access to an app that's currently being tested."* | **Not an error** — this means Test Users worked! Google shows this once for any private Testing-mode OAuth app. | Click **Continue** (or **Advanced → Go to app**) → check the YouTube scopes → click **Continue / Allow**. Future runs reuse `~/.config/youtube-upload/token.json` with zero prompts. |
+
+---
+
 ## Troubleshooting
 
 | Issue | Fix |

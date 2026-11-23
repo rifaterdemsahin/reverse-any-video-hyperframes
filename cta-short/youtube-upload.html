@@ -152,6 +152,17 @@ chmod 600 ~/.config/youtube-upload/client_secret.json</pre>
         </ul>
       </section>
 
+      <section class="card">
+        <span class="step-badge">REAL-WORLD TROUBLESHOOTING LOG</span>
+        <h2>All OAuth Errors Hit &amp; Exact Fixes</h2>
+        <ul>
+          <li><strong>1. Channel Mismatch (<code>Pexabo LTD Admin</code> instead of <code>UCSJyG3bTM7lnjMIZcV8C4OQ</code>):</strong> Fixed by adding <code>prompt="select_account consent"</code> in <code>upload_youtube.py</code> and clearing <code>~/.config/youtube-upload/token.json</code> so Google shows the account &amp; Brand Channel picker.</li>
+          <li><strong>2. Missing Scopes on the Clients Page:</strong> In Google Auth Platform, scopes live on <a class="inline" href="https://console.cloud.google.com/auth/scopes?project=delivery-pilot-chat" target="_blank">Data Access (Scopes)</a> and test users live on <a class="inline" href="https://console.cloud.google.com/auth/audience?project=delivery-pilot-chat" target="_blank">Audience</a> — not on the Clients page.</li>
+          <li><strong>3. <code>Error 403: access_denied</code>:</strong> Fixed by adding the Brand Channel owner email (<code>@rifaterdemsahin</code>) under <strong>Audience → Test users → + Add users → Save</strong>.</li>
+          <li><strong>4. "Google hasn't verified this app (You've been given access to an app that's currently being tested)":</strong> <strong>This means Test Users worked!</strong> Just click <strong>Continue</strong> → approve the YouTube scopes → select Brand Channel <code>Rifat Erdem Sahin | Master AI and Build The Future</code>. The refresh token is cached in <code>~/.config/youtube-upload/token.json</code> so future uploads need zero browser clicks.</li>
+        </ul>
+      </section>
+
       <div class="warn">
         <strong>Security Rule:</strong> Never commit <code>client_secret.json</code> or <code>token.json</code> to git. Both stay outside the repository in <code>~/.config/youtube-upload/</code> with <code>chmod 600</code>.
       </div>
