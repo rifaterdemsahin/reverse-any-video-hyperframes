@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Speaker Audio Enhancement Guide — Delivery Pilot Short</title>
+    <style>
+      :root {
+        --bg: #060914;
+        --panel: rgba(13, 19, 38, 0.88);
+        --border: rgba(129, 140, 248, 0.28);
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --indigo: #6366f1;
+        --cyan: #38bdf8;
+        --emerald: #10b981;
+        --amber: #f59e0b;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background:
+          radial-gradient(circle at 12% 10%, rgba(99, 102, 241, 0.2), transparent 42%),
+          radial-gradient(circle at 88% 16%, rgba(16, 185, 129, 0.16), transparent 40%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 36px 20px 80px;
+      }
+
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 16px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+        padding-bottom: 24px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: rgba(56, 189, 248, 0.16);
+        border: 1px solid rgba(56, 189, 248, 0.45);
+        color: #7dd3fc;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        font-size: clamp(28px, 4vw, 42px);
+        font-weight: 900;
+        letter-spacing: -0.02em;
+      }
+
+      h1 span {
+        color: var(--emerald);
+      }
+
+      .subtitle {
+        color: var(--muted);
+        max-width: 700px;
+        margin-top: 8px;
+        font-size: 15px;
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        border: 1px solid var(--border);
+        background: rgba(30, 41, 59, 0.75);
+        color: var(--text);
+        transition: border-color 0.15s ease, transform 0.15s ease;
+      }
+
+      .btn:hover {
+        border-color: var(--cyan);
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #059669, #10b981);
+        border-color: rgba(52, 211, 153, 0.7);
+      }
+
+      /* ── Diagnosis Banner ── */
+      .callout {
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(245, 158, 11, 0.45);
+        border-left: 4px solid var(--amber);
+        border-radius: 16px;
+        padding: 18px 22px;
+      }
+
+      .callout-title {
+        font-size: 15px;
+        font-weight: 800;
+        color: #fde68a;
+        margin-bottom: 6px;
+      }
+
+      .callout p {
+        font-size: 14px;
+        color: #cbd5e1;
+      }
+
+      /* ── Option Cards ── */
+      .options-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .opt-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .opt-card.recommended {
+        border-color: rgba(52, 211, 153, 0.65);
+        box-shadow: 0 0 36px rgba(16, 185, 129, 0.1);
+      }
+
+      .opt-head {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .opt-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .opt-num {
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        background: rgba(99, 102, 241, 0.24);
+        border: 1px solid rgba(129, 140, 248, 0.5);
+        color: #c7d2fe;
+      }
+
+      .opt-num.best {
+        background: rgba(16, 185, 129, 0.22);
+        border-color: rgba(52, 211, 153, 0.65);
+        color: #6ee7b7;
+      }
+
+      .opt-card h2 {
+        font-size: 20px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+
+      .opt-tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 8px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        color: #cbd5e1;
+      }
+
+      .opt-desc {
+        font-size: 14px;
+        color: #cbd5e1;
+      }
+
+      .opt-list {
+        margin-left: 18px;
+        font-size: 14px;
+        color: #cbd5e1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .opt-list strong {
+        color: #ffffff;
+      }
+
+      pre {
+        background: #020617;
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        border-radius: 12px;
+        padding: 14px 16px;
+        overflow-x: auto;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+        font-size: 12.5px;
+        color: #7dd3fc;
+        line-height: 1.5;
+      }
+
+      code {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+        font-size: 12.5px;
+        color: #7dd3fc;
+      }
+
+      /* ── Decision Matrix Table ── */
+      .table-wrap {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px;
+        overflow-x: auto;
+      }
+
+      .table-wrap h2 {
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 14px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 11px 14px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+      }
+
+      th {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <div class="eyebrow">Audio Engineering Playbook · Delivery Pilot</div>
+          <h1>How to Make Your <span>Speaker Audio</span> Studio-Grade</h1>
+          <p class="subtitle">
+            Tailored options for your exact NINJAV + lav mic + HyperFrames workflow — from zero-cost recording habits
+            to AI voice isolation and clean FFmpeg mastering.
+          </p>
+        </div>
+        <div class="nav-actions">
+          <a class="btn btn-primary" href="updates.html">← Video Evolution (v7 → v13)</a>
+          <a class="btn" href="Delivery-Pilot-Short-v13.mp4">Watch Latest (v13)</a>
+        </div>
+      </header>
+
+      <section class="callout">
+        <div class="callout-title">Why the original take felt quiet &amp; music-heavy</div>
+        <p>
+          In the original v7 mix, the raw camera voice averaged around <code>-28 dBFS</code> while
+          <code>music-bed.mp3</code> was mixed at <code>volume=0.5</code> with <code>weights=1 0.7</code>.
+          In <strong>v12/v13</strong>, we rescued it using exact phase-aligned subtraction (<code>-17 dB</code> music cut),
+          but the cleanest long-term jump comes from fixing the voice level <strong>before</strong> mixing music.
+        </p>
+      </section>
+
+      <section class="options-grid">
+        <article class="opt-card recommended">
+          <div class="opt-head">
+            <div class="opt-title-wrap">
+              <span class="opt-num best">OPTION 1 · HIGHEST QUALITY</span>
+              <h2>Re-mix Directly from the Raw NINJAV Take (No Music Bleed)</h2>
+            </div>
+            <div class="opt-tags">
+              <span class="tag">Cost: $0</span>
+              <span class="tag">Impact: Huge</span>
+              <span class="tag">Needs: NINJAV drive</span>
+            </div>
+          </div>
+          <p class="opt-desc">
+            When you have <code>NINJAV_S001_S001_T020.MOV</code> plugged in, process the clean voice channels
+            (<code>c2 + c3</code>) first, normalize speech to <code>-15 LUFS</code>, and mix the music bed
+            <strong>-22 dB below the voice</strong> instead of <code>volume=0.5</code>.
+          </p>
+          <pre># In scripts/video/greenscreen_short.sh (clean voice-first mix):
+[0:a]pan=mono|c0=0.5*c2+0.5*c3,highpass=f=85,equalizer=f=2400:t=q:w=1.1:g=3,acompressor=threshold=-22dB:ratio=2.8:attack=10:release=180:makeup=10dB,loudnorm=I=-15:TP=-1.5:LRA=7,asplit=2[vsc][vmix];
+[3:a]atrim=0:$dur,asetpts=PTS-STARTPTS,volume=0.14,equalizer=f=2400:t=q:w=1.0:g=-5,aformat=channel_layouts=stereo[mus];
+[mus][vsc]sidechaincompress=threshold=0.02:ratio=8:attack=15:release=350[duck];
+[vmix]aformat=channel_layouts=stereo[vm];
+[vm][duck]amix=inputs=2:weights=1 0.35:normalize=0,alimiter=limit=0.95[a]</pre>
+        </article>
+
+        <article class="opt-card">
+          <div class="opt-head">
+            <div class="opt-title-wrap">
+              <span class="opt-num">OPTION 2 · AI STUDIO POLISH</span>
+              <h2>Run the Voice Stem Through Neural Voice Enhancement</h2>
+            </div>
+            <div class="opt-tags">
+              <span class="tag">Cost: Free – $15/mo</span>
+              <span class="tag">Impact: Studio Condenser Sound</span>
+              <span class="tag">Effort: 1 Minute</span>
+            </div>
+          </div>
+          <p class="opt-desc">
+            Neural speech enhancers remove room echo, hiss, and lav-mic muddiness without the chopping artifacts of a traditional noise gate:
+          </p>
+          <ul class="opt-list">
+            <li><strong>Adobe Podcast Enhance Speech (v2):</strong> Upload the extracted voice WAV/MP3 and set strength to <strong>65–80%</strong> (100% can sound overly synthetic; 70% sounds like a Shure SM7B in a treated booth).</li>
+            <li><strong>ElevenLabs Audio Isolator:</strong> Strips background noise/music cleanly via API or web UI — easy to automate in your script pipeline.</li>
+            <li><strong>DaVinci Resolve / Apple Voice Isolation:</strong> Fast offline neural isolation right on your Mac (Apple M1 Max runs it faster than real-time).</li>
+            <li><strong>Local Open-Source (Demucs <code>htdemucs</code>):</strong> Runs locally with <code>uvx demucs --two-stems=vocals input.wav</code> to cleanly separate speech from any already-mixed track.</li>
+          </ul>
+        </article>
+
+        <article class="opt-card">
+          <div class="opt-head">
+            <div class="opt-title-wrap">
+              <span class="opt-num">OPTION 3 · AT RECORDING TIME</span>
+              <h2>Mic Placement, Gain Staging &amp; Room Acoustics</h2>
+            </div>
+            <div class="opt-tags">
+              <span class="tag">Cost: $0 – $150</span>
+              <span class="tag">Impact: Permanent Fix</span>
+              <span class="tag">Best for Future Shoots</span>
+            </div>
+          </div>
+          <ul class="opt-list">
+            <li><strong>Hit -12 to -6 dBFS on Camera Meters:</strong> Raise preamp/wireless transmitter gain until normal speech peaks around <code>-10 dB</code> (never <code>-28 dB</code>). Higher signal-to-noise ratio means cleaner post-processing.</li>
+            <li><strong>Lav Placement:</strong> Clip center-chest <strong>6–8 inches below your chin</strong>, pointing slightly upward, with a small cable loop taped under the collar to prevent clothing rub.</li>
+            <li><strong>Upgrade to a Boom / Shotgun or 32-Bit Float Recorder:</strong> A hypercardioid boom mic (e.g. Deity S-Mic 2S / Rode NTG) just out of frame above your head, or a 32-bit float wireless lav (Rode Wireless Pro / DJI Mic 2), eliminates clipping and lav chest-resonance completely.</li>
+            <li><strong>Kill Room Reverb ($0):</strong> Put a rug on the floor and hang a moving blanket or curtains on the wall behind the camera where your voice projects.</li>
+          </ul>
+        </article>
+
+        <article class="opt-card">
+          <div class="opt-head">
+            <div class="opt-title-wrap">
+              <span class="opt-num">OPTION 4 · AUTOMATED CLI MASTERING</span>
+              <h2>Broadcast FFmpeg Voice Chain (Zero Cuts, Phone-Ready)</h2>
+            </div>
+            <div class="opt-tags">
+              <span class="tag">Cost: $0</span>
+              <span class="tag">Impact: Medium–High</span>
+              <span class="tag">100% Automated</span>
+            </div>
+          </div>
+          <p class="opt-desc">
+            Avoid aggressive <code>agate</code> noise gates (which chop quiet syllables). Use gentle EQ + smooth compression + YouTube Shorts/Reels loudness normalization (<code>-14 LUFS</code>):
+          </p>
+          <pre>ffmpeg -i voice_raw.wav -af "\
+highpass=f=85,\
+equalizer=f=220:t=q:w=1.2:g=-2.5,\
+equalizer=f=2400:t=q:w=1.1:g=3.0,\
+equalizer=f=6500:t=q:w=1.5:g=-2.0,\
+acompressor=threshold=-22dB:ratio=2.5:attack=12:release=220:makeup=6dB,\
+loudnorm=I=-14:TP=-1.0:LRA=7" \
+-ar 48000 -c:a aac -b:a 192k voice_mastered.m4a</pre>
+        </article>
+
+        <article class="opt-card">
+          <div class="opt-head">
+            <div class="opt-title-wrap">
+              <span class="opt-num">OPTION 5 · MUSIC SELECTION &amp; EQ POCKETING</span>
+              <h2>Make the Music Support the Voice Instead of Fighting It</h2>
+            </div>
+            <div class="opt-tags">
+              <span class="tag">Cost: $0</span>
+              <span class="tag">Impact: Instant Clarity</span>
+            </div>
+          </div>
+          <ul class="opt-list">
+            <li><strong>Carve a Vocal Pocket in the Music:</strong> Apply <code>equalizer=f=2200:t=q:w=0.9:g=-5</code> <em>only to the music track</em> so the <code>1.5–3.5 kHz</code> speech clarity band stays completely open for your voice.</li>
+            <li><strong>Target -22 dB Under Speech:</strong> Keep background music around <code>-36 to -38 LUFS</code> while you speak (while voice sits at <code>-14 to -15 LUFS</code>). On phone speakers, anything louder competes directly with speech.</li>
+            <li><strong>Prompt Minimal Instrumental Beds:</strong> When generating with ACE-Step, ask for <em>"minimal warm ambient sub-bass pulse, sparse soft synth pads, no lead melody, no drums, low energy underscore"</em>.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="table-wrap">
+        <h2>Quick Decision Guide — Which Option Should You Pick?</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Goal</th>
+              <th>Best Option</th>
+              <th>Time</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Fastest upgrade for THIS short</strong></td>
+              <td>Option 2 (Adobe Podcast Enhance at 70% on <code>audio_v13_paced.m4a</code>)</td>
+              <td>2 min</td>
+              <td>Instant studio-booth vocal clarity</td>
+            </tr>
+            <tr>
+              <td><strong>Cleanest possible re-render</strong></td>
+              <td>Option 1 (Re-mix from raw NINJAV take + lower music to <code>0.14</code>)</td>
+              <td>5 min</td>
+              <td>Zero music bleed, crisp voice</td>
+            </tr>
+            <tr>
+              <td><strong>Automated for every future short</strong></td>
+              <td>Option 4 + Option 5 (Updated <code>greenscreen_short.sh</code> EQ pocket + <code>-14 LUFS</code>)</td>
+              <td>One-time</td>
+              <td>Consistent broadcast sound automatically</td>
+            </tr>
+            <tr>
+              <td><strong>Permanent camera upgrade</strong></td>
+              <td>Option 3 (Gain stage to <code>-10 dB</code> + 32-bit float lav or overhead boom)</td>
+              <td>Next shoot</td>
+              <td>Clean source audio before any editing</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </body>
+</html>
