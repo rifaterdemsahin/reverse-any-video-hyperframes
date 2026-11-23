@@ -98,9 +98,8 @@
           Because your Google Cloud OAuth app is in <strong>Testing</strong> mode, Google blocks any account that is not explicitly listed under <strong>Test users</strong> — including your own Brand Channel owner account (<em>Erdem</em>). You do <strong>not</strong> need to submit for Google verification for personal CLI uploads.
         </p>
         <ol>
-          <li>Open <a class="inline" href="https://console.cloud.google.com/auth/audience" target="_blank">Google Cloud Console → Google Auth Platform → Audience</a> (using the account that created the OAuth Client ID).</li>
-          <li>Scroll down to the <strong>Test users</strong> section and click <strong>+ Add users</strong>.</li>
-          <li>Enter the exact Google email address for <strong>Erdem</strong> (the account that owns Brand Channel <code>UCSJyG3bTM7lnjMIZcV8C4OQ</code>) and click <strong>Save</strong>.</li>
+          <li>Open <a class="inline" href="https://console.cloud.google.com/auth/audience?project=delivery-pilot-chat" target="_blank">Google Auth Platform → Audience</a> (not the Clients page) and scroll to <strong>Test users</strong> → click <strong>+ Add users</strong> → add the Brand Channel owner email → <strong>Save</strong>.</li>
+          <li>Open <a class="inline" href="https://console.cloud.google.com/auth/scopes?project=delivery-pilot-chat" target="_blank">Google Auth Platform → Data Access (Scopes)</a> → click <strong>Add or remove scopes</strong> → filter <code>youtube</code> → check <code>youtube.upload</code> and <code>youtube.readonly</code> → <strong>Update → Save</strong>.</li>
           <li>Re-run the 1-command private upload (takes effect immediately, no need to re-download <code>client_secret.json</code>):</li>
         </ol>
         <pre>rm -f ~/.config/youtube-upload/token.json && cta-short/scripts/video/publish_short.sh</pre>

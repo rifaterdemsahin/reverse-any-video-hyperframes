@@ -36,18 +36,13 @@ This document explains how to enable and run **1-command automated YouTube Short
 2. Select (or create) a Google Cloud project (e.g., `delivery-pilot-youtube`).
 3. Click **Enable**.
 
-### Step 2 — Configure OAuth Consent Screen
-1. Go to **APIs & Services → OAuth consent screen**.
-2. Choose **External** → click **Create**.
-3. Fill in:
-   - **App name**: `Delivery Pilot Uploader`
-   - **User support email**: your Google account email
-   - **Developer contact email**: your Google account email
-4. Under **Scopes**, click **Add or Remove Scopes** and add:
-   - `https://www.googleapis.com/auth/youtube.upload`
-   - `https://www.googleapis.com/auth/youtube.readonly`
-5. Under **Test users**, click **Add Users** and add the exact Google email that owns channel `UCSJyG3bTM7lnjMIZcV8C4OQ`.
-   > **Important:** Without adding your own email as a Test User while the app is in Testing mode, Google will return `Error 403: access_denied`.
+### Step 2 — Configure OAuth Audience (Test Users) & Data Access (Scopes)
+In Google Cloud's **Google Auth Platform** sidebar, **Test Users** and **Scopes** live on two separate tabs (not under **Clients**):
+1. **Audience (Test users)** — open `https://console.cloud.google.com/auth/audience?project=delivery-pilot-chat`:
+   - Choose **External** → under **Test users**, click **+ Add users** → add the exact Google email that owns Brand Channel `UCSJyG3bTM7lnjMIZcV8C4OQ` → **Save**.
+   > **Important:** Without adding the Brand Channel owner email as a Test User while the app is in Testing mode, Google returns `Error 403: access_denied`.
+2. **Data Access (Scopes)** — open `https://console.cloud.google.com/auth/scopes?project=delivery-pilot-chat`:
+   - Click **Add or remove scopes**, filter for `youtube`, check `https://www.googleapis.com/auth/youtube.upload` and `https://www.googleapis.com/auth/youtube.readonly` → **Update → Save**.
 
 ### Step 3 — Create Desktop OAuth Client ID
 1. Go to **APIs & Services → Credentials**.
