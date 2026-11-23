@@ -44,15 +44,17 @@
         height: 100%;
       }
 
-      /* ── Speaker Zoom Viewport & Captions Strip ── */
+      /* ── Speaker Zoom Viewport & Captions Strip (seamless, zero horizontal line) ── */
       .captions-viewport {
         position: absolute;
         top: 660px;
         left: 0;
         width: 1080px;
-        height: 232px;
+        height: 270px;
         overflow: hidden;
         background: #233a49;
+        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 76%, transparent 100%);
+        mask-image: linear-gradient(to bottom, #000 0%, #000 76%, transparent 100%);
       }
 
       .captions-vid {
@@ -67,59 +69,88 @@
       .captions-edge-fix {
         position: absolute;
         right: 0;
-        bottom: 0;
-        width: 56px;
-        height: 70px;
-        background: linear-gradient(270deg, #325060 65%, rgba(50, 80, 96, 0) 100%);
+        top: 155px;
+        width: 72px;
+        height: 115px;
+        background: linear-gradient(270deg, #355464 50%, rgba(53, 84, 100, 0) 100%);
+        filter: blur(8px);
         pointer-events: none;
         z-index: 3;
       }
 
       .speaker-viewport {
         position: absolute;
-        top: 868px;
+        top: 840px;
         left: 0;
         width: 1080px;
-        height: 1052px;
+        height: 1080px;
         overflow: hidden;
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 3.5%, #000 100%);
-        mask-image: linear-gradient(to bottom, transparent 0%, #000 3.5%, #000 100%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 100%);
+        mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 100%);
       }
 
       .speaker-vid {
         position: absolute;
-        top: -868px;
+        top: -840px;
         left: 0;
         width: 1080px;
         height: 1920px;
         object-fit: cover;
         transform-origin: 50% 62%;
-        transform: scale(1.16) translateY(16px);
+        transform: scale(1.16) translateY(22px);
       }
 
-      /* Screen-printed DeliveryPilot T-shirt graphic (centered cleanly on chest) */
+      /* Uniform deep-navy T-shirt color evening & stain cover (natural fabric blend) */
+      .shirt-even-coat {
+        position: absolute;
+        left: 255px;
+        top: 1470px;
+        width: 530px;
+        height: 460px;
+        border-radius: 140px 140px 40px 40px;
+        background: radial-gradient(ellipse at 48% 55%, rgba(24, 28, 42, 0.72) 0%, rgba(22, 26, 38, 0.58) 58%, rgba(22, 26, 38, 0) 100%);
+        mix-blend-mode: darken;
+        filter: blur(22px);
+        pointer-events: none;
+        z-index: 10;
+      }
+
+      .shirt-stain-patch {
+        position: absolute;
+        left: 335px;
+        top: 1710px;
+        width: 165px;
+        height: 165px;
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(25, 29, 43, 0.96) 0%, rgba(25, 29, 43, 0.84) 48%, rgba(25, 29, 43, 0) 100%);
+        filter: blur(14px);
+        pointer-events: none;
+        z-index: 11;
+      }
+
+      /* Bigger, lower screen-printed DeliveryPilot T-shirt graphic */
       .shirt-print {
         position: absolute;
-        left: 330px;
-        width: 360px;
-        top: 1555px;
-        transform: rotate(-1.5deg);
+        left: 245px;
+        width: 540px;
+        top: 1650px;
+        transform: rotate(-1.4deg);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 14px;
         pointer-events: none;
         mix-blend-mode: screen;
-        opacity: 0.82;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+        opacity: 0.86;
+        filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
         z-index: 12;
       }
 
       .shirt-text {
-        font-size: 38px;
+        font-size: 54px;
         font-weight: 900;
         letter-spacing: -0.02em;
-        color: rgba(241, 245, 249, 0.94);
+        color: rgba(241, 245, 249, 0.95);
         line-height: 1;
       }
 
@@ -862,7 +893,7 @@
       <audio
         id="voice-boosted"
         class="clip"
-        src="assets/audio_v9_voice_boosted.m4a"
+        src="assets/audio_v10_voice_boosted.m4a"
         data-start="0"
         data-duration="47.4"
         data-track-index="4"
@@ -897,10 +928,12 @@
             <span id="live-dot" class="live-dot"></span>
             <span data-layout-ignore>DELIVERY PILOT</span>
           </div>
-          <div class="hud-pill mono" data-layout-ignore>V9 · HYPERFRAMES</div>
+          <div class="hud-pill mono" data-layout-ignore>V10 · HYPERFRAMES</div>
         </div>
+        <div class="shirt-even-coat" data-layout-ignore></div>
+        <div class="shirt-stain-patch" data-layout-ignore></div>
         <div id="shirt-print" class="shirt-print" data-layout-ignore data-layout-allow-safe-zone>
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(125, 211, 252, 0.95)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="rgba(125, 211, 252, 0.96)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
             <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
             <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
