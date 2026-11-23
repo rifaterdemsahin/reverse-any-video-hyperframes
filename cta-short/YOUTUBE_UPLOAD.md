@@ -111,6 +111,21 @@ npm run upload:youtube
 
 ---
 
+## Fixing `Error 403: access_denied` (Testing Mode)
+
+If Google shows *"Access blocked: OAuth consent screen has not completed the Google verification process (Error 403: access_denied)"*:
+
+1. Open [Google Cloud Console → Google Auth Platform → Audience](https://console.cloud.google.com/auth/audience) (signed into the account that created the OAuth Client ID).
+2. Scroll to **Test users** → click **+ Add users**.
+3. Add the exact Google email for **Erdem** (owner of Brand Channel `UCSJyG3bTM7lnjMIZcV8C4OQ`) → click **Save**.
+4. Re-run immediately (no need to re-download `client_secret.json`):
+   ```bash
+   rm -f ~/.config/youtube-upload/token.json && cta-short/scripts/video/publish_short.sh
+   ```
+5. Click **Continue** on the unverified-app notice, then pick Brand Channel **`UCSJyG3bTM7lnjMIZcV8C4OQ`**.
+
+---
+
 ## Troubleshooting
 
 | Issue | Fix |
