@@ -1,0 +1,23 @@
+{
+  "_about": "Timed graphics for the CTA short. Times are seconds from the start of the clip (139.0 s in the take). Canvas 1080x840 (top of the 9:16 frame). Kinds: card, text, badge, button. Edit here, then re-run make_graphics.py and the render.",
+  "canvas": [1080, 840],
+  "elements": [
+    {"kind": "card", "x": 90, "y": 110, "w": 900, "h": 230, "title": "SAMPLE BUSINESS", "sub": "needs a Delivery Pilot to run it", "colour": [245, 158, 11], "start": 0.3, "end": 4.7},
+    {"kind": "text", "x": 540, "y": 300, "size": 46, "text": "WHAT WE PROVIDE", "colour": [255, 255, 255], "start": 4.8, "end": 11.8},
+    {"kind": "card", "x": 90, "y": 370, "w": 430, "h": 120, "title": "TEMPLATES", "colour": [99, 102, 241], "start": 4.8, "end": 11.8},
+    {"kind": "card", "x": 560, "y": 370, "w": 430, "h": 120, "title": "BOTS", "colour": [99, 102, 241], "start": 6.7, "end": 11.8},
+    {"kind": "card", "x": 90, "y": 510, "w": 430, "h": 120, "title": "TRAINING", "colour": [99, 102, 241], "start": 7.7, "end": 11.8},
+    {"kind": "card", "x": 560, "y": 510, "w": 430, "h": 120, "title": "COMMUNITY", "colour": [99, 102, 241], "start": 8.6, "end": 11.8},
+    {"kind": "badge", "x": 540, "y": 260, "r": 170, "title": "DELIVERY PILOT", "start": 10.0, "end": 16.6},
+    {"kind": "text", "x": 540, "y": 520, "size": 44, "text": "someone who delivers with AI", "colour": [255, 255, 255], "start": 11.8, "end": 16.6},
+    {"kind": "button", "x": 240, "y": 300, "w": 600, "h": 130, "text": "deliverypilot.net", "colour": [16, 185, 129], "start": 16.7, "end": 21.9},
+    {"kind": "text", "x": 540, "y": 480, "size": 40, "text": "start here", "colour": [203, 213, 225], "start": 16.7, "end": 21.9},
+    {"kind": "card", "x": 60, "y": 380, "w": 300, "h": 170, "title": "LEARN", "colour": [99, 102, 241], "start": 21.9, "end": 27.0},
+    {"kind": "card", "x": 390, "y": 380, "w": 300, "h": 170, "title": "FIX", "colour": [99, 102, 241], "start": 22.6, "end": 27.0},
+    {"kind": "card", "x": 720, "y": 380, "w": 300, "h": 170, "title": "ADAPT", "colour": [99, 102, 241], "start": 23.3, "end": 27.0},
+    {"kind": "text", "x": 540, "y": 610, "size": 40, "text": "make it simple for your business", "colour": [203, 213, 225], "start": 24.5, "end": 27.0},
+    {"kind": "text", "x": 540, "y": 170, "size": 58, "text": "Join the Skool community", "colour": [255, 255, 255], "start": 27.0, "end": 32.2},
+    {"kind": "button", "x": 190, "y": 240, "w": 700, "h": 150, "text": "Join Skool", "colour": [16, 185, 129], "start": 27.3, "end": 32.2},
+    {"kind": "text", "x": 540, "y": 460, "size": 40, "text": "deliverypilot.net", "colour": [203, 213, 225], "start": 27.3, "end": 32.2}
+  ]
+}
